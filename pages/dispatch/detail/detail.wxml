@@ -2,7 +2,7 @@
 <i-panel title="客户信息">
   <i-cell-group i-class="i-group">
     <i-cell title="车辆位置">
-      <view slot="footer">
+      <view slot="footer" bindtap="openMapBut">
         <span>{{order.addr}}</span>
         <i-icon size="28" type="coordinates_fill" />
       </view>
@@ -10,13 +10,13 @@
     <i-cell title="车辆信息">
       <view slot="footer">
         <i-tag class="i-tags" name="card-no" color="green" type='border'>
-          贵Axxxxxxx
+          {{order.carNo}}
         </i-tag>
         <i-tag class="i-tags" name="card-band" color="red" type='border'>
-          奔驰
+          {{order.carType}}
         </i-tag>
         <i-tag class="i-tags" name="card-color" type='border'>
-          红色
+          {{order.carColor}}
         </i-tag>
       </view>
     </i-cell>

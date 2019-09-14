@@ -101,6 +101,14 @@ Page({
     })
   },
   dispathBut: function() {
+    if(!this.data.order.worker){
+      wx.showToast({
+        title: '请选择负责人',
+        image:'/',
+        duration: 2000
+      })
+      return
+    }
     const _this = this
     const eventChannel = this.getOpenerEventChannel()
     eventChannel.emit('acceptDataFromOpenedPage', {
@@ -110,6 +118,14 @@ Page({
     });
     wx.navigateBack({
 
+    })
+  },
+  openMapBut:function () {
+    const _this = this
+    wx.openLocation({
+      latitude : _this.data.order.latitude,
+      longitude : _this.data.order.longitude,
+      scale: 18
     })
   }
 })

@@ -5,26 +5,42 @@ Page({
    * 页面的初始数据
    */
   data: {
-    orders: [{
+    orders: [
+      {
         orderTime: "2019-08-22 11:12:13",
         addr: "南宁市民族大道222号",
         endTime: "2019-08-22 11:12:13",
         vip: true,
-        preDate: "2019-08-22 11:12:13"
+        preDate: "2019-08-22 11:12:13",
+        carNo:"桂Aaasfdas",
+        carType:"奔驰",
+        carColor:"红色",
+        latitude: 23.099994,
+        longitude: 113.324520,
       },
       {
         orderTime: "2019-08-22 11:12:13",
         addr: "南宁市民族大道122号",
         endTime: "2019-08-22 11:12:13",
         vip: false,
-        preDate: null
+        preDate: null,
+        carNo:"桂A1234",
+        carType:"toyota",
+        carColor:"蓝色",
+        latitude: 23.099994,
+        longitude: 113.324520,
       },
       {
         orderTime: "2019-08-22 11:12:13",
         addr: "南宁市民族大道122号",
         endTime: "2019-08-22 11:12:13",
         vip: false,
-        preDate: null
+        preDate: null,
+        carNo:"桂Aasdasddd",
+        carType:"五林",
+        carColor:"白色",
+        latitude: 23.099994,
+        longitude: 113.324520,
       }
     ],
     current: 'tab1',

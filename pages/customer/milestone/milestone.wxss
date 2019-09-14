@@ -1,1 +1,5 @@
 /* pages/milestone/milestone.wxss */
+.i-tags{
+    min-width: 80%;
+    text-align: center;
+}

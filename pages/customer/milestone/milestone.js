@@ -5,12 +5,62 @@ Page({
    * 页面的初始数据
    */
   data: {
-    orders: [{
-        isCustOrder: true
+    orders: [
+     {
+        orderTime: "2019-08-22 11:12:13",
+        addr: "南宁市民族大道222号",
+        endTime: "2019-08-22 11:12:13",
+        vip: true,
+        preDate: "2019-08-22 11:12:13",
+        carNo:"桂Aaasfdas",
+        carType:"奔驰",
+        carColor:"红色",
+        latitude: 23.099994,
+        longitude: 113.324520,
+        state:0
       },
       {
-        isFinish: true
+        orderTime: "2019-08-22 11:12:13",
+        addr: "南宁市民族大道122号xxx村",
+        endTime: "2019-08-22 11:12:13",
+        vip: false,
+        preDate: null,
+        carNo:"桂A1234",
+        carType:"toyota",
+        carColor:"蓝色",
+        latitude: 23.099994,
+        longitude: 113.324520,
+        state:1,
+        orderCost:10.00
+      },
+      {
+        orderTime: "2019-08-22 11:12:13",
+        addr: "南宁市民族大道122号",
+        endTime: "2019-08-22 11:12:13",
+        vip: false,
+        preDate: null,
+        carNo:"桂Aasdasddd",
+        carType:"五林",
+        carColor:"白色",
+        latitude: 23.099994,
+        longitude: 113.324520,
+        state:2,
+        orderCost:10.00
       }
+    ],
+    cols:[
+      {
+        id:"addr",
+        name:"地址"
+      },
+      {
+        id:"orderTime",
+        name:"时间"
+      },
+      {
+        id:"worker",
+        name:"服务员"
+      },
     ]
   },
 
@@ -99,6 +149,17 @@ Page({
         // 通过eventChannel向被打开页面传送数据
         res.eventChannel.emit('acceptDataFromOpenerPage', { data: 'test' })
       }*/
+    })
+  },
+  payBillBut:function () {
+    wx.requestPayment({
+      timeStamp: ""+new Date().getTime(),
+      nonceStr: '',
+      package: '',
+      signType: 'MD5',
+      paySign: '',
+      success (res) {console.info("aa")},
+      fail (res) { }
     })
   }
 })
