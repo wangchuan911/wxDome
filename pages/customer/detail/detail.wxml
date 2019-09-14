@@ -2,22 +2,25 @@
 <i-panel title="客户信息">
   <i-cell-group i-class="i-group">
     <i-cell title="车辆位置">
-      <i-icon slot="footer" size="28" type="coordinates_fill" />
+      <view slot="footer" style="display:flex">
+        <div style='word-break:break-all;width:34vh;display: block;'>{{order.addr}}</div>
+        <i-icon  size="28" type="coordinates_fill" bindtap="openMapBut"/>
+      </view>
     </i-cell>
     <i-cell title="车辆信息">
     <view slot="footer">
       <i-tag class="i-tags" name="card-no" color="green" type='border'>
-        贵Axxxxxxx
+        {{order.carNo}}
       </i-tag>
       <i-tag class="i-tags" name="card-band" color="red" type='border'>
-        奔驰
+        {{order.carType}}
       </i-tag>
       <i-tag class="i-tags" name="card-color" type='border'>
-        红色
+        {{order.carColor}}
       </i-tag></view>
     </i-cell>
-    <i-cell title="预约时间"></i-cell>
-    <i-cell title="提车时间"></i-cell>
+    <i-cell title="预约时间"><view slot="footer">{{order.preDate?order.preDate:order.orderTime}}</view></i-cell>
+    <i-cell title="提车时间"><view slot="footer">{{order.endTime}}</view></i-cell>
   </i-cell-group>
 </i-panel>
 <i-panel title="附件信息">

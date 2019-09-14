@@ -55,7 +55,7 @@
       </i-row>
       <i-button wx:if="{{item.state==1 && item.isCustOrder}}" bind:click="payBillBut" type="primary">支付({{isNaN(item.orderCost)?"":(item.orderCost+'元')}})</i-button>
       <i-button wx:if="{{item.state==2 && item.isPayed && item.isCustOrder}}" bind:click="payBillBut" type="primary">评价</i-button>
-      <i-button wx:if="{{item.isWorkOrder}}" bind:click="orderDetailBut" type="primary" >处理</i-button>
+      <i-button wx:if="{{item.isWorkOrder}}" bind:click="orderDetailBut" type="primary" data-idx="{{index}}">处理</i-button>
     </view>
   </i-card>
 </i-panel>

@@ -21,7 +21,7 @@ Page({
       },
       {
         orderTime: "2019-08-22 11:12:13",
-        addr: "南宁市民族大道122号xxx村",
+        addr: "南宁市民族大道122号xxx村xxxxx屋xxxxxx室",
         endTime: "2019-08-22 11:12:13",
         vip: false,
         preDate: null,
@@ -133,22 +133,20 @@ Page({
   onShareAppMessage: function() {
 
   },
-  orderDetailBut:function(){
+  orderDetailBut:function(e){
+    const order=this.data.orders[e.target.dataset.idx]
     wx.navigateTo({
       url: '/pages/customer/detail/detail',
-      /*events: {
+      events: {
         // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
         acceptDataFromOpenedPage: function (data) {
           console.log(data)
         },
-        someEvent: function (data) {
-          console.log(data)
-        }
       },
       success: function (res) {
         // 通过eventChannel向被打开页面传送数据
-        res.eventChannel.emit('acceptDataFromOpenerPage', { data: 'test' })
-      }*/
+        res.eventChannel.emit('acceptDataFromOpenerPage', { order: order })
+      }
     })
   },
   payBillBut:function () {
