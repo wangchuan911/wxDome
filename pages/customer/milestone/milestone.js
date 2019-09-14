@@ -17,7 +17,12 @@ Page({
         carColor:"红色",
         latitude: 23.099994,
         longitude: 113.324520,
-        state:0
+        state:0,
+       imgs: [
+         'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
+         'https://images.unsplash.com/photo-1551214012-84f95e060dee?w=640',
+         'https://images.unsplash.com/photo-1551446591-142875a901a1?w=640'
+       ]
       },
       {
         orderTime: "2019-08-22 11:12:13",
@@ -159,5 +164,13 @@ Page({
       success (res) {console.info("aa")},
       fail (res) { }
     })
-  }
+  },
+  preViewPicture:function(e){
+    const imgs=this.data.orders[e.currentTarget.dataset.idx].imgs||[];
+    const img=imgs[e.currentTarget.dataset.imgIdx]
+    wx.previewImage({
+      current: img, // 当前显示图片的http链接
+      urls: imgs // 需要预览的图片http链接列表
+    })
+  },
 })

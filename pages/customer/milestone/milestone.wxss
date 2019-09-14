@@ -1,5 +1,15 @@
 /* pages/milestone/milestone.wxss */
 .i-tags{
-    min-width: 80%;
+    min-width: 90%;
     text-align: center;
+}
+
+.i-tag{
+    text-align: center;
+    /*height: 22px !important;*/
+    /*line-height: 22px !important;*/
+    width: 50px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50px !important;
 }

@@ -36,8 +36,23 @@
         </i-col>
         <i-col span="15" offset="1" style=" word-break:break-all;">{{item[col.id]}}</i-col>
       </i-row>
+        <i-row wx:if="{{item.isCustOrder && item.imgs && item.imgs.length>0}}">
+        <i-col span="6" offset="2">
+            <i-tag i-class="i-tags" checkable="{{true}}" checked="{{true}}" name="extra">备注</i-tag>
+        </i-col>
+        <i-col span="15" offset="1" style=" word-break:break-all;">
+            <i-tag i-class="i-tag" wx:if="{{item.imgs && item.imgs.length>0}}" checkable="{{true}}" checked="{{false}}" color="blue" type='border' bindtap="preViewPicture" data-idx="{{index}}" data-img-idx="0">图片</i-tag>
+        </i-col>
+        </i-row>
+<!--        <i-divider height="10" wx:if="{{item.isCustOrder && item.imgs && item.imgs.length>0}}"></i-divider>-->
+<!--      <i-row i-class="i-row-css" wx:if="{{item.isCustOrder && item.imgs && item.imgs.length>0}}" >-->
+<!--          -->
+<!--        <i-col wx:for="{{item.imgs}}" wx:for-index="imgIndex" wx:for-item="url" span="4"  offset="{{(imgIndex%5==0)?2:0}}">-->
+<!--          <image src="{{url}}" style="width: 50px; height: 50px" bindtap="preViewPicture" data-idx="{{index}}" data-img-idx="{{imgIndex}}"></image>-->
+<!--        </i-col>-->
+<!--      </i-row>-->
       <!--<i-divider height="20"></i-divider>-->
-      <i-row wx:if="{{!item.isFinish && item.isCustOrder}}">
+      <i-row wx:if="{{item.state!=2 && item.isCustOrder}}">
         <i-col span="10" offset="14">
           <i-row style="text-align:center">
             <i-col span="11">
