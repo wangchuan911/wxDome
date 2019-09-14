@@ -1,0 +1,10 @@
+<!--pages/dispatch/workers/workers.wxml-->
+<i-cell-group>
+  <i-cell title="{{worker.name}}" data-idx="{{index}}" is-link wx:for="{{workers}}" wx:for-index="index" wx:for-item="worker" wx:key="{{index}}" bindtap="dispatchBut">
+    <view slot='footer'>
+      <i-tag class="i-tags" name="distance" type='border'>
+        距离目的地{{order.distance?order.distance:0}}公里
+      </i-tag>
+    </view>
+  </i-cell>
+</i-cell-group>

@@ -1,0 +1,12 @@
+{
+  "usingComponents": {
+    "i-button": "/ui/iview/button/index",
+    "i-icon": "/ui/iview/icon/index",
+    "i-row": "/ui/iview/row/index",
+    "i-col": "/ui/iview/col/index",
+    "i-input": "/ui/iview/input/index",
+    "i-tag": "/ui/iview/tag/index",
+    "circle": "/component/circle/circle",
+    "i-spin": "/ui/iview/spin/index"
+  }
+}

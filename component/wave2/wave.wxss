@@ -1,0 +1,14 @@
+/* component/wave2/wave.wxss */
+/* 水波纹进度条 测试样例1 */
+@-webkit-keyframes spin {
+           from{-webkit-transform: rotate(0deg);transform: rotate(0deg);}
+           to{-webkit-transform: rotate(360deg);transform: rotate(360deg);}
+       }
+       @keyframes spin {
+           from{-webkit-transform: rotate(0deg);transform: rotate(0deg);}
+           to{-webkit-transform: rotate(360deg);transform: rotate(360deg);}
+       }
+       .wave-progress{width:150px;height:150px;margin:10px auto;border: 8px solid #fd6b65;border-radius:50%;background-color: #f8f8f8;box-sizing: border-box;position: relative;}
+       .wave-progress .inner{position: absolute;width:100%;height:100%;border-radius:50%;overflow: hidden; border: 6px solid #ffafac;box-sizing: border-box;z-index: 10}
+       .wave-progress .inner .water{position: absolute;width: 200%;height: 200%;left: -50%;border-radius: 40%;background:rgba(255,175,172,0.3);-webkit-animation:spin 10s linear infinite;animation:spin 10s linear infinite; }
+       .tips{color: #fd6b65;font-size: 28px;line-height: 124px;text-align: center;}

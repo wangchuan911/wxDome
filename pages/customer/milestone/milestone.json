@@ -1,0 +1,16 @@
+{
+  "component": true,
+  "usingComponents": {
+    "i-panel": "/ui/iview/panel/index",
+    "i-card": "/ui/iview/card/index",
+    "i-steps": "/ui/iview/steps/index",
+    "i-step": "/ui/iview/step/index",
+    "i-row": "/ui/iview/row/index",
+    "i-col": "/ui/iview/col/index",
+    "i-input": "/ui/iview/input/index",
+    "i-icon": "/ui/iview/icon/index",
+    "i-divider": "/ui/iview/divider/index",
+    "i-button": "/ui/iview/button/index",
+    "i-tag": "/ui/iview/tag/index"
+  }
+}

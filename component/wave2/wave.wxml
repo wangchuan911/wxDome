@@ -1,0 +1,8 @@
+<!--component/wave2/wave.wxml-->
+  <!--水波纹进度条 测试样例1-->
+  <div class="wave-progress">
+    <div class="inner">
+      <div class="water" style="top:{{ top }}"></div>
+      <div class="tips" style="position: inherit;width: inherit;height: inherit;">{{ tips }} </div>
+    </div>
+  </div>

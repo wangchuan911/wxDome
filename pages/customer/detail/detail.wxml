@@ -1,0 +1,45 @@
+<!--pages/customer/detail/detail.wxml-->
+<i-panel title="客户信息">
+  <i-cell-group i-class="i-group">
+    <i-cell title="车辆位置">
+      <i-icon slot="footer" size="28" type="coordinates_fill" />
+    </i-cell>
+    <i-cell title="车辆信息">
+    <view slot="footer">
+      <i-tag class="i-tags" name="card-no" color="green" type='border'>
+        贵Axxxxxxx
+      </i-tag>
+      <i-tag class="i-tags" name="card-band" color="red" type='border'>
+        奔驰
+      </i-tag>
+      <i-tag class="i-tags" name="card-color" type='border'>
+        红色
+      </i-tag></view>
+    </i-cell>
+    <i-cell title="预约时间"></i-cell>
+    <i-cell title="提车时间"></i-cell>
+  </i-cell-group>
+</i-panel>
+<i-panel title="附件信息">
+  <i-row i-class="i-row-css">
+    <i-col wx:for="{{imgUrls}}" wx:for-index="index" wx:for-item="url" span="4">
+      <image src="{{url}}" style="width: 50px; height: 50px" bindtap="preViewPicture" data-idx="{{index}}"></image>
+    </i-col>
+    <i-col  span="4">
+      <i-icon type="add" size="50" bindtap="addPicture"/>
+    </i-col>
+  </i-row>
+</i-panel>
+<i-panel title="状态">
+  <i-steps current="{{current}}">
+    <i-step wx:for="{{steps}}" wx:for-index="index" wx:for-item="step">
+      <view slot="title">
+        {{current>index?'已完成':(current==index)?'进行中':'就绪'}}
+      </view>
+      <view slot="content">
+        {{step.desc}}
+      </view>
+    </i-step>
+  </i-steps>
+</i-panel>
+<i-button bindclick="deal">下一步</i-button>

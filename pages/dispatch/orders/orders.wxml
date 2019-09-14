@@ -1,0 +1,23 @@
+<!--pages/dispatch/orders/orders.wxml-->
+<i-tabs current="{{ current }}" bindchange="handleChange">
+  <i-tab key="tab1" title="未处理" count="{{undoCnt}}"></i-tab>
+  <i-tab key="tab2" title="已处理" count="{{doCnt}}"></i-tab>
+</i-tabs>
+<i-cell-group>
+  <i-cell title="{{order.orderTimeFormart}}" data-idx="{{index}}" is-link wx:for="{{orders}}" wx:for-index="index" wx:for-item="order" bindtap="detailBut" wx:if="{{(current=='tab1'&&!order.isDeal)||(current=='tab2'&&order.isDeal)}}">
+    <view checked>
+      <i-tag class="i-tags" name="addr" type='border'>
+        {{order.addr}}
+      </i-tag>
+      <i-tag class="i-tags" name="endTime" color="red" type='border' wx:if="{{order.endTime}}">
+        限时
+      </i-tag>
+      <i-tag class="i-tags" name="preDate" color="green" type='border' wx:if="{{order.preDate}}">
+        预约
+      </i-tag>
+      <i-tag class="i-tags" name="vip" color="blue" type='border' wx:if="{{order.vip}}">
+        VIP
+      </i-tag>
+    </view>
+  </i-cell>
+</i-cell-group>

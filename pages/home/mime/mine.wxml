@@ -1,0 +1,28 @@
+<!--pages/mime/mine.wxml-->
+<i-row>
+  <i-col span="6">
+    <image bindtap="bindViewTap"  open-type="getUserInfo" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+  </i-col>
+  <i-col span="6">
+    <p class="userinfo-nickName">{{userInfo.nickName}}</p>
+  </i-col>
+</i-row>
+  <view >
+    <i-cell-group>
+      <i-cell title="联系客服" is-link>
+        <i-icon size='24' slot="icon" type="customerservice" />
+      </i-cell>
+      <i-cell title="车辆信息" is-link url="/pages/dashboard/index">
+        <i-icon slot="icon" size='24' type="activity" />
+      </i-cell>
+      <i-cell title="服务状态" is-link url="/pages/dashboard/index" only-tap-footer>
+        <i-icon slot="icon" size='24' type="success" />
+      </i-cell>
+      <i-cell title="{{switchButChecked?'服务人员':'顾客'}}">
+          <switch slot="footer" checked="{{switchButChecked}}" bindchange="switchBut" />
+      </i-cell>
+      <i-cell title="{{switchButChecked2?'admin':'一般'}}">
+          <switch slot="footer" checked="{{switchButChecked2}}" bindchange="switchBut2" />
+      </i-cell>
+    </i-cell-group>
+  </view>

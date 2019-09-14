@@ -1,0 +1,22 @@
+<!--pages/order/order.wxml-->
+<i-panel title="洗车服务" hide-top="true"hide-border="true">
+    <i-row>
+        <i-col span="21" i-class="col-class">
+          <i-input value="{{ value1 }}" title="停车地点" autofocus placeholder="请选择位置" />
+        </i-col>
+        <i-col span="3" i-class="col-class"  >
+          <i-icon type="coordinates_fill"  size="28" color="#80848f" bindtap="openMap"/>
+        </i-col>
+    </i-row>
+    <i-divider height="2"></i-divider>
+    <i-input value="{{ value2 }}" type="textarea" title="详细地址" placeholder="（选填）请输入详细地址(最多50字)" maxlength="50" />
+    <picker mode="time" value="{{value3}}" start="09:00" end="20:00" bindchange="changeTime" hidden="hidden">
+      <i-input class="picker" value="{{ value3 }}" title="预约时间"  placeholder="（选填，不填即现在）预约时间9点至20点" disabled="disabled" />
+    </picker>
+    <picker mode="time" value="{{value4}}" start="09:00" end="20:00" bindchange="changeTime2" hidden="hidden">
+      <i-input class="picker" value="{{ value4 }}" title="用车时间"  placeholder="（选填）最少预留1小时"   disabled="disabled"/>
+    </picker>
+    <i-input value="{{ value5 }}" type="textarea" title="备注" placeholder="（选填）您有什么额外要求(最多50字)" maxlength="50" />
+    <i-divider height="2"></i-divider>
+    <i-button bind:click="submitBut" type="primary" long="true">提交定单</i-button>
+</i-panel>

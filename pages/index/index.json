@@ -1,0 +1,8 @@
+{
+  "component": true,
+  "usingComponents": {
+    "i-row": "/ui/iview/row/index",
+    "i-avatar": "/ui/iview/avatar/index",
+    "i-col": "/ui/iview/col/index"
+  }
+}

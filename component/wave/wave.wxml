@@ -1,0 +1,17 @@
+<!--component/wave/wave.wxml-->
+<view class="zr">
+  <!-- <view class='user_box' hidden="{{isShowInfo}}">
+    <view class='userInfo'>
+      <open-data type="userAvatarUrl"></open-data>
+    </view>
+    <view class='userInfo_name'>
+      <open-data type="userNickName"></open-data>,欢迎您
+    </view>
+  </view> -->
+  <view class="water">
+    <view class="water-c">
+      <view class="water-1"> </view>
+      <view class="water-2"> </view>
+    </view>
+  </view>
+</view>

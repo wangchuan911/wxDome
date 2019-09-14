@@ -1,0 +1,53 @@
+<!--pages/index2/index.wxml-->
+<map id="map" longitude="{{markers[0].longitude}}" latitude="{{markers[0].latitude-0.003}}" scale="15" controls="{{controls}}" bindcontroltap="controltap" markers="{{markers}}" bindmarkertap="markertap" polyline="{{polyline}}" bindregionchange="regionchange"
+  show-location bindtap="markMapBut" style="width: 100%; height: 100%;position:absolute;z-index:0" bindcallouttap="callouttap" enable-scroll="false" enable-rotate="false" enable-zoom="false" show-compass="true">
+</map>
+<view class="absolute" style="width:100%;display:block;bottom:10px">
+  <view class="i-class i-card">
+    <view class="i-class i-card-header">
+
+    </view>
+    <view class="i-class i-card-body">
+      <view slot="content">
+        <view style="display: flex;align-items:center;justify-content: center;width: 100%;" wx:if="{{isBook}}">
+          <circle id='circle1' bg='circle_bg1' draw='circle_draw1' bind:runEvent="_runEvent">
+            <!-- 这部分内容将被放置在组件 <slot> 的位置上 -->
+            <view class="circle_info" bindtap="changeTime">
+              <view class="circle_dot"></view>
+              <text class='circle_txt'> {{txt}}  </text>
+            </view>
+          </circle>
+        </view>
+        <i-row i-class="show-left" wx:if="{{!isBook}}">
+          <i-tag wx:for="{{tags}}" wx:key="{{index}}" class="i-tags" name="{{index}}" color="blue" checkable="{{true}}" type="border" checked="{{item.checked}}" bindchange="tagChangeBut" style="margin-right:{{(index==(tags.length-1))?20:5}}px">
+            {{item.text}}
+          </i-tag>
+        </i-row>
+        <i-row wx:if="{{!isBook}}">
+          <i-col span="20" i-class="col-class">
+            <i-input value="{{ value1 }}" title="当前位置" autofocus disabled="disabled" placeholder="xxxxxxxxxx" />
+          </i-col>
+          <i-col span="4" i-class="col-class" bindtap="openMap">
+            <i-tag class="i-tags " name="标签一" color="blue" checkable="{{true}}" type="border" checked="{{false}}" i-class="icon-center">
+              修改
+            </i-tag>
+          </i-col>
+        </i-row>
+        <i-row wx:if="{{!isBook}}">
+          <picker wx:if="{{tags[0].checked}}" mode="time" value="{{value3}}" start="09:00" end="20:00" bindchange="changeTime" hidden="hidden">
+            <i-input class="picker" value="{{ value3 }}" title="预约时间" placeholder="预约时间9点至20点" disabled="disabled" />
+          </picker>
+          <picker wx:if="{{tags[1].checked}}" mode="time" value="{{value4}}" start="09:00" end="20:00" bindchange="changeTime2" hidden="hidden">
+            <i-input class="picker" value="{{ value4 }}" title="用车时间" placeholder="最少预留1小时" disabled="disabled" />
+          </picker>
+        </i-row>
+        <i-button bind:click="{{ isBook?'mileStoneBut':'bookBut'}}" loading="{{loading.submitBut}}" type="primary" shape="circle" size="small">{{ isBook?'进度详情':'开始洗车'}}</i-button>
+      </view>
+      <i-spin size="large" fix wx:if="{{ loading.spin }}"></i-spin>
+    </view>
+  </view>
+</view>
+<view class="absolute" style="width:100%;display:block;right:20px;top:20px;width: 50px;height: 50px;background-color: white;border-radius: 100px;">
+  <i-icon wx:if="{{!userInfo.avatarUrl}}" type="mine_fill" size='50' bindtap="mine" />
+  <i-avatar wx:if="{{userInfo.avatarUrl}}" src="{{userInfo.avatarUrl}}" size="large" shape="circle" open-type="getUserInfo" bindtap="mine"></i-avatar>
+</view>
