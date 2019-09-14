@@ -19,7 +19,7 @@
           </circle>
         </view>
         <i-row i-class="show-left" wx:if="{{!isBook}}">
-          <i-tag wx:for="{{tags}}" wx:key="{{index}}" class="i-tags" name="{{index}}" color="blue" checkable="{{true}}" type="border" checked="{{item.checked}}" bindchange="tagChangeBut" style="margin-right:{{(index==(tags.length-1))?20:5}}px">
+          <i-tag wx:for="{{tags}}" wx:key="{{index}}" i-class="i-tags" name="{{index}}" color="blue" checkable="{{true}}" type="border" checked="{{item.checked}}" bindchange="tagChangeBut" style="margin-right:{{(index==(tags.length-1))?20:5}}px">
             {{item.text}}
           </i-tag>
         </i-row>

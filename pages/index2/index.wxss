@@ -43,6 +43,16 @@ page {
   text-align: left;
 }
 
+.i-tags{
+  text-align: center;
+  height: 22px !important;
+  line-height: 22px !important;
+  width: 50px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50px !important;
+}
+
 /* .i-card-header-thumb {
   display: inline-block;
   width: 64px;
@@ -54,7 +64,6 @@ page {
   background-size: cover;
   vertical-align: middle;
 }
-
 .i-card-header-title {
   display: inline-block;
   vertical-align: middle;
