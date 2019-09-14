@@ -1,6 +1,6 @@
 {
   "pages": [
-    "pages/index2/index",
+    "pages/index2/index/index",
     "pages/index/index",
     "pages/logs/logs",
     "pages/customer/order/order",
@@ -10,7 +10,8 @@
     "pages/dispatch/detail/detail",
     "pages/customer/detail/detail",
     "pages/dispatch/workers/workers",
-    "component/wave/wave"
+    "component/wave/wave",
+    "pages/index2/extra/extra"
   ],
   "window": {
     "backgroundTextStyle": "light",
