@@ -141,15 +141,14 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide: function() {
-    if (this.data.progressShow.countTimer)
-      clearInterval(this.data.progressShow.countTimer);
+    this.clearInterval()
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function() {
-    clearInterval(this.progressShow.countTimer);
+    this.clearInterval()
   },
 
   /**
@@ -291,6 +290,7 @@ Page({
   countInterval: function() {
     // 设置倒计时 定时器 假设每隔100毫秒 count递增+1，当 count递增到两倍maxCount的时候刚好是一个圆环（ step 从0到2为一周），然后改变txt值并且清除定时器
     const _this = this
+    this.clearInterval();
     this.data.progressShow.countTimer = setInterval(() => {
       if (this.data.progressShow.count == this.data.progressShow.progress) {
         return;
@@ -311,10 +311,19 @@ Page({
         this.setData({
           txt: "完成"
         });
-        clearInterval(this.data.progressShow.countTimer);
+        this.clearInterval();
       }
     }, 100)
+    console.info("countInterval:"+this.data.progressShow.countTimer)
   },
+  clearInterval:function () {
+    if (this.data.progressShow.countTimer){
+      clearInterval(this.data.progressShow.countTimer);
+      console.info("clearInterval:"+this.data.progressShow.countTimer)
+      this.data.progressShow.countTimer = null;
+    }
+  }
+  ,
   initCircle() {
     // 获得circle组件
     this.circle1 = this.selectComponent("#circle1");
