@@ -5,7 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+      imgUrls:[]
   },
 
   /**
@@ -62,5 +62,28 @@ Page({
    */
   onShareAppMessage: function () {
 
-  }
+  },
+    addPicture:function(){
+        const _this=this
+        wx.chooseImage({
+            count: 1,
+            sizeType: ['original', 'compressed'],
+            sourceType: ['album', 'camera'],
+            success(res) {
+                // tempFilePath可以作为img标签的src属性显示图片
+                const tempFilePaths = res.tempFilePaths
+                const imgUrls = (_this.data.imgUrls||[]).concat(tempFilePaths)
+                _this.setData({
+                    imgUrls: imgUrls
+                })
+            }
+        })
+    },
+    preViewPicture:function (e) {
+        const imgUrls=this.data.imgUrls
+        wx.previewImage({
+            current: imgUrls[e.currentTarget.dataset.idx], // 当前显示图片的http链接
+            urls: imgUrls // 需要预览的图片http链接列表
+        })
+    }
 })
