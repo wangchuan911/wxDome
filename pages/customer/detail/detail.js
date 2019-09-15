@@ -14,11 +14,6 @@ Page({
     }, {
       desc: "服务结束"
     }],
-    imgUrls: [
-      'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
-      'https://images.unsplash.com/photo-1551214012-84f95e060dee?w=640',
-      'https://images.unsplash.com/photo-1551446591-142875a901a1?w=640'
-    ]
   },
 
   /**
@@ -109,7 +104,7 @@ Page({
     })
   },
   preViewPicture:function(e){
-    const imgUrls=this.data.imgUrls
+    const imgUrls=this.data.order.imgs
     wx.previewImage({
       current: imgUrls[e.currentTarget.dataset.idx], // 当前显示图片的http链接
       urls: imgUrls // 需要预览的图片http链接列表

@@ -1,1 +1,5 @@
 /* pages/dispatch/detail/detail.wxss */
+.i-row-css{
+    padding-left: 15px;
+    padding-right: 15px;
+}

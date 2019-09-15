@@ -70,6 +70,11 @@ Page({
       value: null,
       text: "取车时间",
       id: "useTime"
+    }, {
+      checked: false,
+      value: null,
+      text: "备注",
+      id: "extraInfo"
     }]
   },
 
@@ -249,10 +254,26 @@ Page({
   },
   tagChangeBut(event) {
     const detail = event.detail;
+    const _this = this
     console.info(detail);
-    this.setData({
-      ['tags[' + event.detail.name + '].checked']: detail.checked
-    })
+    if(this.data.tags[detail.name].id=='extraInfo'){
+      wx.navigateTo({
+        url: '/pages/index2/extra/extra',
+        events: {
+          // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
+          acceptDataFromOpenedPage: function(data) {
+            _this.setData({
+              ['tags[' + event.detail.name + '].checked']: detail.checked
+            })
+          },
+        },
+        success: function(res) {}
+      })
+    }else{
+      _this.setData({
+        ['tags[' + event.detail.name + '].checked']: detail.checked
+      })
+    }
 
   },
   openMap: function() {

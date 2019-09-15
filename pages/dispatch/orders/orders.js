@@ -17,6 +17,11 @@ Page({
         carColor:"红色",
         latitude: 23.099994,
         longitude: 113.324520,
+        imgs: [
+          'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
+          'https://images.unsplash.com/photo-1551214012-84f95e060dee?w=640',
+          'https://images.unsplash.com/photo-1551446591-142875a901a1?w=640'
+        ]
       },
       {
         orderTime: "2019-08-22 11:12:13",
@@ -29,6 +34,11 @@ Page({
         carColor:"蓝色",
         latitude: 23.099994,
         longitude: 113.324520,
+        imgs: [
+          'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
+          'https://images.unsplash.com/photo-1551214012-84f95e060dee?w=640',
+          'https://images.unsplash.com/photo-1551446591-142875a901a1?w=640'
+        ]
       },
       {
         orderTime: "2019-08-22 11:12:13",

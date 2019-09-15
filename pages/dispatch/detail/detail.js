@@ -127,5 +127,12 @@ Page({
       longitude : _this.data.order.longitude,
       scale: 18
     })
+  },
+  preViewPicture:function (e) {
+    const imgUrls=this.data.order.imgs
+    wx.previewImage({
+      current: imgUrls[e.currentTarget.dataset.idx], // 当前显示图片的http链接
+      urls: imgUrls // 需要预览的图片http链接列表
+    })
   }
 })

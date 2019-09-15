@@ -39,7 +39,7 @@
 </i-panel>
 <i-panel title="附件信息">
   <i-row i-class="i-row-css">
-    <i-col wx:for="{{imgUrls}}" wx:for-index="index" wx:for-item="url" span="4">
+    <i-col wx:for="{{order.imgs}}" wx:for-index="index" wx:for-item="url" span="4">
       <image src="{{url}}" style="width: 50px; height: 50px" bindtap="preViewPicture" data-idx="{{index}}"></image>
     </i-col>
   </i-row>
