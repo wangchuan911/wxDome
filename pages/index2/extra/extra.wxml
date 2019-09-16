@@ -1,21 +1,24 @@
 <!--pages/index2/extra/extra.wxml-->
-<view style="height: 80%">
-    <i-panel title="文字" >
-        <view style="padding: 0 5%;width: 100%;">
-            <textarea style="width: 90%;" placeholder="form 中的 textarea" name="textarea"/>
-        </view>
-    </i-panel>
-    <i-panel title="图片">
-        <view style="padding: 15px;">
-            <i-row i-class="i-row-css">
-                <i-col wx:for="{{imgUrls}}" wx:for-index="index" wx:for-item="url" span="4">
-                    <image src="{{url}}" style="width: 50px; height: 50px" bindtap="preViewPicture"
-                           data-idx="{{index}}"></image>
-                </i-col>
-                <i-col span="4">
-                    <i-icon type="add" size="50" bindtap="addPicture"/>
-                </i-col>
-            </i-row>
-        </view>
-    </i-panel>
-</view>
+<form bindsubmit="submitBut">
+    <view style="height: 80%">
+        <i-panel title="文字">
+            <view style="padding: 0 5%;width: 100%;">
+                <textarea style="width: 90%;" placeholder="form 中的 textarea" name="value1" maxlength="255" value="{{value1}}"/>
+            </view>
+        </i-panel>
+        <i-panel title="图片">
+            <view style="padding: 15px;">
+                <i-row i-class="i-row-css">
+                    <i-col wx:for="{{imgUrls}}" wx:for-index="index" wx:for-item="url" span="4">
+                        <image src="{{url}}" style="width: 50px; height: 50px" bindtap="preViewPicture"
+                               data-idx="{{index}}"></image>
+                    </i-col>
+                    <i-col span="4">
+                        <i-icon type="add" size="50" bindtap="addPicture"/>
+                    </i-col>
+                </i-row>
+            </view>
+        </i-panel>
+    </view>
+    <button form-type="submit"> 提交</button>
+</form>

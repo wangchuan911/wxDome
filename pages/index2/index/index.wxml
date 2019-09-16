@@ -25,7 +25,7 @@
         </i-row>
         <i-row wx:if="{{!isBook}}">
           <i-col span="20" i-class="col-class">
-            <i-input value="{{ value1 }}" title="当前位置" autofocus disabled="disabled" placeholder="xxxxxxxxxx" />
+            <i-input value="{{ submitData.value1 }}" title="当前位置" autofocus disabled="disabled" placeholder="xxxxxxxxxx" />
           </i-col>
           <i-col span="4" i-class="col-class" bindtap="openMap">
             <i-tag class="i-tags " name="标签一" color="blue" checkable="{{true}}" type="border" checked="{{false}}" i-class="icon-center">
@@ -34,28 +34,28 @@
           </i-col>
         </i-row>
         <i-row wx:if="{{!isBook}}">
-          <picker wx:if="{{tags[0].checked}}" mode="time" value="{{value3}}" start="09:00" end="20:00" bindchange="changeTime" hidden="hidden">
+          <picker wx:if="{{tags[0].checked}}" mode="time" value="{{submitData.value3}}" start="09:00" end="20:00" bindchange="changeTime" hidden="hidden">
             <i-input class="picker" value="{{ value3 }}" title="预约时间" placeholder="预约时间9点至20点" disabled="disabled" />
           </picker>
-          <picker wx:if="{{tags[1].checked}}" mode="time" value="{{value4}}" start="09:00" end="20:00" bindchange="changeTime2" hidden="hidden">
+          <picker wx:if="{{tags[1].checked}}" mode="time" value="{{submitData.value4}}" start="09:00" end="20:00" bindchange="changeTime2" hidden="hidden">
             <i-input class="picker" value="{{ value4 }}" title="用车时间" placeholder="最少预留1小时" disabled="disabled" />
           </picker>
-            <i-col span="7" i-class="col-class">
-                <i-input value="{{ value1 }}" title="备注" autofocus disabled="disabled" placeholder="" />
+            <i-col span="7" i-class="col-class" wx:if="{{tags[2].checked}}">
+                <i-input value="{" title="备注" autofocus disabled="disabled" placeholder="" />
             </i-col>
-            <i-col span="17" i-class="col-class i-extra">
-                <i-tag  i-class="i-tags"  color="blue" checkable="{{true}}" type="border" checked="{{true}}" style="margin-right:5px">
+            <i-col span="17" i-class="col-class i-extra" wx:if="{{tags[2].checked}}">
+                <i-tag  i-class="i-tags"  color="blue" checkable="{{true}}" type="border" checked="{{true}}" style="margin-right:5px" wx:if="{{submitData.value2.value2.length>0}}" bindtap="extraBut">
                     图片
                 </i-tag>
-                <i-tag  i-class="i-tags"  color="blue" checkable="{{true}}" type="border" checked="{{true}}" style="margin-right:5px" >
+                <i-tag  i-class="i-tags"  color="blue" checkable="{{true}}" type="border" checked="{{true}}" style="margin-right:5px" wx:if="{{submitData.value2.value1}}}" bindtap="extraBut">
                     文字
                 </i-tag>
-                <i-tag  i-class="i-tags"  color="blue" checkable="{{true}}" type="border" checked="{{true}}" style="margin-right:5px" >
-                    视频
-                </i-tag>
+<!--                <i-tag  i-class="i-tags"  color="blue" checkable="{{true}}" type="border" checked="{{true}}" style="margin-right:5px" >-->
+<!--                    视频-->
+<!--                </i-tag>-->
             </i-col>
         </i-row>
-        <i-button bind:click="{{ isBook?'mileStoneBut':'bookBut'}}" loading="{{loading.submitBut}}" type="primary" shape="circle" size="small">{{ isBook?'进度详情':'开始洗车'}}</i-button>
+        <i-button bind:click="{{ isBook?'mileStoneBut':'bookBut'}}" loading="{{loading.submitBut}}" type="primary" shape="circle" size="small">{{ isBook?'进度详情':'立即下单'}}</i-button>
       </view>
       <i-spin size="large" fix wx:if="{{ loading.spin }}"></i-spin>
     </view>

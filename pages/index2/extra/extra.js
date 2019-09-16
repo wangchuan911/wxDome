@@ -12,7 +12,18 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+      const _this = this
+      const eventChannel = this.getOpenerEventChannel()
+      // eventChannel.emit('acceptDataFromOpenedPage', { data: 'test' });
+      // eventChannel.emit('someEvent', { data: 'test' });
+      // 监听acceptDataFromOpenerPage事件，获取上一页面通过eventChannel传送到当前页面的数据
+      eventChannel.on('acceptDataFromOpenerPage', function(data) {
+          console.info(data)
+          _this.setData({
+              imgUrls:data.extra.value2||[],
+              value1:data.extra.value1
+          })
+      })
   },
 
   /**
@@ -84,6 +95,20 @@ Page({
         wx.previewImage({
             current: imgUrls[e.currentTarget.dataset.idx], // 当前显示图片的http链接
             urls: imgUrls // 需要预览的图片http链接列表
+        })
+    },
+    submitBut:function (e) {
+      console.info(e.detail)
+        const _this = this
+        const eventChannel = this.getOpenerEventChannel()
+        eventChannel.emit('acceptDataFromOpenedPage', {
+            data: {
+                value1:e.detail.value.value1,
+                value2:this.data.imgUrls
+            }
+        });
+        wx.navigateBack({
+
         })
     }
 })

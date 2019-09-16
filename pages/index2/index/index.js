@@ -75,7 +75,14 @@ Page({
       value: null,
       text: "备注",
       id: "extraInfo"
-    }]
+    }],
+    submitData:{
+      value1:null,
+      value2:{},
+      value3:null,
+      value4:null,
+      value5:null,
+    }
   },
 
   /**
@@ -256,25 +263,46 @@ Page({
     const detail = event.detail;
     const _this = this
     console.info(detail);
-    if(this.data.tags[detail.name].id=='extraInfo'){
-      wx.navigateTo({
-        url: '/pages/index2/extra/extra',
-        events: {
-          // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
-          acceptDataFromOpenedPage: function(data) {
-            _this.setData({
-              ['tags[' + event.detail.name + '].checked']: detail.checked
-            })
-          },
-        },
-        success: function(res) {}
-      })
-    }else{
+    switch(this.data.tags[detail.name].id){
+      case "extraInfo":
+        _this.extraBut(event)
+        break;
+      default:
       _this.setData({
         ['tags[' + event.detail.name + '].checked']: detail.checked
       })
     }
 
+  },
+  extraBut:function(event){
+    let index=2;
+    for(let idx in this.data.tags){
+      if(this.data.tags[idx].id=='extraInfo'){
+        index=idx;
+        break;
+      }
+    }
+    const _this = this
+    wx.navigateTo({
+      url: '/pages/index2/extra/extra',
+      events: {
+        // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
+        acceptDataFromOpenedPage: function(data) {
+          console.info(data)
+          _this.setData({
+            ['tags['+index+'].checked']: (data.data.value1||(data.data.value2||[]).length>0),
+            ['submitData.value2.value1']: data.data.value1,
+            ['submitData.value2.value2']: (data.data.value2||[]),
+          })
+        },
+      },
+      success: function(res) {
+        // 通过eventChannel向被打开页面传送数据
+        res.eventChannel.emit('acceptDataFromOpenerPage', {
+          extra: _this.data.submitData.value2
+        })
+      }
+    });
   },
   openMap: function() {
     const _this = this
@@ -290,7 +318,7 @@ Page({
         markers[0].longitude = longitude
         //返回的指显示到界面上
         _this.setData({
-          value1: name,
+          ['submitData.value1']: name,
           markers: markers
         })
       }
@@ -299,13 +327,13 @@ Page({
   changeTime: function(e) {
     console.log('picker发送选择改变，携带值为', e.detail.value)
     this.setData({
-      value3: e.detail.value
+      ['submitData.value3']: e.detail.value
     })
   },
   changeTime2: function(e) {
     console.log('picker发送选择改变，携带值为', e.detail.value)
     this.setData({
-      value4: e.detail.value
+      ['submitData.value4']: e.detail.value
     })
   },
   countInterval: function() {
