@@ -145,8 +145,10 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-    if (this.circle1)
+    if (this.circle1) {
+      this.data.progressShow.count--
       this.countInterval()
+    }
   },
 
   /**

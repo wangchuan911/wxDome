@@ -3,7 +3,7 @@
 <i-panel title="服务进度">
   <i-card title='定单编码：xxxxxxxx' extra="桂Axxxxxx" wx:for="{{orders}}" wx:for-index="index" wx:for-item="item">
     <view slot="content">
-      <i-steps current="2" wx:if="{{item.isCustOrder}}">
+      <i-steps current="2" wx:if="{{item.state!=2 && item.isCustOrder}}">
         <i-step status="finish">
           <view slot="title">
             已完成
@@ -29,7 +29,11 @@
           </view>
         </i-step>
       </i-steps>
-      <i-divider height="32" wx:if="{{item.isCustOrder}}"></i-divider>
+      <view wx:if="{{item.state==2 && item.isCustOrder}}" style="text-align: center">
+        <i-icon size="40" color="#80848f" type="success_fill" />
+        服务已完成
+      </view>
+      <i-divider height="16" wx:if="{{item.isCustOrder}}"></i-divider>
       <i-row wx:for="{{cols}}" wx:for-index="col-index" wx:for-item="col">
         <i-col span="6" offset="2">
           <i-tag i-class="i-tags" checkable="{{true}}" checked="{{true}}" name="col.id">{{col.name}}</i-tag>
@@ -52,24 +56,21 @@
 <!--        </i-col>-->
 <!--      </i-row>-->
       <!--<i-divider height="20"></i-divider>-->
-      <i-row wx:if="{{item.state!=2 && item.isCustOrder}}">
-        <i-col span="10" offset="14">
-          <i-row style="text-align:center">
-            <i-col span="11">
-              <i-row>
-                <i-icon size="28" color="#80848f" type="customerservice" /></i-row>
-              <i-row>联系客服</i-row>
-            </i-col>
-            <i-col span="13">
-              <i-row>
-                <i-icon size="28" color="#80848f" type="interactive" /></i-row>
-              <i-row>呼叫小伙</i-row>
-            </i-col>
-          </i-row>
-        </i-col>
-      </i-row>
+          <div style="text-align:center;display: flex;justify-content: flex-end;">
+            <div class="helper-div">
+                <i-icon style="display: block" size="28" color="#80848f" type="customerservice" />
+              <p>联系客服</p>
+            </div>
+            <div class="helper-div" wx:if="{{item.state!=2}}">
+                <i-icon style="display: block" size="28" color="#80848f" type="interactive" />
+              <p>呼叫小伙</p>
+            </div>
+            <div class="helper-div" wx:if="{{item.state==2}}">
+              <i-icon style="display: block" size="28" color="#80848f" type="emoji" />
+              <p>评价</p>
+            </div>
+          </div>
       <i-button wx:if="{{item.state==1 && item.isCustOrder}}" bind:click="payBillBut" type="primary">支付({{isNaN(item.orderCost)?"":(item.orderCost+'元')}})</i-button>
-      <i-button wx:if="{{item.state==2 && item.isPayed && item.isCustOrder}}" bind:click="payBillBut" type="primary">评价</i-button>
       <i-button wx:if="{{item.isWorkOrder}}" bind:click="orderDetailBut" type="primary" data-idx="{{index}}">处理</i-button>
     </view>
   </i-card>

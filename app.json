@@ -11,7 +11,8 @@
     "pages/customer/detail/detail",
     "pages/dispatch/workers/workers",
     "component/wave/wave",
-    "pages/index2/extra/extra"
+    "pages/index2/extra/extra",
+    "pages/customer/evaluate/evaluate"
   ],
   "window": {
     "backgroundTextStyle": "light",
