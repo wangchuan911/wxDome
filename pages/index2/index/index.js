@@ -275,14 +275,18 @@ Page({
 
   },
   extraBut:function(event){
-    let index=2;
-    for(let idx in this.data.tags){
-      if(this.data.tags[idx].id=='extraInfo'){
-        index=idx;
-        break;
-      }
-    }
     const _this = this
+    let index=event.detail.name?
+        event.detail.name:
+        function () {
+          for(let idx in _this.data.tags){
+            if(_this.data.tags[idx].id=='extraInfo'){
+              return idx;
+            }
+          }
+          return 2;
+        }();
+
     wx.navigateTo({
       url: '/pages/index2/extra/extra',
       events: {
