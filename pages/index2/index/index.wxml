@@ -19,16 +19,16 @@
           </circle>
         </view>
         <i-row i-class="show-left" wx:if="{{!isBook}}">
-          <i-tag wx:for="{{tags}}" wx:key="{{index}}" i-class="i-tags" name="{{index}}" color="blue" checkable="{{true}}" type="border" checked="{{item.checked}}" bindchange="tagChangeBut" style="margin-right:{{(index==(tags.length-1))?20:5}}px" >
+          <i-tag wx:for="{{tags}}" wx:key="{{index}}" i-class="i-tags i-tags-circle" name="{{index}}" color="blue" checkable="{{true}}" type="border" checked="{{item.checked}}" bindchange="tagChangeBut" style="margin-right:{{(index==(tags.length-1))?20:5}}px" >
             {{item.text}}
           </i-tag>
         </i-row>
         <i-row wx:if="{{!isBook}}">
-          <i-col span="20" i-class="col-class">
+          <i-col span="19" i-class="col-class">
             <i-input value="{{ submitData.value1 }}" title="当前位置" autofocus disabled="disabled" placeholder="xxxxxxxxxx" />
           </i-col>
-          <i-col span="4" i-class="col-class" bindtap="openMap">
-            <i-tag class="i-tags " name="标签一" color="blue" checkable="{{true}}" type="border" checked="{{false}}" i-class="icon-center">
+          <i-col span="5" i-class="col-class" bindtap="openMap">
+            <i-tag class="i-tags " name="标签一" color="blue" checkable="{{true}}" type="border" checked="{{true}}" i-class="icon-center i-tags-circle">
               修改
             </i-tag>
           </i-col>

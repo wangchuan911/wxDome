@@ -5,6 +5,7 @@ page {
 }
 .icon-center{
   margin-top: 12px;
+  width: 50%;
 }
 
 .absolute {
@@ -50,6 +51,8 @@ page {
   width: 50px;
   align-items: center;
   justify-content: center;
+}
+.i-tags-circle{
   border-radius: 50px !important;
 }
 .i-extra{

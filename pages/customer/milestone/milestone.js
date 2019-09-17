@@ -173,4 +173,7 @@ Page({
       urls: imgs // 需要预览的图片http链接列表
     })
   },
+  evalueteBut:function (event) {
+    console.info(event.detail)
+  }
 })
