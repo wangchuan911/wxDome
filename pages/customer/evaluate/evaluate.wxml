@@ -1,2 +1,10 @@
 <!--pages/customer/milestone/evaluate/evaluate.wxml-->
-<text>pages/customer/milestone/evaluate/evaluate.wxml</text>
+<i-cell-group>
+    <i-cell title="自定义星星大小">
+        <i-rate
+                bind:change="onChange"
+                value="{{starIndex2}}"
+                size="32">
+        </i-rate>
+    </i-cell>
+</i-cell-group>

@@ -38,16 +38,16 @@
       </view>
       <i-divider height="16" wx:if="{{item.isCustOrder}}"></i-divider>
       <i-row wx:for="{{cols}}" wx:for-index="col-index" wx:for-item="col">
-        <i-col span="6" offset="2">
+        <i-col span="5" offset="1">
           <i-tag i-class="i-tags" checkable="{{true}}" checked="{{true}}" name="col.id">{{col.name}}</i-tag>
         </i-col>
-        <i-col span="15" offset="1" style=" word-break:break-all;">{{item[col.id]}}</i-col>
+        <i-col span="16" offset="1" style=" word-break:break-all;">{{item[col.id]}}</i-col>
       </i-row>
         <i-row wx:if="{{item.isCustOrder && item.imgs && item.imgs.length>0}}">
-        <i-col span="6" offset="2">
+        <i-col span="5" offset="1">
             <i-tag i-class="i-tags" checkable="{{true}}" checked="{{true}}" name="extra">备注</i-tag>
         </i-col>
-        <i-col span="15" offset="1" style=" word-break:break-all;">
+        <i-col span="16" offset="1" style=" word-break:break-all;">
             <i-tag i-class="i-tag" wx:if="{{item.imgs && item.imgs.length>0}}" checkable="{{true}}" checked="{{false}}" color="blue" type='border' bindtap="preViewPicture" data-idx="{{index}}" data-img-idx="0">图片</i-tag>
         </i-col>
         </i-row>
@@ -60,15 +60,15 @@
 <!--      </i-row>-->
       <!--<i-divider height="20"></i-divider>-->
           <div style="text-align:center;display: flex;justify-content: flex-end;">
-            <div class="helper-div">
+            <div class="helper-div" bindtap="callHelpBut" data-idx="{{index}}">
                 <i-icon style="display: block" size="28" color="#80848f" type="customerservice" />
               <p>联系客服</p>
             </div>
-            <div class="helper-div" wx:if="{{item.state!=2}}">
+            <div class="helper-div" wx:if="{{item.state!=2}}" bindtap="callWorkerBut" data-idx="{{index}}">
                 <i-icon style="display: block" size="28" color="#80848f" type="interactive" />
               <p>呼叫小伙</p>
             </div>
-            <div class="helper-div" wx:if="{{item.state==2}}" bindtap="evalueteBut">
+            <div class="helper-div" wx:if="{{item.state==2}}" bindtap="evalueteBut" data-idx="{{index}}">
               <i-icon style="display: block" size="28" color="#80848f" type="emoji" />
               <p>评价</p>
             </div>

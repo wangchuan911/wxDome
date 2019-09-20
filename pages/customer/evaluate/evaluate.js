@@ -12,7 +12,17 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    const _this = this
+    const eventChannel = this.getOpenerEventChannel()
+    // eventChannel.emit('acceptDataFromOpenedPage', { data: 'test' });
+    // eventChannel.emit('someEvent', { data: 'test' });
+    // 监听acceptDataFromOpenerPage事件，获取上一页面通过eventChannel传送到当前页面的数据
+    eventChannel.on('acceptDataFromOpenerPage', function(data) {
+      console.info(data)
+      _this.setData({
+        order: data.order
+      })
+    })
   },
 
   /**
@@ -62,5 +72,11 @@ Page({
    */
   onShareAppMessage: function () {
 
-  }
+  },
+  onChange(e){
+    const index = e.detail.index;
+    this.setData({
+      'starIndex1' : index
+    })
+  },
 })

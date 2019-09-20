@@ -1,3 +1,7 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+    "i-cell-group": "/ui/iview/cell-group/index",
+    "i-cell": "/ui/iview/cell/index",
+    "i-rate": "/ui/iview/rate/index"
+  }
 }
