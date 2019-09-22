@@ -1,10 +1,18 @@
 <!--pages/customer/milestone/evaluate/evaluate.wxml-->
 <i-cell-group>
-    <i-cell title="自定义星星大小">
+    <i-cell title="{{rate.name}}" wx:for="{{rateInfo}}" wx:for-index="index" wx:for-item="rate" wx:key="{{index}}">
         <i-rate
                 bind:change="onChange"
-                value="{{starIndex2}}"
-                size="32">
+                value="{{rate.value}}"
+                size="32"
+                data-idx="{{index}}">
         </i-rate>
     </i-cell>
+    <i-cell title="吐槽/建议">
+        <view style="width: 100%;">
+            <textarea style="width: 100%;width: 96%;background-color: #e9eaec;border-radius: 20px;padding: 2%;" placeholder="您的建议是我们前进最大的动力" name="value1" maxlength="255" value="{{value1}}"/>
+        </view>
+    </i-cell>
+    <i-button bind:click="rateFinBut" type="primary" shape="circle">确定
+    </i-button>
 </i-cell-group>

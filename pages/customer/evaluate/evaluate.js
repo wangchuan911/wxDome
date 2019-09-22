@@ -5,7 +5,18 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    rateInfo:[
+      {
+        name:"服务质量",
+        id:"service",
+        value:0
+      },
+      {
+        name:"服务态度",
+        id:"service",
+        value:0
+      }
+    ]
   },
 
   /**
@@ -74,9 +85,18 @@ Page({
 
   },
   onChange(e){
-    const index = e.detail.index;
+    const index = e.currentTarget.dataset.idx;
     this.setData({
-      'starIndex1' : index
+      ['rateInfo['+index+'].value']:e.detail.index,
     })
   },
+  rateFinBut:function (e) {
+    const eventChannel = this.getOpenerEventChannel()
+    eventChannel.emit('acceptDataFromOpenedPage', {
+      data: {
+        reted: true
+      }
+    });
+    wx.navigateBack();
+  }
 })
