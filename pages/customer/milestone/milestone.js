@@ -245,4 +245,10 @@ Page({
   callWorkerBut:function (event) {
     console.info(event.detail)
   },
+  foldBut:function (e) {
+    const order=this.data.orders[e.currentTarget.dataset.idx];
+    this.setData({
+      ['orders['+e.currentTarget.dataset.idx+'].fold']:!order.fold
+    })
+  }
 })
