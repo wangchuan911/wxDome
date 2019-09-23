@@ -3,14 +3,14 @@
 <i-panel title="服务进度">
   <i-card title='定单编码：xxxxxxxx' extra="桂Axxxxxx" wx:for="{{orders}}" wx:for-index="index" wx:for-item="item">
     <view slot="content">
-      <view>
+      <view wx:if="{{item.state<100 && item.isCustOrder}}">
         <i-row>
           <i-col span="2" offset="22" bindtap="foldBut" data-idx="{{index}}">
             <i-icon type="unfold" size="25" wx:if="{{!item.fold}}"/>
             <i-icon type="packup" size="25" wx:if="{{item.fold}}"/>
           </i-col>
         </i-row>
-      <i-steps  wx:if="{{item.state<100 && item.isCustOrder}}" direction="vertical">
+      <i-steps   direction="vertical">
         <i-step wx:if="{{step.state<=item.state && (item.fold||((step.state)>(item.state-3)))}}" status="{{(step.state==item.state)?'process':'finish'}}" icon="{{(step.state==item.state)?'task':'right'}}" i-class="step-vertical" wx:for="{{steps}}" wx:for-index="step-idx" wx:for-item="step">
           <view slot="title">
             {{step.name}}
