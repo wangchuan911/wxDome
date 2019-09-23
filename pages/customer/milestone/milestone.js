@@ -18,11 +18,34 @@ Page({
         latitude: 23.099994,
         longitude: 113.324520,
         state:0,
-       imgs: [
+       imgs0: [
          'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
          'https://images.unsplash.com/photo-1551214012-84f95e060dee?w=640',
          'https://images.unsplash.com/photo-1551446591-142875a901a1?w=640'
        ]
+      },
+      {
+        orderTime: "2019-08-22 11:12:13",
+        addr: "南宁市民族大道222号",
+        endTime: "2019-08-22 11:12:13",
+        vip: true,
+        preDate: "2019-08-22 11:12:13",
+        carNo:"桂Aaasfdas",
+        carType:"奔驰",
+        carColor:"红色",
+        latitude: 23.099994,
+        longitude: 113.324520,
+        state:3,
+        imgs0: [
+          'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
+          'https://images.unsplash.com/photo-1551214012-84f95e060dee?w=640',
+          'https://images.unsplash.com/photo-1551446591-142875a901a1?w=640'
+        ],
+        imgs3: [
+          'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
+          'https://images.unsplash.com/photo-1551214012-84f95e060dee?w=640',
+          'https://images.unsplash.com/photo-1551446591-142875a901a1?w=640'
+        ]
       },
       {
         orderTime: "2019-08-22 11:12:13",
@@ -35,7 +58,7 @@ Page({
         carColor:"蓝色",
         latitude: 23.099994,
         longitude: 113.324520,
-        state:1,
+        state:100,
         orderCost:10.00
       },
       {
@@ -49,7 +72,7 @@ Page({
         carColor:"白色",
         latitude: 23.099994,
         longitude: 113.324520,
-        state:2,
+        state:101,
         orderCost:10.00
       }
     ],
@@ -66,6 +89,28 @@ Page({
         id:"worker",
         name:"服务员"
       },
+    ],
+    steps:[
+      {
+        state:0,
+        name:"订单受理中",
+        desc:"正在为您指派服务人员"
+      },
+      {
+        state:1,
+        name:"派遣服务人员",
+        desc:"正在派遣服务人员"
+      },
+      {
+        state:2,
+        name:"车辆评估",
+        desc:"评估车辆，提供最合适的服务"
+      },
+      {
+        state:3,
+        name:"车辆服务中",
+        desc:"正在为您的车辆提供服务"
+      }
     ]
   },
 
@@ -73,7 +118,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-
+    const steps=this.data.steps.reverse()
+    this.setData({
+      steps:steps
+    })
   },
 
   /**
@@ -166,8 +214,8 @@ Page({
     })
   },
   preViewPicture:function(e){
-    const imgs=this.data.orders[e.currentTarget.dataset.idx].imgs||[];
-    const img=imgs[e.currentTarget.dataset.imgIdx]
+    const imgs=this.data.orders[e.currentTarget.dataset.idx]['imgs'+e.currentTarget.dataset.imgIdx]||[];
+    const img=imgs[0]
     wx.previewImage({
       current: img, // 当前显示图片的http链接
       urls: imgs // 需要预览的图片http链接列表

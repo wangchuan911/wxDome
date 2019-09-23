@@ -3,36 +3,21 @@
 <i-panel title="服务进度">
   <i-card title='定单编码：xxxxxxxx' extra="桂Axxxxxx" wx:for="{{orders}}" wx:for-index="index" wx:for-item="item">
     <view slot="content">
-      <i-steps current="2" wx:if="{{item.state==0 && item.isCustOrder}}">
-        <i-step status="finish">
+      <i-steps  wx:if="{{item.state<100 && item.isCustOrder}}" direction="vertical">
+        <i-step wx:if="{{step.state<=item.state && ((step.state)>(item.state-3))}}" status="{{(step.state==item.state)?'finish':'process'}}" icon="{{(step.state==item.state)?'task':'right'}}" i-class="step-vertical" wx:for="{{steps}}" wx:for-index="step-idx" wx:for-item="step">
           <view slot="title">
-            已完成
+            {{step.name}}
           </view>
           <view slot="content">
-            伙计们正在赶往目的地
-          </view>
-        </i-step>
-        <i-step status="process">
-          <view slot="title">
-            进行中
-          </view>
-          <view slot="content">
-            伙计们正在呵护您的爱车
-          </view>
-        </i-step>
-        <i-step status="error">
-          <view slot="title">
-            错误
-          </view>
-          <view slot="content">
-            伙计们不知道跑去哪里了
+            {{step.desc}}
+            <i-tag i-class="i-tag" wx:if="{{item['imgs'+step.state] && item['imgs'+step.state].length>0}}" checkable="{{true}}" checked="{{false}}" color="blue" type='border' bindtap="preViewPicture" data-idx="{{index}}"  data-img-idx="{{step.state}}">图片</i-tag>
           </view>
         </i-step>
       </i-steps>
-      <i-button wx:if="{{item.state==1 && item.isCustOrder}}" bind:click="payBillBut" type="primary" shape="circle">
+      <i-button wx:if="{{item.state==100 && item.isCustOrder}}" bind:click="payBillBut" type="primary" shape="circle">
         <i-icon size="30"  type="success_fill" />服务完成,请支付({{isNaN(item.orderCost)?"":(item.orderCost+'元')}})
       </i-button>
-      <view wx:if="{{item.state==2 && item.isCustOrder}}" style="text-align: center">
+      <view wx:if="{{item.state==101 && item.isCustOrder}}" style="text-align: center">
         <i-icon size="40" color="#2d8cf0;" type="success_fill" />
         已支付，服务结束
       </view>
@@ -43,14 +28,14 @@
         </i-col>
         <i-col span="16" offset="1" style=" word-break:break-all;">{{item[col.id]}}</i-col>
       </i-row>
-        <i-row wx:if="{{item.isCustOrder && item.imgs && item.imgs.length>0}}">
+        <!--<i-row wx:if="{{item.isCustOrder && item.imgs && item.imgs.length>0}}">
         <i-col span="5" offset="1">
             <i-tag i-class="i-tags" checkable="{{true}}" checked="{{true}}" name="extra">备注</i-tag>
         </i-col>
         <i-col span="16" offset="1" style=" word-break:break-all;">
             <i-tag i-class="i-tag" wx:if="{{item.imgs && item.imgs.length>0}}" checkable="{{true}}" checked="{{false}}" color="blue" type='border' bindtap="preViewPicture" data-idx="{{index}}" data-img-idx="0">图片</i-tag>
         </i-col>
-        </i-row>
+        </i-row>-->
 <!--        <i-divider height="10" wx:if="{{item.isCustOrder && item.imgs && item.imgs.length>0}}"></i-divider>-->
 <!--      <i-row i-class="i-row-css" wx:if="{{item.isCustOrder && item.imgs && item.imgs.length>0}}" >-->
 <!--          -->
@@ -64,11 +49,11 @@
                 <i-icon style="display: block" size="28" color="#80848f" type="customerservice" />
               <p>联系客服</p>
             </div>
-            <div class="helper-div" wx:if="{{item.state!=2}}" bindtap="callWorkerBut" data-idx="{{index}}">
+            <div class="helper-div" wx:if="{{item.state!=101}}" bindtap="callWorkerBut" data-idx="{{index}}">
                 <i-icon style="display: block" size="28" color="#80848f" type="interactive" />
               <p>呼叫小伙</p>
             </div>
-            <div class="helper-div" wx:if="{{item.state==2}}" bindtap="evalueteBut" data-idx="{{index}}">
+            <div class="helper-div" wx:if="{{item.state==101}}" bindtap="evalueteBut" data-idx="{{index}}">
               <i-icon style="display: block" size="28" color="#80848f" type="emoji" />
               <p>评价</p>
             </div>
