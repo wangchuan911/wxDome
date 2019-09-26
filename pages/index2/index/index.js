@@ -38,29 +38,6 @@ Page({
         textAlign: "center"
       }
     }],
-    // polyline: [{
-    //   points: [{
-    //     longitude: 113.3245211,
-    //     latitude: 23.10229
-    //   }, {
-    //     longitude: 113.324520,
-    //     latitude: 23.21229
-    //   }],
-    //   color: "#FF0000DD",
-    //   width: 2,
-    //   dottedLine: true
-    // }],
-    // controls: [{
-    //   id: 1,
-    //   iconPath: '/resources/location.png',
-    //   position: {
-    //     left: 0,
-    //     top: 300 - 50,
-    //     width: 50,
-    //     height: 50
-    //   },
-    //   clickable: true
-    // }]
     tags: [{
       checked: false,
       value: null,
@@ -94,6 +71,7 @@ Page({
       value3:null,
       value4:null,
       value5:null,
+      value6:{},
     }
   },
 
@@ -111,6 +89,7 @@ Page({
         _this.setData({
           ['markers[0].latitude']: res.latitude,
           ['markers[0].longitude']: res.longitude,
+          ['submitData.value5']:res,
         })
         // const speed = res.speed
         // const accuracy = res.accuracy
@@ -124,7 +103,7 @@ Page({
     } else if (this.data.canIUse) {
       // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
       // 所以此处加入 callback 以防止这种情况
-      app.userInfoReadyCallback = res => {
+      app.userInfoReadyCallback = function (res) {
         this.setData({
           userInfo: res.userInfo,
           hasUserInfo: true
@@ -133,14 +112,20 @@ Page({
     } else {
       // 在没有 open-type=getUserInfo 版本的兼容处理
       wx.getUserInfo({
-        success: res => {
+        success:  function (res) {
           app.globalData.userInfo = res.userInfo
-          this.setData({
+          _this.setData({
             userInfo: res.userInfo,
             hasUserInfo: true
           })
         }
       })
+    }
+    for(let idx in this.data.serviceType){
+      const type=this.data.serviceType[idx];
+      if(type.checked) {
+        this.data.submitData.value6[type.id]=type.checked
+      }
     }
   },
 
@@ -237,7 +222,9 @@ Page({
       _this.setData({
         ['progressShow.progress']: 21
       })
-    }, 7000)
+    }, 7000);
+    console.info("提交")
+    console.info(this.data.submitData)
   },
   mileStoneBut: function() {
     const isAdmin = wx.getStorageSync('isAdmin')
@@ -337,6 +324,7 @@ Page({
         //返回的指显示到界面上
         _this.setData({
           ['submitData.value1']: name,
+          ['submitData.value5]']:res,
           markers: markers
         })
       }
@@ -418,6 +406,8 @@ Page({
     this.setData({
       ['serviceType['+detail.name+'].checked']:detail.checked
     })
+    //提交赋值
+    this.data.submitData.value6[this.data.serviceType[detail.name].id]=detail.checked
     switch(this.data.serviceType[detail.name].id){
       case "washOut":
         console.info("washOut");
