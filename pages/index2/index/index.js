@@ -21,6 +21,10 @@ Page({
       progress: 51, // 绘制一个圆环所需的步骤 
       countTimer: null //定时器，初始值为null
     },
+    order:{
+      allOrderCount:50,
+      orderCount:10
+    },
     markers: [{
       //iconPath: "/resources/others.png",
       id: 0,
@@ -72,7 +76,8 @@ Page({
       value4:null,
       value5:null,
       value6:{},
-    }
+    },
+    roleMode:0
   },
 
   /**
@@ -127,6 +132,19 @@ Page({
         this.data.submitData.value6[type.id]=type.checked
       }
     }
+
+    const order=this.data.order;
+    this.setData({
+      ['progressShow.progress']:parseInt((order.orderCount/order.allOrderCount)*100)
+    })
+
+    if(this.getRole()!=0){
+      this.setData({
+        isBook: true,
+        ['loading.submitBut']: false
+      })
+      this.initCircle();
+    }
   },
 
   /**
@@ -146,6 +164,8 @@ Page({
       this.data.progressShow.count--
       this.countInterval()
     }
+
+    this.getRole()
   },
 
   /**
@@ -227,11 +247,9 @@ Page({
     console.info(this.data.submitData)
   },
   mileStoneBut: function() {
-    const isAdmin = wx.getStorageSync('isAdmin')
-
     const _this = this
     wx.navigateTo({
-      url: isAdmin ? '/pages/dispatch/orders/orders' : '/pages/customer/milestone/milestone',
+      url: (_this.data.roleMode==2) ? '/pages/dispatch/orders/orders' : '/pages/customer/milestone/milestone',
       events: {
         // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
         acceptDataFromOpenedPage: function(data) {
@@ -358,9 +376,15 @@ Page({
         } else {
           this.data.progressShow.count--
         }
+      if(this.data.roleMode==0) {
         this.setData({
-          txt: this.data.progressShow.count + '%'
+          txt: this.data.progressShow.count + '%',
         });
+      }else{
+        this.setData({
+          txt: this.data.order.orderCount+"/"+this.data.order.allOrderCount
+        });
+      }
 
       } else {
         this.setData({
@@ -418,5 +442,12 @@ Page({
       default:
 
     }
+  }
+  ,getRole(_this){
+    const role = wx.getStorageSync("isAdmin")?2:(wx.getStorageSync("isWorker"))?1:0;
+    (_this||this).setData({
+      roleMode:role
+    })
+    return role;
   }
 })
