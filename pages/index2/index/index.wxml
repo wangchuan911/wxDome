@@ -98,3 +98,4 @@
     <i-avatar wx:if="{{userInfo.avatarUrl}}" src="{{userInfo.avatarUrl}}" size="large" shape="circle"
               open-type="getUserInfo" bindtap="mine"></i-avatar>
 </view>
+<i-toast id="toast" />

@@ -1,5 +1,6 @@
 // pages/index2/index.js
 const app = getApp()
+const { $Toast } = require('../../../ui/iview/base/index');
 Page({
 
   /**
@@ -400,6 +401,20 @@ Page({
   selectSrvTypeBut(event){
     const detail = event.detail;
     const _this = this
+    if(!detail.checked){
+      let count=0;
+      for(let idx in this.data.serviceType){
+        if(idx==detail.name)continue
+        count=count+(this.data.serviceType[idx].checked)?1:0;
+      }
+      if(count==0){
+        $Toast({
+          content: '请选择一个服务！',
+          type: 'error'
+        });
+        return;
+      }
+    }
     this.setData({
       ['serviceType['+detail.name+'].checked']:detail.checked
     })

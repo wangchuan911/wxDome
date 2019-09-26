@@ -7,6 +7,7 @@
     "i-input": "/ui/iview/input/index",
     "i-tag": "/ui/iview/tag/index",
     "circle": "/component/circle/circle",
-    "i-spin": "/ui/iview/spin/index"
+    "i-spin": "/ui/iview/spin/index",
+    "i-toast": "/ui/iview/toast/index"
   }
 }
