@@ -76,6 +76,17 @@ Page({
       text: "备注",
       id: "extraInfo"
     }],
+    serviceType:[{
+      checked: true,
+      value: null,
+      text: "室外",
+      id: "washOut"
+    },{
+      checked: false,
+      value: null,
+      text: "室内",
+      id: "washIn"
+    }],
     submitData:{
       value1:null,
       value2:{},
@@ -385,5 +396,22 @@ Page({
     // 绘制背景圆环
     this.circle1.drawCircleBg('circle_bg1', 50, 8);
     this.countInterval()
+  },
+  selectSrvTypeBut(event){
+    const detail = event.detail;
+    const _this = this
+    this.setData({
+      ['serviceType['+detail.name+'].checked']:detail.checked
+    })
+    switch(this.data.serviceType[detail.name].id){
+      case "washOut":
+        console.info("washOut");
+        break;
+      case "washIn":
+        console.info("washIn");
+        break;
+      default:
+
+    }
   }
 })
