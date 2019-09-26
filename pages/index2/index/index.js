@@ -91,7 +91,7 @@ Page({
   onLoad: function(options) {
     const _this = this
     wx.getLocation({
-      type: 'wgs84',
+      type: 'gcj02',
       success(res) {
         _this.setData({
           ['loading.spin']: false
