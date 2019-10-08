@@ -91,7 +91,7 @@ Page({
         name:"服务员"
       },
     ],
-    steps:$PubConst.stepNomal
+    steps:$PubConst.customer.step1
   },
 
   /**

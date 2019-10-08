@@ -1,4 +1,5 @@
 // pages/customer/detail/detail.js
+const $PubConst = require('../../../utils/pubConst.js')
 Page({
 
   /**
@@ -7,13 +8,13 @@ Page({
   data: {
     current: 0,
     verticalCurrent: 0,
-    steps: [{
-      desc: "前往目的地"
-    }, {
-      desc: "开始服务"
-    }, {
-      desc: "服务结束"
-    }],
+    steps: $PubConst.worker.step1,
+    scroll:{
+      left:0,
+      stepWidth:100,
+      initPos:2,
+      scrollViewWidth:600
+    }
   },
 
   /**
@@ -30,6 +31,12 @@ Page({
       _this.setData({
         order: data.order
       })
+    })
+    wx.getSystemInfo({
+      success:function(res) {
+        _this.data.scroll.scrollViewWidth=res.screenWidth
+        _this.data.scroll.stepWidth=parseInt(res.screenWidth/(_this.data.scroll.initPos+1))
+      }
     })
   },
 
@@ -86,6 +93,17 @@ Page({
     this.setData({
       'current': current
     })
+    this.changeScroll()
+  },
+  changeScroll:function(){
+    const initPos = this.data.scroll.initPos;
+    const _this = this
+    if(this.data.current>=this.data.scroll.initPos && this.data.current<(this.data.steps.length-1)){
+      this.setData({
+        ['scroll.left']:_this.data.scroll.stepWidth*((_this.data.current||1)-1)
+      })
+    }
+    console.info(this.data.scroll)
   },
   addPicture:function(){
     const _this=this
@@ -117,5 +135,10 @@ Page({
       longitude : _this.data.order.longitude,
       scale: 18
     })
+  },
+  scroll:function (e) {
+    console.info(e.detail);
+    this.data.scroll.stepWidth=parseInt(e.detail.scrollWidth/this.data.steps.length);
+    this.data.scroll.scrollViewWidth=e.detail.scrollWidth
   }
 })

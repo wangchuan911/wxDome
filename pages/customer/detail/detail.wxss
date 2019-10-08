@@ -1,8 +1,11 @@
 /* pages/customer/detail/detail.wxss */
 .i-group{
-  padding-left: 15px
+  padding-left: 15px;
 }
 .i-row-css{
   padding-left: 15px;
   padding-right: 15px;
+}
+.cust-cell{
+  padding: 6px 15px!important;
 }

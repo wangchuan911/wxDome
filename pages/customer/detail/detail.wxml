@@ -1,13 +1,13 @@
 <!--pages/customer/detail/detail.wxml-->
 <i-panel title="客户信息">
   <i-cell-group i-class="i-group">
-    <i-cell title="车辆位置">
+    <i-cell title="车辆位置" i-class="cust-cell">
       <view slot="footer" style="display:flex">
-        <div style='word-break:break-all;width:34vh;display: block;'>{{order.addr}}</div>
+        <div style='word-break:break-all;width:34vh;display: block;line-height: 28px;'>{{order.addr}}</div>
         <i-icon  size="28" type="coordinates_fill" bindtap="openMapBut"/>
       </view>
     </i-cell>
-    <i-cell title="车辆信息">
+    <i-cell title="车辆信息" i-class="cust-cell">
     <view slot="footer">
       <i-tag class="i-tags" name="card-no" color="green" type='border'>
         {{order.carNo}}
@@ -19,8 +19,12 @@
         {{order.carColor}}
       </i-tag></view>
     </i-cell>
-    <i-cell title="预约时间"><view slot="footer">{{order.preDate?order.preDate:order.orderTime}}</view></i-cell>
-    <i-cell title="提车时间"><view slot="footer">{{order.endTime}}</view></i-cell>
+    <i-cell title="服务时间"  i-class="cust-cell">
+      <view slot="footer">
+        <p style="display: block">{{order.preDate?order.preDate:order.orderTime}}</p>
+        <p style="display: block">至{{order.endTime}}</p>
+      </view>
+    </i-cell>
   </i-cell-group>
 </i-panel>
 <i-panel title="附件信息">
@@ -34,15 +38,29 @@
   </i-row>
 </i-panel>
 <i-panel title="状态">
-  <i-steps current="{{current}}">
+  <!--<i-steps current="{{current}}">
     <i-step wx:for="{{steps}}" wx:for-index="index" wx:for-item="step">
       <view slot="title">
-        {{current>index?'已完成':(current==index)?'进行中':'就绪'}}
+        {{current>index?step.fin_desc:step.desc}}
       </view>
       <view slot="content">
         {{step.desc}}
       </view>
     </i-step>
-  </i-steps>
+  </i-steps>-->
+  <scroll-view scroll-x="true" bindscroll="scroll" style="width: 100%" scroll-left="{{scroll.left}}">
+    <view id="scollView" style="width: {{(steps.length/3)*100}}%">
+    <i-steps current="{{current}}" >
+      <i-step wx:for="{{steps}}" wx:for-index="index" wx:for-item="step">
+        <view slot="title">
+          {{current>index?step.fin_desc:step.desc}}
+        </view>
+        <view slot="content">
+          {{step.desc}}
+        </view>
+      </i-step>
+    </i-steps>
+    </view>
+  </scroll-view>
 </i-panel>
 <i-button bindclick="deal">下一步</i-button>
