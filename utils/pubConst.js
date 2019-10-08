@@ -28,21 +28,20 @@ module.exports = {
             desc: "前往目的地"
             ,fin_desc:"已到达"
             ,id:0
+            ,but_desc:"到达"
         },{
             desc: "洗前车辆评估"
             ,fin_desc:"评估完成"
             ,id:1
+            ,but_desc:"评估"
         }, {
             desc: "开始服务"
             ,fin_desc:"服务完成"
             ,id:2
-        },{
-            desc: "服务结果反馈"
-            ,fin_desc:"反馈完成"
-            ,id:3
+            ,but_desc:"结果反馈"
         }, {
             desc: "等待客户验收"
-            ,id:4
+            ,id:3
         }]
     }
 }
