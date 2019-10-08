@@ -63,4 +63,4 @@
     </view>
   </scroll-view>
 </i-panel>
-<i-button bindclick="deal">下一步</i-button>
+<i-button wx:if="{{steps[current].but_desc}}" bindclick="deal" type="primary" shape="circle" size="small">{{steps[current].but_desc}}</i-button>
