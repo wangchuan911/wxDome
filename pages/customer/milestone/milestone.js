@@ -1,4 +1,5 @@
 // pages/milestone/customer/milestone.js
+const $PubConst = require('../../../utils/pubConst.js')
 Page({
 
   /**
@@ -90,28 +91,7 @@ Page({
         name:"服务员"
       },
     ],
-    steps:[
-      {
-        state:0,
-        name:"订单受理中",
-        desc:"正在为您指派服务人员"
-      },
-      {
-        state:1,
-        name:"派遣服务人员",
-        desc:"正在派遣服务人员"
-      },
-      {
-        state:2,
-        name:"车辆评估",
-        desc:"评估车辆，提供最合适的服务"
-      },
-      {
-        state:3,
-        name:"车辆服务中",
-        desc:"正在为您的车辆提供服务"
-      }
-    ]
+    steps:$PubConst.stepNomal
   },
 
   /**
@@ -187,7 +167,7 @@ Page({
 
   },
   orderDetailBut:function(e){
-    const order=this.data.orders[e.target.dataset.idx]
+    const order=this.data.orders[e.currentTarget.dataset.idx]
     wx.navigateTo({
       url: '/pages/customer/detail/detail',
       events: {
