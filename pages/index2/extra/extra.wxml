@@ -1,12 +1,12 @@
 <!--pages/index2/extra/extra.wxml-->
 <form bindsubmit="submitBut">
     <view style="height: 80%">
-        <i-panel title="文字">
+        <i-panel title="备注/需求">
             <view style="padding: 0 5%;width: 100%;">
-                <textarea style="width: 90%;" placeholder="form 中的 textarea" name="value1" maxlength="255" value="{{value1}}"/>
+                <textarea style="width: 90%;" placeholder="完整的需求能让我们更好的提供服务" name="value1" maxlength="255" value="{{value1}}"/>
             </view>
         </i-panel>
-        <i-panel title="图片">
+        <i-panel title="车辆图片或其他">
             <view style="padding: 15px;">
                 <i-row i-class="i-row-css">
                     <i-col wx:for="{{imgUrls}}" wx:for-index="index" wx:for-item="url" span="4">
