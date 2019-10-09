@@ -1,4 +1,5 @@
 {
   "component": true,
-  "usingComponents": {}
+  "usingComponents": {
+    "i-icon": "/ui/iview/icon/index"}
 }

@@ -44,7 +44,7 @@
 }
 
 .i-modal-main {
-    width: 270px;
+    width: 90%;
     position: relative
 }
 

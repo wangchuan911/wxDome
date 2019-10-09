@@ -3,7 +3,7 @@
     <i-button bind:click="handleOpen1">普通对话框</i-button>
 </view>
 
-<i-modal title="标题" visible="{{ visible1 }}" >
+<i-modal title="标题" visible="{{ visible1 }}" bindclose="closeBut">
+    <i-input value="{{carNo}}" placeholder="请输入车牌号" />
     <v-panel is-show="{{true}}" bindok="inputOk" binddelete="inputdelete" bindinputchange="inputChange" key-board-type="{{keyBoardType}}" backgroundColor="white" />
-
 </i-modal>

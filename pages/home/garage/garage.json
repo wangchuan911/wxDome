@@ -3,6 +3,7 @@
     "i-icon": "/ui/iview/icon/index",
     "i-modal": "/component/modal/index",
     "i-button": "/ui/iview/button/index",
+    "i-input": "/ui/iview/input/index",
     "v-panel":"/component/vehicle-panel/index"
   }
 }

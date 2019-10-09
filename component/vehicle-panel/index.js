@@ -43,7 +43,7 @@ Component({
    */
   methods: {
     vehicleTap: function (event) {
-      let val = event.target.dataset.value;
+      let val = event.target.dataset.value||event.currentTarget.dataset.value;
       switch (val) {
         case 'delete':
           this.triggerEvent('delete');
