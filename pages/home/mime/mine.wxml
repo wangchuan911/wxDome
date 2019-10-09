@@ -12,7 +12,7 @@
       <i-cell title="联系客服" is-link>
         <i-icon size='24' slot="icon" type="customerservice" />
       </i-cell>
-      <i-cell title="车辆信息" is-link url="/pages/dashboard/index">
+      <i-cell title="车辆信息" is-link url="/pages/home/garage/garage">
         <i-icon slot="icon" size='24' type="activity" />
       </i-cell>
       <i-cell title="服务状态" is-link url="/pages/dashboard/index" only-tap-footer>

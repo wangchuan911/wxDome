@@ -12,7 +12,8 @@
     "pages/dispatch/workers/workers",
     "component/wave/wave",
     "pages/index2/extra/extra",
-    "pages/customer/evaluate/evaluate"
+    "pages/customer/evaluate/evaluate",
+    "pages/home/garage/garage"
   ],
   "window": {
     "backgroundTextStyle": "light",
