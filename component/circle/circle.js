@@ -33,9 +33,9 @@ Component({
       });
       // 使用 wx.createContext 获取绘图上下文 ctx  绘制背景圆环
       var ctx = wx.createCanvasContext(id, this)
-      ctx.setLineWidth(w / 2);
-      ctx.setStrokeStyle('#ffffff');
-      ctx.setLineCap('round')
+      ctx.lineWidth=(w / 2);
+      ctx.strokeStyle=('#ffffff');
+      ctx.lineCap=('round')
       ctx.beginPath();//开始一个新的路径
       //设置一个原点(x,y)，半径为r的圆的路径到当前路径 此处x=y=r
       ctx.arc(x, x, x - w, 0, 2 * Math.PI, false);
@@ -50,9 +50,9 @@ Component({
       gradient.addColorStop("0", "#2661DD");
       gradient.addColorStop("0.5", "#40ED94");
       gradient.addColorStop("1.0", "#5956CC");
-      context.setLineWidth(w);
-      context.setStrokeStyle(gradient);
-      context.setLineCap('round')
+      context.lineWidth=(w);
+      context.strokeStyle=(gradient);
+      context.lineCap=('round')
       context.beginPath();//开始一个新的路径
       // step 从0到2为一周
       context.arc(x, x, x - w, -Math.PI / 2, step * Math.PI - Math.PI / 2, false);

@@ -165,7 +165,20 @@ Page({
       this.countInterval()
     }
 
-    this.getRole()
+    this.getRole();
+    wx.request({
+      url: 'https://47.112.217.148/wxApp', //仅为示例，并非真实的接口地址
+      data: {
+        x: '',
+        y: ''
+      },
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success:function  (res) {
+        console.log(res.data)
+      }
+    })
   },
 
   /**
