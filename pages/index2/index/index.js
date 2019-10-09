@@ -336,14 +336,12 @@ Page({
         const longitude = res.longitude
         const name = res.name
         const address = res.address
-        const markers = _this.data.markers
-        markers[0].latitude = latitude
-        markers[0].longitude = longitude
         //返回的指显示到界面上
         _this.setData({
           ['submitData.value1']: name,
-          ['submitData.value5]']:res,
-          markers: markers
+          ['submitData.value5']:res,
+          ['markers[0].latitude']:latitude,
+          ['markers[0].longitude']:longitude
         })
       }
     })
