@@ -1,20 +1,44 @@
 <!--pages/home/garage/garage.wxml-->
 
-<i-panel title="信息录入" hide-top="true"hide-border="true">
+<i-panel title="信息录入" hide-top="true" hide-border="true" wx:if="{{page.recordInfo.enable}}">
     <!--<picker mode="multiSelector" bindchange="bindMultiPickerChange" bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex}}" range="{{multiArray}}">
         <i-input class="picker" value="{{multiArray[0][multiIndex[0]]}}，{{multiArray[1][multiIndex[1]]}}，{{multiArray[2][multiIndex[2]]}}" title="用车时间"  placeholder="（选填）最少预留1小时"   disabled="disabled"/>
     </picker>-->
-    <i-input i-class="picker" id="carBand" value="{{carBand }}" title="车辆品牌" />
-    <i-input i-class="picker" id="carNo" value="{{carNo }}" title="车辆牌号"   disabled="disabled" bindtap="inputBut" />
-    <picker id="color"  value="{{data.color.value}}"  bindchange="pickerChange" hidden="hidden" value="{{data.color.index}}" range="{{data.color.array}}">
-        <i-input i-class="picker" value="{{ data.color.value }}" title="外观颜色"   disabled="disabled" />
+    <i-input i-class="picker" id="carBand" value="{{page.recordInfo.carBrand }}" title="车辆品牌"/>
+    <i-input i-class="picker" id="carNo" value="{{page.recordInfo.carNo }}" title="车辆牌号" disabled="disabled"
+             bindtap="inputBut"/>
+    <picker id="color" value="{{page.recordInfo.color.value}}" bindchange="pickerChange" hidden="hidden"
+            value="{{page.recordInfo.color.index}}" range="{{page.recordInfo.color.array}}">
+        <i-input i-class="picker" value="{{ page.recordInfo.color.value }}" title="外观颜色" disabled="disabled"/>
     </picker>
-    <i-input i-class="picker" id="phone" value="{{phone }}" type="phone"  title="联系电话" placeholder="不填默认使用当前微信电话"/>
-    <i-button bind:click="{{ isBook?'mileStoneBut':'bookBut'}}" loading="{{loading.submitBut}}"
-              type="primary" shape="circle" size="small">提交</i-button>
+    <picker id="type" value="{{page.recordInfo.type.value}}" bindchange="pickerChange" hidden="hidden"
+            value="{{page.recordInfo.type.index}}" range="{{page.recordInfo.type.array}}">
+        <i-input i-class="picker" value="{{ page.recordInfo.type.value }}" title="车辆类型" disabled="disabled"/>
+    </picker>
+    <i-input i-class="picker" id="phone" value="{{page.recordInfo.phone }}" type="phone" title="联系电话"
+             placeholder="不填默认使用当前微信电话"/>
+    <i-button bind:click="addCar" loading="{{loading.submitBut}}"
+              type="primary" shape="circle" size="small">提交
+    </i-button>
+</i-panel>
+
+<i-panel title="车辆信息" hide-top="true" hide-border="true" wx:if="{{page.carList.enable}}">
+
+    <i-card title="{{item.carBrand}}（{{item.carColor}}）" extra="{{item.carType}}" wx:for="{{page.carList.cars}}" wx:for-index="index" wx:for-item="item"
+            wx:key="index">
+        <view slot="content">
+            <view style="width:100%;display: flex;justify-content: center;align-items: center; ">
+                <div class="car-no">{{item.carNo}}</div>
+            </view>
+        </view>
+    </i-card>
+    <i-button bind:click="addCar" loading="{{loading.submitBut}}"
+              type="primary" shape="circle" size="small">添加车辆
+    </i-button>
 </i-panel>
 
 <i-modal title="标题" visible="{{ visible1 }}" bindclose="closeBut">
-    <i-input value="{{carNo}}" placeholder="请输入车牌号" />
-    <v-panel is-show="{{true}}" bindok="inputOk" binddelete="inputdelete" bindinputchange="inputChange" key-board-type="{{keyBoardType}}" backgroundColor="white" />
+    <i-input value="{{page.recordInfo.carNo}}" placeholder="请输入车牌号"/>
+    <v-panel is-show="{{true}}" bindok="inputOk" binddelete="inputdelete" bindinputchange="inputChange"
+             key-board-type="{{page.recordInfo.keyBoardType}}" backgroundColor="white"/>
 </i-modal>

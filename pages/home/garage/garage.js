@@ -5,8 +5,35 @@ Page({
      * 页面的初始数据
      */
     data: {
-        carNo: "",
-        keyBoardType: 1,
+        loading: {submitBut: false},
+        page: {
+            recordInfo: {
+                enable: false,
+                carNo: "",
+                keyBoardType: 1,
+                color: {
+                    index: 0,
+                    array: [
+                        "纯黑", '纯白', '红色', '酒红', '蓝色', '深蓝', '黄色', '金色', '绿色', '青色', '粉色'
+                    ]
+                },
+                type: {
+                    index: 0,
+                    array: [
+                        "轿车","皮卡","SUV"
+                    ]
+                }
+            },
+            carList: {
+                cars: [{
+                    carBrand:"五菱",
+                    carNo:"贵A00835",
+                    carColor:"纯黑",
+                    carType:"越野车"
+                }],
+                enable: true
+            }
+        },
         /*multiArray: [['无脊柱动物', '脊柱动物']],
         objectMultiArray: [
           [
@@ -51,21 +78,15 @@ Page({
           ]
         ],
         multiIndex: [0],*/
-        data: {
-            color: {
-                index: 0,
-                array: [
-                    "纯黑", '纯白', '红色', '酒红', '蓝色', '深蓝', '黄色', '金色', '绿色', '青色', '粉色'
-                ]
-            }
-        }
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-
+        if(this.data.page.carList.cars.length==0){
+            this.addCar();
+        }
     },
 
     /**
@@ -124,21 +145,21 @@ Page({
     inputChange: function (e) {
         console.info(e.detail)
         if (e.detail) {
-            const carNo = this.data.carNo + e.detail
+            const carNo = this.data.page.recordInfo.carNo + e.detail
             this.setData({
-                carNo: carNo
+                ['page.recordInfo.carNo']: carNo
             })
         }
-        const keyBoardType = (this.data.carNo.length >= 1) ? 2 : 1
+        const keyBoardType = (this.data.page.recordInfo.carNo.length >= 1) ? 2 : 1
         this.setData({
-            ['keyBoardType']: keyBoardType
+            ['page.recordInfo.keyBoardType']: keyBoardType
         })
     },
     inputdelete: function (e) {
-        const carNo = this.data.carNo
+        const carNo = this.data.page.recordInfo.carNo
         if (carNo.length > 0) {
             this.setData({
-                carNo: carNo.substr(0, carNo.length - 1)
+                ['page.recordInfo.carNo']: carNo.substr(0, carNo.length - 1)
             })
         }
     },
@@ -150,11 +171,43 @@ Page({
             visible1: false
         });
     },
+    addCar: function () {
+        this.setData({
+            ["loading.submitBut"]:true
+        })
+        if (this.data.page.recordInfo.enable) {
+            const cars = this.data.page.carList.cars;
+            cars.push({
+                carNo: this.data.page.recordInfo.carNo,
+                carBrand:this.data.page.recordInfo.carBrand,
+                carColor:this.data.page.recordInfo.color.value,
+                carType:this.data.page.recordInfo.type.value
+            })
+            this.setData({
+                ['page.carList.cars']: cars,
+                ['page.recordInfo.enable']:false,
+                ['page.carList.enable']:true
+            })
+        } else if (this.data.page.carList.enable) {
+            this.setData({
+                ['page.recordInfo.enable']:true,
+                ['page.carList.enable']:false
+            })
+        }
+        this.setData({
+            ["loading.submitBut"]:false
+        })
+    },
     pickerChange: function (e) {
         switch (e.currentTarget.id) {
             case "color":
                 this.setData({
-                    ['data.color.value']: this.data.data.color.array[e.detail.value]
+                    ['page.recordInfo.color.value']: this.data.page.recordInfo.color.array[e.detail.value]
+                });
+                break;
+            case "type":
+                this.setData({
+                    ['page.recordInfo.type.value']: this.data.page.recordInfo.type.array[e.detail.value]
                 });
                 break;
         }

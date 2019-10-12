@@ -1,4 +1,20 @@
 /* pages/home/garage/garage.wxss */
-.picker{
+.picker {
     padding-left: 30px;
+}
+
+.car-no {
+    height: 60px;
+    font-size: 35px;
+    color: white; /*字体颜色*/
+    background-color: #1e68bb; /*背景色*/
+    border-radius: 8px; /*边框圆角*/
+    border: white 4px solid; /*白色外边框*/
+    text-align: center; /*字体居中*/
+    padding: 4px 17px; /*内边距*/
+    display: inline-block; /*视用在什么元素上而定*/
+    box-shadow: 0 0 1px 2px #1e68bb;
+
+    /*外阴影  前两个参数分别是上下和左右偏移  后两个属性依次为模糊距离和阴影尺寸  最后是颜色*/
+    line-height: 55px;
 }
