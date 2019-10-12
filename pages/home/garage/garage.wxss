@@ -1,1 +1,4 @@
 /* pages/home/garage/garage.wxss */
+.picker{
+    padding-left: 30px;
+}
