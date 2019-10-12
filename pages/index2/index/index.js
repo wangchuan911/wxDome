@@ -1,6 +1,7 @@
 // pages/index2/index.js
 const app = getApp()
 const { $Toast } = require('../../../ui/iview/base/index');
+const qqmapsdk = require('../../../utils/thrid/qqmap-wx-jssdk.js');
 Page({
 
   /**
@@ -94,7 +95,14 @@ Page({
         _this.setData({
           ['markers[0].latitude']: res.latitude,
           ['markers[0].longitude']: res.longitude,
-          ['submitData.value5']:res,
+        })
+        qqmapsdk.reverseGeocoder({
+          location: res,
+          success: function(res1) {//成功后的回调
+            _this.setData({
+              ['submitData.value1']: res1.result.address,
+            })
+          }
         })
         // const speed = res.speed
         // const accuracy = res.accuracy
@@ -167,10 +175,8 @@ Page({
 
     this.getRole();
     wx.request({
-      url: 'https://47.112.217.148/wxApp', //仅为示例，并非真实的接口地址
+      url: 'https://www.welisdoon-test.xyz/wxApp', //仅为示例，并非真实的接口地址
       data: {
-        x: '',
-        y: ''
       },
       header: {
         'content-type': 'application/json' // 默认值
@@ -351,7 +357,7 @@ Page({
         const address = res.address
         //返回的指显示到界面上
         _this.setData({
-          ['submitData.value1']: name,
+          ['submitData.value1']: address,
           ['submitData.value5']:res,
           ['markers[0].latitude']:latitude,
           ['markers[0].longitude']:longitude

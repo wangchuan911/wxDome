@@ -33,7 +33,7 @@
                     <i-row>
                         <i-col span="19" i-class="col-class">
                             <i-input value="{{ submitData.value1 }}" title="当前位置" autofocus disabled="disabled"
-                                     placeholder="xxxxxxxxxx"/>
+                                     placeholder=""/>
                         </i-col>
                         <i-col span="5" i-class="col-class" bindtap="openMap">
                             <i-tag class="i-tags " name="标签一" color="blue" checkable="{{true}}" type="border"

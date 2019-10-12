@@ -4,6 +4,10 @@
     "i-modal": "/component/modal/index",
     "i-button": "/ui/iview/button/index",
     "i-input": "/ui/iview/input/index",
-    "v-panel":"/component/vehicle-panel/index"
+    "v-panel":"/component/vehicle-panel/index",
+    "i-panel": "/ui/iview/panel/index",
+    "i-row": "/ui/iview/row/index",
+    "i-col": "/ui/iview/col/index",
+    "i-divider": "/ui/iview/divider/index"
   }
 }

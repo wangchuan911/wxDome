@@ -1,7 +1,18 @@
 <!--pages/home/garage/garage.wxml-->
-<view style="margin-top: 100px;">
+<view >
     <i-button bind:click="handleOpen1">普通对话框</i-button>
 </view>
+
+<i-panel title="洗车服务" hide-top="true"hide-border="true">
+    <!--<picker mode="multiSelector" bindchange="bindMultiPickerChange" bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex}}" range="{{multiArray}}">
+        <i-input class="picker" value="{{multiArray[0][multiIndex[0]]}}，{{multiArray[1][multiIndex[1]]}}，{{multiArray[2][multiIndex[2]]}}" title="用车时间"  placeholder="（选填）最少预留1小时"   disabled="disabled"/>
+    </picker>-->
+    <i-input class="picker" id="carBand" value="{{carBand }}" title="车辆品牌" />
+    <i-input class="picker" id="carNo" value="{{carNo }}" title="车辆牌号"   disabled="disabled" bindtap="inputBut" />
+    <picker id="color"  value="{{data.color.value}}"  bindchange="pickerChange" hidden="hidden" value="{{data.color.index}}" range="{{data.color.array}}">
+        <i-input class="picker" value="{{ data.color.value }}" title="外观颜色"   disabled="disabled" />
+    </picker>
+</i-panel>
 
 <i-modal title="标题" visible="{{ visible1 }}" bindclose="closeBut">
     <i-input value="{{carNo}}" placeholder="请输入车牌号" />
