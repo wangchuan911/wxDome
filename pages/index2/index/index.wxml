@@ -1,12 +1,15 @@
 <!--pages/index2/index.wxml-->
 <map id="map" longitude="{{markers[0].longitude}}" latitude="{{markers[0].latitude}}" scale="17"
-     controls="{{controls}}" bindcontroltap="controltap" markers="{{markers}}" bindmarkertap="markertap"
+     controls="{{controls}}" bindcontroltap="controltap"  bindmarkertap="markertap"
      polyline="{{polyline}}" bindregionchange="regionchange"
      show-location bindtap="markMapBut" style="width: 100%; height: 82%;position:absolute;z-index:0"
-     bindcallouttap="callouttap" enable-scroll="{{false}}" enable-rotate="{{false}}" enable-zoom="{{true}}"
+     bindcallouttap="callouttap" enable-scroll="{{true}}" enable-rotate="{{false}}" enable-zoom="{{true}}"
      show-compass="{{true}}">
 </map>
 <view class="absolute" style="width:100%;display:block;bottom:10px">
+    <!--<view style="position: relative;width:100%;display:block;left: 10px;bottom: 10px;width: 30px;height: 30px;background-color: white;border-radius: 100px;">
+        <image class="icon-wh" src="../../../ui/img/geolocation.png"/>
+    </view>-->
     <view class="i-class i-card">
         <view class="i-class i-card-header">
 
@@ -98,4 +101,8 @@
     <i-avatar wx:if="{{userInfo.avatarUrl}}" src="{{userInfo.avatarUrl}}" size="large" shape="circle"
               open-type="getUserInfo" bindtap="mine"></i-avatar>
 </view>
+<!--<view class="absolute"
+      style="width:100%;display:block;left:50%;top:41%;width: 1px;height: 1px;background-color: white;border-radius: 100px;z-index: 2;">
+    <image class="position"  src="../../../ui/img/locate1.png"></image>
+</view>-->
 <i-toast id="toast" />
