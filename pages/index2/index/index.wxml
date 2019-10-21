@@ -1,9 +1,9 @@
 <!--pages/index2/index.wxml-->
 <map id="map" longitude="{{markers[0].longitude}}" latitude="{{markers[0].latitude}}" scale="17"
-     controls="{{controls}}" bindcontroltap="controltap"  bindmarkertap="markertap"
+     controls="{{controls}}" bindcontroltap="controltap" markers="{{markers}}" bindmarkertap="markertap"
      polyline="{{polyline}}" bindregionchange="regionchange"
      show-location bindtap="markMapBut" style="width: 100%; height: 82%;position:absolute;z-index:0"
-     bindcallouttap="callouttap" enable-scroll="{{true}}" enable-rotate="{{false}}" enable-zoom="{{true}}"
+     bindcallouttap="callouttap" enable-scroll="{{false}}" enable-rotate="{{false}}" enable-zoom="{{true}}"
      show-compass="{{true}}">
 </map>
 <view class="absolute" style="width:100%;display:block;bottom:10px">
@@ -34,9 +34,11 @@
                 </i-row>
                 <view wx:if="{{!isBook}}">
                     <i-row>
-                        <i-col span="19" i-class="col-class">
+                        <i-col span="7" i-class="col-class">
                             <i-input value="{{ submitData.value1 }}" title="当前位置" autofocus disabled="disabled"
                                      placeholder=""/>
+                        </i-col>
+                        <i-col span="12" i-class="col-class" style="word-break: break-all;">{{ submitData.value1 }}
                         </i-col>
                         <i-col span="5" i-class="col-class" bindtap="openMap">
                             <i-tag class="i-tags " name="标签一" color="blue" checkable="{{true}}" type="border"

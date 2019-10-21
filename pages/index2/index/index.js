@@ -2,6 +2,7 @@
 const app = getApp()
 const { $Toast } = require('../../../ui/iview/base/index');
 const qqmapsdk = require('../../../utils/thrid/qqmap-wx-jssdk.js');
+const $Service = require('../../../utils/service');
 Page({
 
   /**
@@ -18,8 +19,8 @@ Page({
     txt: "",
     progressShow: {
       count: 0, //计数器，初始值为0
-      maxCount: 100, // 绘制一个圆环所需的步骤 
-      progress: 51, // 绘制一个圆环所需的步骤 
+      maxCount: 100, // 绘制一个圆环所需的步骤
+      progress: 51, // 绘制一个圆环所需的步骤
       countTimer: null //定时器，初始值为null
     },
     order:{
@@ -102,6 +103,8 @@ Page({
             _this.setData({
               ['submitData.value1']: res1.result.address,
             })
+          },
+          fail:function(res1){
           }
         })
         // const speed = res.speed
@@ -174,17 +177,7 @@ Page({
     }
 
     this.getRole();
-    wx.request({
-      url: 'https://www.welisdoon-test.xyz/wxApp', //仅为示例，并非真实的接口地址
-      data: {
-      },
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success:function  (res) {
-        console.log(res.data)
-      }
-    })
+
   },
 
   /**
