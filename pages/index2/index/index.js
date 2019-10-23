@@ -78,6 +78,7 @@ Page({
       value4:null,
       value5:null,
       value6:{},
+      value7:{},
     },
     roleMode:0
   },
@@ -237,27 +238,32 @@ Page({
     console.info(e)
     this.data.markers[0]
   },
-  bookBut: function() {
-    if (this.data.loading.submitBut) return
-    const _this = this
-    _this.setData({
-      isBook: true,
-      ['loading.submitBut']: true
-    })
-    setTimeout(function() {
-      _this.initCircle();
-      _this.setData({
-        ['loading.submitBut']: false
-      })
-    }, 2000)
-    setTimeout(function() {
-      _this.setData({
-        ['progressShow.progress']: 21
-      })
-    }, 7000);
-    console.info("提交")
-    console.info(this.data.submitData)
-  },
+    bookBut: function () {
+        if (this.data.loading.submitBut) return
+        const _this = this
+        _this.setData({
+            isBook: true,
+            ['loading.submitBut']: true
+        })
+        setTimeout(function () {
+        }, 2000)
+        setTimeout(function () {
+
+        }, 7000);
+        console.info("提交")
+        console.info(this.data.submitData)
+        this.data.submitData.value7=_this.data.markers[0]
+        $Service.newOrder(this.data.submitData,function (res) {
+            console.info(res)
+            _this.initCircle();
+            _this.setData({
+                ['progressShow.progress']: 10,
+                ['loading.submitBut']: false
+            })
+        },function (res) {
+
+        })
+    },
   mileStoneBut: function() {
     const _this = this
     wx.navigateTo({
