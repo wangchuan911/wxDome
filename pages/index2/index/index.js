@@ -14,6 +14,7 @@ Page({
             spin: true,
             submitBut: false
         },
+        openType: "getPhoneNumber",
         userInfo: {},
         hasUserInfo: false,
         canIUse: wx.canIUse('button.open-type.getUserInfo'),
@@ -91,6 +92,10 @@ Page({
         const _this = this;
         this.getUserInfo();
         $Service.login(function (openId) {
+            const roloId = _this.getRole();
+            /*_this.setData({
+                ["openType"]: ((roloId == 0) ? "getPhoneNumber" : "getUserInfo")
+            })*/
             $OrderService.getWorkBum(
                 {custId: openId},
                 function (res) {
@@ -103,10 +108,11 @@ Page({
                             ['progressShow.progress']: order.orderCount == 0 ? 1 : parseInt((order.orderCount / order.allOrderCount) * 100)
                         })
                     }
-                    if (_this.getRole() != 0 || (((result.all_nums || 0) - (result.nums || 0)) > 0)) {
+                    if (roloId != 0 || (((result.all_nums || 0) - (result.nums || 0)) > 0)) {
                         _this.setData({
                             isBook: true,
-                            ['loading.submitBut']: false
+                            ['loading.submitBut']: false,
+                            ["openType"]: null
                         })
                         _this.initCircle();
                     }
@@ -197,7 +203,7 @@ Page({
     },
     getUserInfo: function (e) {
         const _this = this
-        if (e) {
+        if (((e || {}).detail || {}).userInfo) {
             console.log(e)
             app.globalData.userInfo = e.detail.userInfo
             this.setData({
@@ -313,7 +319,8 @@ Page({
             }
         })
     },
-    mine: function () {
+    mine: function (e) {
+        this.getUserInfo();
         wx.navigateTo({
             url: '/pages/home/mime/mine',
             /*events: {

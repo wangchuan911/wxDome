@@ -146,3 +146,10 @@ page {
   right: 12px;
   z-index: 3;
 }
+.i-awatar{
+  width: inherit;
+  height: inherit;
+  position: inherit;
+  right: 0px;
+
+}
