@@ -21,7 +21,7 @@ var Methods = {
             "orderArrangeDate": function () {
                 return (!submitData.value3) ? new Date().valueOf() : new Date('2019-11-12 ' + submitData.value3 + ":00.00").valueOf();
             }(),
-            "custId": 4,
+            "custId": wx.getStorageSync("openId"),
             "serviceId": function () {
                 var serviceId = ""
                 if (submitData.value6.washOut) serviceId += ",1"
@@ -51,19 +51,6 @@ var Methods = {
             success(res)
         }, function (res) {
             error(res)
-        })
-    }, login: function () {
-        wx.login({
-            success: function (res) {
-                if (res.code) {
-                    //发起网络请求
-                    post(0, {}, function (res) {
-                        console.info(JSON.stringify(res))
-                    })
-                } else {
-                    console.log('登录失败！' + res.errMsg)
-                }
-            }
         })
     }, getWorkBum: function (data, success, error) {
         $Service.post(SERVIE, [OPRERATOPM.GET_WORK_NUM, {

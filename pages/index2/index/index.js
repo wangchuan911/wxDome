@@ -3,6 +3,7 @@ const app = getApp()
 const {$Toast} = require('../../../ui/iview/base/index');
 const qqmapsdk = require('../../../utils/thrid/qqmap-wx-jssdk.js');
 const $OrderService = require('../../../utils/orderService');
+const $Service = require('../../../utils/service');
 Page({
 
     /**
@@ -88,27 +89,29 @@ Page({
      */
     onLoad: function (options) {
         const _this = this;
-        $OrderService.getWorkBum(
-            {custId: 4},
-            function (res) {
-                var result = res.data.result
-                if (result) {
-                    const order = _this.data.order
-                    order.allOrderCount = result.all_nums || 0;
-                    order.orderCount = result.nums || 0;
-                    _this.setData({
-                        ['progressShow.progress']: parseInt((order.orderCount / order.allOrderCount) * 100)
-                    })
+        $Service.login(function (openId) {
+            $OrderService.getWorkBum(
+                {custId: openId},
+                function (res) {
+                    var result = res.data.result
+                    if (result) {
+                        const order = _this.data.order
+                        order.allOrderCount = result.all_nums || 0;
+                        order.orderCount = result.nums || 0;
+                        _this.setData({
+                            ['progressShow.progress']: order.orderCount == 0 ? 1 : parseInt((order.orderCount / order.allOrderCount) * 100)
+                        })
+                    }
+                    if (_this.getRole() != 0 || (((result.all_nums || 0) - (result.nums || 0)) > 0)) {
+                        _this.setData({
+                            isBook: true,
+                            ['loading.submitBut']: false
+                        })
+                        _this.initCircle();
+                    }
                 }
-                if (_this.getRole() != 0 || (((result.all_nums || 0) - (result.nums || 0)) > 0)) {
-                    _this.setData({
-                        isBook: true,
-                        ['loading.submitBut']: false
-                    })
-                    _this.initCircle();
-                }
-            }
-        )
+            )
+        })
         wx.getLocation({
             type: 'gcj02',
             success(res) {
