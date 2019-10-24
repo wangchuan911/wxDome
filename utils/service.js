@@ -1,6 +1,9 @@
 const URLS = {
     COMMON: "www.welisdoon.xyz/wxApp",
-
+}
+const OPRERATOPM = {
+    ADD: 0,
+    GET: 3,
 }
 var post = function () {
     var datas = [];
@@ -23,8 +26,6 @@ var post = function () {
         fail: func[1]
     })
 }
-
-
 module.exports = {
     post: post
 }
