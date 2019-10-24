@@ -87,7 +87,28 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-        const _this = this
+        const _this = this;
+        $OrderService.getWorkBum(
+            {custId: 4},
+            function (res) {
+                var result = res.data.result
+                if (result) {
+                    const order = _this.data.order
+                    order.allOrderCount = result.all_nums || 0;
+                    order.orderCount = result.nums || 0;
+                    _this.setData({
+                        ['progressShow.progress']: parseInt((order.orderCount / order.allOrderCount) * 100)
+                    })
+                }
+                if (_this.getRole() != 0 || (((result.all_nums || 0) - (result.nums || 0)) > 0)) {
+                    _this.setData({
+                        isBook: true,
+                        ['loading.submitBut']: false
+                    })
+                    _this.initCircle();
+                }
+            }
+        )
         wx.getLocation({
             type: 'gcj02',
             success(res) {
@@ -143,19 +164,6 @@ Page({
             if (type.checked) {
                 this.data.submitData.value6[type.id] = type.checked
             }
-        }
-
-        const order = this.data.order;
-        this.setData({
-            ['progressShow.progress']: parseInt((order.orderCount / order.allOrderCount) * 100)
-        })
-
-        if (this.getRole() != 0) {
-            this.setData({
-                isBook: true,
-                ['loading.submitBut']: false
-            })
-            this.initCircle();
         }
     },
 
