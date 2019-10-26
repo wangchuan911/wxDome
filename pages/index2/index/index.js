@@ -2,8 +2,9 @@
 const app = getApp()
 const {$Toast} = require('../../../ui/iview/base/index');
 const qqmapsdk = require('../../../utils/thrid/qqmap-wx-jssdk.js');
-const $OrderService = require('../../../utils/orderService');
-const $Service = require('../../../utils/service');
+const $OrderService = require('../../../utils/service/orderService');
+const $TacheService = require('../../../utils/service/tacheService');
+const $Service = require('../../../utils/service/service');
 Page({
 
     /**
@@ -116,6 +117,7 @@ Page({
                         })
                         _this.initCircle();
                     }
+                    $TacheService.getTaccheMap({roleMode: roloId})
                 }
             )
         })
@@ -504,7 +506,7 @@ Page({
         }
     }
     , getRole(_this) {
-        const role = wx.getStorageSync("isAdmin") ? 2 : (wx.getStorageSync("isWorker")) ? 1 : 0;
+        const role = $Service.getRole();
         (_this || this).setData({
             roleMode: role
         })

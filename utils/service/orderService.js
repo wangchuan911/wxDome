@@ -4,13 +4,13 @@ const $Service = require('./service');
 const OPRERATOPM = {
     ADD: 0,
     GET: 3,
-    GET_WORK_NUM: 4,
+    GET_WORK_NUM: 10,
 }
 const SERVIE = "orderManger";
 /**
  * 建单
  * */
-var Methods = {
+const Methods = {
     newOrder: function (submitData, success, error) {
         $Service.post(SERVIE, [OPRERATOPM.ADD, {
             "carLicenseNumber": "2",

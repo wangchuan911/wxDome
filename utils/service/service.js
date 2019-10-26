@@ -5,7 +5,7 @@ const OPRERATOPM = {
     ADD: 0,
     GET: 3,
 }
-var methods = {
+const methods = {
     post: function () {
         var datas = [];
         var func = [];
@@ -77,6 +77,9 @@ var methods = {
                 getOpenId()
             }
         })
+    },
+    getRole: function () {
+        return wx.getStorageSync("isAdmin") ? 2 : (wx.getStorageSync("isWorker")) ? 1 : 0;
     }
 }
 module.exports = methods
