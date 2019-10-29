@@ -92,34 +92,42 @@ Page({
     onLoad: function (options) {
         const _this = this;
         this.getUserInfo();
-        $Service.login(function (openId) {
+        $Service.login(function (result) {
+            var openId = result.openid;
             const roloId = _this.getRole();
             /*_this.setData({
                 ["openType"]: ((roloId == 0) ? "getPhoneNumber" : "getUserInfo")
             })*/
-            $OrderService.getWorkBum(
-                {custId: openId},
-                function (res) {
-                    var result = res.data.result
-                    if (result) {
-                        const order = _this.data.order
-                        order.allOrderCount = result.all_nums || 0;
-                        order.orderCount = result.nums || 0;
-                        _this.setData({
-                            ['progressShow.progress']: order.orderCount == 0 ? 1 : parseInt((order.orderCount / order.allOrderCount) * 100)
-                        })
-                    }
-                    if (roloId != 0 || (((result.all_nums || 0) - (result.nums || 0)) > 0)) {
-                        _this.setData({
-                            isBook: true,
-                            ['loading.submitBut']: false,
-                            ["openType"]: null
-                        })
-                        _this.initCircle();
-                    }
-                    $TacheService.getTaccheMap({roleMode: roloId})
+            $TacheService.getTaccheMap({roleMode: roloId})
+            const getWorkState = function (result) {
+                if (result) {
+                    const order = _this.data.order
+                    order.allOrderCount = result.all_nums || 0;
+                    order.orderCount = result.nums || 0;
+                    _this.setData({
+                        ['progressShow.progress']: order.orderCount == 0 ? 1 : parseInt((order.orderCount / order.allOrderCount) * 100)
+                    })
                 }
-            )
+                if (roloId != 0 || (((result.all_nums || 0) - (result.nums || 0)) > 0)) {
+                    _this.setData({
+                        isBook: true,
+                        ['loading.submitBut']: false,
+                        ["openType"]: null
+                    })
+                    _this.initCircle();
+                }
+            }
+            if (!result.work) {
+                (roloId!=0?$OrderService:$TacheService).getWorkBum(
+                    {custId: openId},
+                    function (res) {
+                        var result = res.data.result
+                        getWorkState(result)
+                    }
+                )
+            } else {
+                getWorkState(result.work)
+            }
         })
         wx.getLocation({
             type: 'gcj02',

@@ -39,17 +39,30 @@ const methods = {
         })
     }
     , login: function (success, error) {
+
         function getOpenId() {
             wx.login({
                 success: function (res) {
                     if (res.code) {
                         //发起网络请求
                         methods.get({code: -1, value: res.code}, function (res1) {
-                            if (res1.data.openid) {
-                                wx.setStorageSync("openId", res1.data.openid)
-                                success(res1.data.openid)
+                            var dat = res1.data;
+                            if (dat.openid) {
+                                wx.setStorageSync("openId", dat.openid)
+                                switch (dat.user.role || 0) {
+                                    case 0:
+                                        break;
+                                    case 1:
+                                        wx.setStorageSync("isAdmin", true);
+                                        break;
+                                    case 2:
+                                        wx.setStorageSync("isWorker", true);
+                                        break;
+                                }
+                                wx.setStorageSync("roleMode", dat.user.role || 0)
+                                success(dat)
                             } else {
-                                error("[" + res1.data.errcode + ']' + res1.data.errmsg);
+                                error("[" + dat.errcode + ']' + dat.errmsg);
                             }
                         })
                     } else {
@@ -60,6 +73,7 @@ const methods = {
             })
         }
 
+        wx.setStorageSync("roleMode", 0);
         wx.checkSession({
             success: function () {
                 //session_key 未过期，并且在本生命周期一直有效
@@ -68,7 +82,7 @@ const methods = {
                     //重新登录
                     getOpenId()
                 } else {
-                    success(openId)
+                    success({openid: openId})
                 }
             },
             fail: function () {

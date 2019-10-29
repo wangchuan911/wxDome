@@ -26,7 +26,6 @@ const Methods = {
         }
         $Service.post(SERVIE, [OPRERATOPM.LIST, {
             "tampalateId": WASH_MAIN_TAMPLATE,
-            "role": data.roleMode
         }], function (res) {
             wx.setStorageSync(SERVIE, {
                 date: new Date().valueOf(),
@@ -37,7 +36,7 @@ const Methods = {
         }, error)
     }, getWorkBum: function (data, success, error) {
         $Service.post(SERVIE, [OPRERATOPM.GET_WORK_NUM, {
-            "tacheId": data.tacheId,
+            "userId": data.userId,
         }], success, error)
     },
     getLocalTaccheMap: function () {
