@@ -1,4 +1,7 @@
 // pages/home/garage/garage.js
+
+
+var $CarService = require('../../../utils/service/carService')
 Page({
 
     /**
@@ -20,17 +23,12 @@ Page({
                 type: {
                     index: 0,
                     array: [
-                        "轿车","皮卡","SUV"
+                        "轿车", "皮卡", "SUV"
                     ]
                 }
             },
             carList: {
-                cars: [{
-                    carBrand:"五菱",
-                    carNo:"贵A00835",
-                    carColor:"纯黑",
-                    carType:"越野车"
-                }],
+                cars: [],
                 enable: true
             }
         },
@@ -84,9 +82,27 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-        if(this.data.page.carList.cars.length==0){
-            this.addCar();
-        }
+        const _this = this
+        $CarService.getCars({}, function (res) {
+            const data = res.data.result;
+            let cars = []
+            for (let i in data) {
+                cars.push({
+                    carBrand: data[i].brand,
+                    carNo: data[i].lisence,
+                    carColor: data[i].color,
+                    carType: data[i].modal,
+                    defaultCar: data[i].defaultSelected
+                });
+            }
+            _this.setData({
+                ['page.carList.cars']: cars
+            })
+            if (_this.data.page.carList.cars.length == 0) {
+                _this.addCar();
+            }
+        })
+
     },
 
     /**
@@ -172,31 +188,51 @@ Page({
         });
     },
     addCar: function () {
+        const _this = this
         this.setData({
-            ["loading.submitBut"]:true
+            ["loading.submitBut"]: true
         })
+
+        function end() {
+            _this.setData({
+                ['page.recordInfo.enable']: false,
+                ['page.carList.enable']: true,
+                ["loading.submitBut"]: false
+            })
+        }
+
         if (this.data.page.recordInfo.enable) {
             const cars = this.data.page.carList.cars;
-            cars.push({
+            const data = {
                 carNo: this.data.page.recordInfo.carNo,
-                carBrand:this.data.page.recordInfo.carBrand,
-                carColor:this.data.page.recordInfo.color.value,
-                carType:this.data.page.recordInfo.type.value
-            })
-            this.setData({
-                ['page.carList.cars']: cars,
-                ['page.recordInfo.enable']:false,
-                ['page.carList.enable']:true
+                carBrand: this.data.page.recordInfo.carBrand,
+                carColor: this.data.page.recordInfo.color.value,
+                carType: this.data.page.recordInfo.type.value
+            };
+            $CarService.addCar( {
+                brand: data.carBrand,
+                lisence: data.carNo,
+                color: data.carColor,
+                modal: data.carType,
+                defaultSelected: 0,
+            }, function (res) {
+                cars.push(data);
+                _this.setData({
+                    ['page.carList.cars']: cars,
+                })
+                end();
+            }, function () {
+                end();
             })
         } else if (this.data.page.carList.enable) {
             this.setData({
-                ['page.recordInfo.enable']:true,
-                ['page.carList.enable']:false
+                ['page.recordInfo.enable']: true,
+                ['page.carList.enable']: false
+            })
+            this.setData({
+                ["loading.submitBut"]: false
             })
         }
-        this.setData({
-            ["loading.submitBut"]:false
-        })
     },
     pickerChange: function (e) {
         switch (e.currentTarget.id) {
