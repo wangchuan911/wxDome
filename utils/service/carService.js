@@ -3,6 +3,7 @@ const $Service = require('./service');
 
 const OPRERATOPM = {
     ADD: 0,
+    DELETE:1,
     MODIFY: 2,
     GET: 3,
     LIST: 4,
@@ -50,6 +51,16 @@ const Methods = {
             error(res)
         })
     },
+    delCar: function (data, success, error) {
+        $Service.post(SERVIE, [OPRERATOPM.DELETE, {
+            userId: wx.getStorageSync("openId"),
+            lisence: data.lisence,
+        }], function (res) {
+            success(res)
+        }, function (res) {
+            error(res)
+        })
+    }
 }
 
 

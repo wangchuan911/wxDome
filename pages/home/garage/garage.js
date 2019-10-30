@@ -1,7 +1,7 @@
 // pages/home/garage/garage.js
 
-
-var $CarService = require('../../../utils/service/carService')
+const { $Message } = require('../../../ui/iview/base/index');
+const $CarService = require('../../../utils/service/carService')
 Page({
 
     /**
@@ -30,6 +30,19 @@ Page({
             carList: {
                 cars: [],
                 enable: true
+            },
+            carActon: {
+                items: [
+                    {
+                        name: '设为默认',
+                    },
+
+                    {
+                        name: '删除',
+                        color: '#ed3f14'
+                    }
+                ],
+                showActionSheet:false
             }
         },
         /*multiArray: [['无脊柱动物', '脊柱动物']],
@@ -85,15 +98,22 @@ Page({
         const _this = this
         $CarService.getCars({}, function (res) {
             const data = res.data.result;
-            let cars = []
+            const cars = [];
+            let obj=null;
             for (let i in data) {
-                cars.push({
+                obj={
                     carBrand: data[i].brand,
                     carNo: data[i].lisence,
                     carColor: data[i].color,
                     carType: data[i].modal,
                     defaultCar: data[i].defaultSelected
-                });
+                }
+                if(data[i].defaultSelected){
+                    cars.unshift(obj)
+                }else{
+                    cars.push(obj)
+                }
+                cars.push();
             }
             _this.setData({
                 ['page.carList.cars']: cars
@@ -234,6 +254,8 @@ Page({
             })
         }
     },
+
+
     pickerChange: function (e) {
         switch (e.currentTarget.id) {
             case "color":
@@ -259,8 +281,73 @@ Page({
         }
         console.info(e)
 
+    },carActionBut:function (e) {
+        const flag=!this.data.page.carActon.showActionSheet
+        this.setData({
+            ['page.carActon.showActionSheet']:flag
+        })
+        if(flag){
+            this.data.page.carActon.carIdx=e.currentTarget.dataset.idx
+        }else{
+            this.data.page.carActon.carIdx=-1;
+        }
     },
-    bindMultiPickerChange: function (e) {
+    carOperationBut:function ({ detail }) {
+        const _this=this;
+        const index = detail.index;
+        const action = [...this.data.page.carActon.items];
+        function LOADING(flag) {
+            action[index].loading = flag;
+            _this.setData({
+                ['page.carActon.items']: action
+            });
+            if(!flag){
+                _this.carActionBut()
+            }
+        }
+        LOADING(true)
+        switch (index) {
+            case 0:
+                $CarService.setDefault({
+                    lisence: this.data.page.carList.cars[this.data.page.carActon.carIdx].carNo
+                }, function (res) {
+                    const cars = _this.data.page.carList.cars;
+                    const newCars = []
+                    for (let i = 0; i < cars.length; i++) {
+                        if (_this.data.page.carActon.carIdx == i) {
+                            cars[i].defaultCar = true
+                            newCars.unshift(cars[i])
+                        } else {
+                            cars[i].defaultCar = false
+                            newCars.push(cars[i])
+                        }
+                    }
+                    _this.setData({
+                        ['page.carList.cars']: newCars
+                    })
+                    LOADING(false)
+                }, function () {
+                    LOADING(false)
+                });
+                break;
+            case 1:
+                $CarService.delCar({
+                    lisence: this.data.page.carList.cars[this.data.page.carActon.carIdx].carNo
+                }, function (res) {
+                    const cars = _this.data.page.carList.cars;
+                    cars.splice(_this.data.page.carActon.carIdx,1);
+                    _this.setData({
+                        ['page.carList.cars']: cars
+                    })
+                    LOADING(false)
+                }, function () {
+                    LOADING(false)
+                });
+                break;
+        }
+    }
+
+    /*bindMultiPickerChange: function (e) {
         console.log('picker发送选择改变，携带值为', e.detail.value)
         this.setData({
             multiIndex: e.detail.value
@@ -328,5 +415,5 @@ Page({
         }
         console.log(data.multiIndex);
         this.setData(data);
-    },
+    },*/
 })

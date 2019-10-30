@@ -9,6 +9,7 @@
     "i-row": "/ui/iview/row/index",
     "i-col": "/ui/iview/col/index",
     "i-divider": "/ui/iview/divider/index",
-    "i-card": "/ui/iview/card/index"
+    "i-card": "/ui/iview/card/index",
+    "i-action-sheet": "/ui/iview/action-sheet/index"
   }
 }

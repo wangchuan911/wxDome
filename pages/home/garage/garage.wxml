@@ -15,8 +15,8 @@
             value="{{page.recordInfo.type.index}}" range="{{page.recordInfo.type.array}}">
         <i-input i-class="picker" value="{{ page.recordInfo.type.value }}" title="车辆类型" disabled="disabled"/>
     </picker>
-    <i-input i-class="picker" id="phone" value="{{page.recordInfo.phone }}" type="phone" title="联系电话"
-             placeholder="不填默认使用当前微信电话"/>
+    <!--<i-input i-class="picker" id="phone" value="{{page.recordInfo.phone }}" type="phone" title="联系电话"
+             placeholder="不填默认使用当前微信电话"/>-->
     <i-button bind:click="addCar" loading="{{loading.submitBut}}"
               type="primary" shape="circle" size="small">提交
     </i-button>
@@ -24,12 +24,15 @@
 
 <i-panel title="车辆信息" hide-top="true" hide-border="true" wx:if="{{page.carList.enable}}">
 
-    <i-card title="{{item.carBrand}}（{{item.carColor}}）" extra="{{item.carType}}" wx:for="{{page.carList.cars}}" wx:for-index="index" wx:for-item="item"
+    <i-card title="{{item.carBrand}}（{{item.carColor}}）" extra="{{item.carType}}" wx:for="{{page.carList.cars}}" wx:for-index="index" wx:for-item="item" bindtap="carActionBut" data-idx="{{index}}"
             wx:key="index">
         <view slot="content">
             <view style="width:100%;display: flex;justify-content: center;align-items: center; ">
                 <div class="car-no">{{item.carNo}}</div>
             </view>
+        </view>
+        <view slot="footer" wx:if="{{item.defaultCar}}">
+            <i-icon size="25" type="success_fill" />默认
         </view>
     </i-card>
     <i-button bind:click="addCar" loading="{{loading.submitBut}}"
@@ -42,3 +45,9 @@
     <v-panel is-show="{{true}}" bindok="inputOk" binddelete="inputdelete" bindinputchange="inputChange"
              key-board-type="{{page.recordInfo.keyBoardType}}" backgroundColor="white"/>
 </i-modal>
+
+<i-action-sheet visible="{{ page.carActon.showActionSheet }}" actions="{{ page.carActon.items }}" show-cancel bind:cancel="carActionBut" bind:click="carOperationBut" mask-closable="{{ false }}">
+    <view slot="header" style="padding: 16px">
+        <view style="color: #444;font-size: 16px">操作</view>
+    </view>
+</i-action-sheet>
