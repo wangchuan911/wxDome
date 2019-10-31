@@ -27,8 +27,8 @@ Page({
             countTimer: null //定时器，初始值为null
         },
         order: {
-            allOrderCount: 50,
-            orderCount: 10
+            allOrderCount: 0,
+            orderCount: 0
         },
         markers: [{
             //iconPath: "/resources/others.png",
@@ -99,34 +99,25 @@ Page({
                 ["openType"]: ((roloId == 0) ? "getPhoneNumber" : "getUserInfo")
             })*/
             $TacheService.getTaccheMap({roleMode: roloId})
-            const getWorkState = function (result) {
-                if (result) {
-                    const order = _this.data.order
-                    order.allOrderCount = result.all_nums || 0;
-                    order.orderCount = result.nums || 0;
-                    _this.setData({
-                        ['progressShow.progress']: order.orderCount == 0 ? 1 : parseInt((order.orderCount / order.allOrderCount) * 100)
-                    })
-                }
-                if (roloId != 0 || (((result.all_nums || 0) - (result.nums || 0)) > 0)) {
-                    _this.setData({
-                        isBook: true,
-                        ['loading.submitBut']: false,
-                        ["openType"]: null
-                    })
-                    _this.initCircle();
-                }
+            const order = _this.data.order
+            if (result.work) {
+                const work=result.work;
+                order.allOrderCount = work.all_nums || 0;
+                order.orderCount = work.nums || 0;
+                _this.setData({
+                    ['progressShow.progress']: order.orderCount == 0 ? 1 : parseInt((order.orderCount / order.allOrderCount) * 100)
+                })
             }
-            if (!result.work) {
-                (roloId!=0?$OrderService:$TacheService).getWorkBum(
-                    {custId: openId},
-                    function (res) {
-                        var result = res.data.result
-                        getWorkState(result)
-                    }
-                )
-            } else {
-                getWorkState(result.work)
+            if (roloId != 0 || (((order.allOrderCount || 0) - (order.orderCount || 0)) > 0)) {
+                _this.setData({
+                    isBook: true,
+                    ['loading.submitBut']: false,
+                    ["openType"]: null
+                })
+                _this.initCircle();
+            }
+            if ((result.cars || []).length > 0) {
+                wx.setStorageSync("carLicence", result.cars[0].lisence);
             }
         })
         wx.getLocation({

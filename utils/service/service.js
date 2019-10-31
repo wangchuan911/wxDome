@@ -82,7 +82,10 @@ const methods = {
                     //重新登录
                     getOpenId()
                 } else {
-                    success({openid: openId})
+                    methods.post("login",[openId],function (res) {
+                        res.data.result.openid=openId
+                        success(res.data.result)
+                    })
                 }
             },
             fail: function () {
