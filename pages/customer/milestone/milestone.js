@@ -111,7 +111,8 @@ Page({
                         id: taches[i].tacheId,
                         state: taches[i].seq,
                         name: taches[i].tacheName,
-                        desc: "正在" + taches[i].tacheName
+                        desc: "正在" + taches[i].tacheName,
+                        code: taches[i].code
                     }
                 }
                 this.setData({
@@ -282,7 +283,7 @@ Page({
     },
     modelChange: function (data) {//模型转换
         const _this = this;
-        return {
+        const object = {
             orderTime: $Utils.formatTime(new Date(data.createDate)),
             addr: data.carAddress,
             endTime: data.finishDate != null ? $Utils.formatTime(new Date(data.finishDate)) : "",
@@ -293,21 +294,17 @@ Page({
             carColor: "xxxxx",
             latitude: data.posX,
             longitude: data.posY,
-            state: function () {
-                const steps = _this.data.steps
-                let st
-                for (let i in steps) {
-                    st = steps[i]
-                    if (data.tacheId == st.id)
-                        return st.state
-                }
-                return 0;
-            }(),
             imgs0: [
                 'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
                 'https://images.unsplash.com/photo-1551214012-84f95e060dee?w=640',
                 'https://images.unsplash.com/photo-1551446591-142875a901a1?w=640'
             ]
         }
+        const state = _this.data.steps.find(value => {
+            return value.id == data.tacheId
+        })
+        object.state = state.state;
+        object.code = state.code;
+        return object
     }
 })
