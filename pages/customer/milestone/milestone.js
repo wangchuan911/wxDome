@@ -3,6 +3,7 @@ const $PubConst = require('../../../utils/pubConst.js')
 const $OrderService = require('../../../utils/service/orderService');
 const $TacheService = require('../../../utils/service/tacheService');
 const $Service = require('../../../utils/service/service');
+const $OperService = require('../../../utils/service/operationService');
 const $Utils = require('../../../utils/util');
 Page({
 
@@ -103,7 +104,7 @@ Page({
      */
     onLoad: function (options) {
         const role = $Service.getRole()
-        {
+        /*{
             const taches = $TacheService.getLocalTaccheMap()
             if (taches && taches.length > 0) {
                 for (let i in taches) {
@@ -119,7 +120,10 @@ Page({
                     ["steps"]: taches
                 })
             }
-        }
+        }*/
+        this.setData({
+            ["steps"]: $PubConst.customer.step1
+        })
         const _this = this
         const eventChannel = this.getOpenerEventChannel()
         // eventChannel.emit('acceptDataFromOpenedPage', { data: 'test' });
@@ -215,19 +219,23 @@ Page({
     },
     orderDetailBut: function (e) {
         const order = this.data.orders[e.currentTarget.dataset.idx]
-        wx.navigateTo({
-            url: '/pages/customer/detail/detail',
-            events: {
-                // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
-                acceptDataFromOpenedPage: function (data) {
-                    console.log(data)
+        $OperService.getOrderOperation({
+            orderId:order.orderId
+        }, success => {
+            wx.navigateTo({
+                url: '/pages/customer/detail/detail',
+                events: {
+                    // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
+                    acceptDataFromOpenedPage: function (data) {
+                        console.log(data)
+                    },
                 },
-            },
-            success: function (res) {
-                // 通过eventChannel向被打开页面传送数据
-                res.eventChannel.emit('acceptDataFromOpenerPage', {order: order})
-            }
-        })
+                success: function (res) {
+                    // 通过eventChannel向被打开页面传送数据
+                    res.eventChannel.emit('acceptDataFromOpenerPage', {order: order})
+                }
+            })
+        });
     },
     payBillBut: function () {
         wx.requestPayment({
@@ -284,6 +292,7 @@ Page({
     modelChange: function (data) {//模型转换
         const _this = this;
         const object = {
+            orderId:data.orderId,
             orderTime: $Utils.formatTime(new Date(data.createDate)),
             addr: data.carAddress,
             endTime: data.finishDate != null ? $Utils.formatTime(new Date(data.finishDate)) : "",
