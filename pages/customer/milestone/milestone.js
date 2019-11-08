@@ -289,7 +289,7 @@ Page({
             endTime: data.finishDate != null ? $Utils.formatTime(new Date(data.finishDate)) : "",
             vip: data.custLevel ? data.custLevel : "",
             preDate: data.orderArrangeDate ? $Utils.formatTime(new Date(data.orderArrangeDate)) : "",
-            carNo: "xxxx",
+            carNo: data.carLicenseNumber,
             carType: "xxx",
             carColor: "xxxxx",
             latitude: data.posX,
