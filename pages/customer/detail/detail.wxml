@@ -63,4 +63,4 @@
     </view>
   </scroll-view>
 </i-panel>
-<i-button wx:if="{{oper.butText}}" bindclick="deal" type="primary" shape="circle" size="small">{{oper.butText}}</i-button>
+<i-button wx:if="{{operation.butText}}" bindclick="deal" type="primary" shape="circle" size="small">{{operation.butText}}</i-button>

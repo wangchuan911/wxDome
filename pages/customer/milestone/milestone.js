@@ -1,10 +1,8 @@
 // pages/milestone/customer/milestone.js
 const $PubConst = require('../../../utils/pubConst.js')
 const $OrderService = require('../../../utils/service/orderService');
-const $TacheService = require('../../../utils/service/tacheService');
 const $Service = require('../../../utils/service/service');
 const $OperService = require('../../../utils/service/operationService');
-const $Utils = require('../../../utils/util');
 Page({
 
     /**
@@ -134,7 +132,7 @@ Page({
                     }, function (res) {
                         let orders = res.data.result || [];
                         for (let i = 0; i < orders.length; i++) {
-                            orders[i] = _this.modelChange(orders[i])
+                            orders[i] = $OrderService.modelChange(orders[i])
                             orders[i].isCustOrder = role == 0
                             orders[i].isWorkOrder = !(role == 0)
                         }
@@ -219,6 +217,7 @@ Page({
 
     },
     orderDetailBut: function (e) {
+        const _this = this;
         const order = this.data.orders[e.currentTarget.dataset.idx]
         $OperService.getOrderOperation({
             orderId: order.orderId
@@ -227,13 +226,19 @@ Page({
                 url: '/pages/customer/detail/detail',
                 events: {
                     // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
-                    acceptDataFromOpenedPage: function (data) {
-                        console.log(data)
+                    acceptDataFromOpenedPage: data => {
+                        let orderNew = data.data.order;
+                        orderNew = $OrderService.modelChange(orderNew)
+                        orderNew.isCustOrder = order.isCustOrder
+                        orderNew.isWorkOrder = order.isWorkOrder
+                        _this.setData({
+                            ['orders[' + e.currentTarget.dataset.idx + ']']: orderNew
+                        })
                     },
                 },
                 success: function (res) {
                     // 通过eventChannel向被打开页面传送数据
-                    res.eventChannel.emit('acceptDataFromOpenerPage', {order: order, opera: success.data.result})
+                    res.eventChannel.emit('acceptDataFromOpenerPage', {order: order, operation: success.data.result})
                 }
             })
         });
@@ -290,32 +295,5 @@ Page({
             ['orders[' + e.currentTarget.dataset.idx + '].fold']: !order.fold
         })
     },
-    modelChange: function (data) {//模型转换
-        const _this = this;
-        const object = {
-            orderId: data.orderId,
-            orderTime: $Utils.formatTime(new Date(data.createDate)),
-            addr: data.carAddress,
-            endTime: data.finishDate != null ? $Utils.formatTime(new Date(data.finishDate)) : "",
-            vip: data.custLevel ? data.custLevel : "",
-            preDate: data.orderArrangeDate ? $Utils.formatTime(new Date(data.orderArrangeDate)) : "",
-            carNo: data.carLicenseNumber,
-            carType: "xxx",
-            carColor: "xxxxx",
-            latitude: data.posX,
-            longitude: data.posY,
-            imgs0: [
-                'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
-                'https://images.unsplash.com/photo-1551214012-84f95e060dee?w=640',
-                'https://images.unsplash.com/photo-1551446591-142875a901a1?w=640'
-            ]
-        }
-        const state = _this.data.steps.find(value => {
-            return value.id == data.tacheId
-        })
-        object.stateId = data.tacheId;
-        object.state = state.state;
-        object.code = state.code;
-        return object
-    }
+
 })

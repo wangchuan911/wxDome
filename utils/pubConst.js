@@ -47,6 +47,9 @@ module.exports = {
     operationCodes: {
         reach: {
             name: "签到"
+        },
+        preCheck:{
+            name:"车辆评估"
         }
     },
     setValue: function (key, value) {

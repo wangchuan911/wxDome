@@ -1,5 +1,8 @@
 // pages/customer/detail/detail.js
 const $PubConst = require('../../../utils/pubConst.js')
+const $OperService = require('../../../utils/service/operationService');
+const $TacheService = require('../../../utils/service/tacheService');
+const $OrderService = require('../../../utils/service/orderService');
 Page({
 
     /**
@@ -15,10 +18,11 @@ Page({
             initPos: 2,
             scrollViewWidth: 600
         },
-        oper: {
+        operation: {
             codes: $PubConst.operationCodes,
             butText: null,
             code: null,
+            operationTacheId: null,
         }
     },
 
@@ -42,25 +46,7 @@ Page({
             }
         })
         eventChannel.on('acceptDataFromOpenerPage', function (data) {
-            console.info(data)
-            _this.setData({
-                order: data.order
-            })
-            let idx = -1;
-            const state = _this.data.steps.find((value, index) => {
-                const val = value.id == data.order.stateId;
-                if (val) idx = index;
-                return val;
-            })
-            _this.setData({
-                current: idx,
-            })
-            if (data.opera.length>0)
-                _this.setData({
-                    ['oper.butText']: $PubConst.operationCodes[data.opera[0].tacheVO.code].name,
-                    ['oper.code']: data.opera[0].tacheVO.code
-                })
-            _this.changeScroll()
+            _this.reloadOrder(data)
         })
     },
 
@@ -113,11 +99,81 @@ Page({
 
     },
     deal: function () {
-        const current = this.data.current >= (this.data.steps.length - 1) ? this.data.current : this.data.current + 1;
-        this.setData({
-            'current': current
+        const _this = this;
+        const eventChannel = this.getOpenerEventChannel()
+        const data = {
+            orderId: this.data.order.orderId,
+            tacheId: this.data.operation.operationTacheId,
+        };
+        switch (this.data.operation.code) {
+            case "reach":
+                data.doNext = true
+                break;
+            default:
+                return;
+        }
+        $OperService.toBeContinue(data, operation => {
+            operation = operation.data.result
+            switch (operation.tacheId) {
+                case $TacheService.STATE.END:
+                    $OrderService.getOrder({
+                        orderId: data.orderId
+                    }, order => {
+                        order = order.data.result;
+                        eventChannel.emit('acceptDataFromOpenedPage', {
+                            data: {
+                                order: order
+                            }
+                        });
+                        $OperService.getOrderOperation({
+                            orderId: order.orderId
+                        }, operationNew => {
+                            operationNew = operationNew.data.result;
+                            _this.reloadOrder({order: $OrderService.modelChange(order), operation: operationNew})
+                        });
+                    })
+                    break;
+                case $TacheService.STATE.WAIT:
+                    break;
+            }
+
+        }, function () {
+
+        }, function () {
+
         })
-        this.changeScroll()
+    },
+    reloadOrder: function (data) {
+        const _this = this
+        console.info(data)
+        _this.setData({
+            order: data.order
+        })
+        let idx = -1;
+        const state = _this.data.steps.find((value, index) => {
+            const order = data.order;
+            const val = (value.id == order.stateId);
+            if (val) idx = index;
+            return val;
+        })
+        _this.setData({
+            current: idx,
+        })
+        _this.changeScroll()
+        if (data.operation.length > 0) {
+            const operation = data.operation[0];
+            _this.setData({
+                ['operation.operationTacheId']: operation.tacheId,
+                ['operation.butText']: ($PubConst.operationCodes[operation.tacheVO.code] || {}).name,
+                ['operation.code']: operation.tacheVO.code
+            })
+        } else {
+            _this.setData({
+                ['operation.operationTacheId']: state.id,
+                ['operation.butText']: ($PubConst.operationCodes[state.code] || {}).name,
+                ['operation.code']: state.code
+            })
+        }
     },
     changeScroll: function () {
         const initPos = this.data.scroll.initPos;

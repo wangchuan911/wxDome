@@ -14,15 +14,16 @@ const Methods = {
         $Service.post(SERVIE, [OPRERATOPM.LIST, {
             "orderId": data.orderId,
             "oprMan": wx.getStorageSync("openId"),
+            "active": true,
         }], success, error)
     },
     toBeContinue: function (data, success, error) {
-        $Service.post("toBeContinue", {
+        $Service.post("toBeContinue", [{
             "orderId": data.orderId,
             "userId": wx.getStorageSync("openId"),
             "tacheId": data.tacheId,
             "doNext": data.doNext
-        }, success, error)
+        }], success, error)
     },
 
 }
