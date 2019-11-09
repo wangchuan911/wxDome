@@ -11,7 +11,7 @@ const SERVIE = "operationManager";
  * */
 const Methods = {
     getOrderOperation: function (data, success, error) {
-        $Service.post(SERVIE, [OPRERATOPM.GET, {
+        $Service.post(SERVIE, [OPRERATOPM.LIST, {
             "orderId": data.orderId,
             "oprMan": wx.getStorageSync("openId"),
         }], success, error)

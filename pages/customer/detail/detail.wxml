@@ -53,7 +53,7 @@
     <i-steps current="{{current}}" >
       <i-step wx:for="{{steps}}" wx:for-index="index" wx:for-item="step">
         <view slot="title">
-          {{current>index?step.fin_desc:step.desc}}
+          {{(current>index?"已":'')+step.name}}
         </view>
         <view slot="content">
           {{step.desc}}
@@ -63,4 +63,4 @@
     </view>
   </scroll-view>
 </i-panel>
-<i-button wx:if="{{steps[current].but_desc}}" bindclick="deal" type="primary" shape="circle" size="small">{{steps[current].but_desc}}</i-button>
+<i-button wx:if="{{oper.butText}}" bindclick="deal" type="primary" shape="circle" size="small">{{oper.butText}}</i-button>

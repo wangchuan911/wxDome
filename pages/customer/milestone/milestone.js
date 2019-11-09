@@ -121,9 +121,6 @@ Page({
                 })
             }
         }*/
-        this.setData({
-            ["steps"]: $PubConst.customer.step1
-        })
         const _this = this
         const eventChannel = this.getOpenerEventChannel()
         // eventChannel.emit('acceptDataFromOpenedPage', { data: 'test' });
@@ -149,9 +146,13 @@ Page({
                 default:
             }
         });
-        const steps = this.data.steps.reverse()
+
+        const steps = [];
+        $PubConst.customer.step1.forEach(function (data, idx) {
+            steps[idx] = data;
+        });
         this.setData({
-            steps: steps
+            steps: steps.reverse()
         })
     },
 
@@ -220,7 +221,7 @@ Page({
     orderDetailBut: function (e) {
         const order = this.data.orders[e.currentTarget.dataset.idx]
         $OperService.getOrderOperation({
-            orderId:order.orderId
+            orderId: order.orderId
         }, success => {
             wx.navigateTo({
                 url: '/pages/customer/detail/detail',
@@ -232,7 +233,7 @@ Page({
                 },
                 success: function (res) {
                     // 通过eventChannel向被打开页面传送数据
-                    res.eventChannel.emit('acceptDataFromOpenerPage', {order: order})
+                    res.eventChannel.emit('acceptDataFromOpenerPage', {order: order, opera: success.data.result})
                 }
             })
         });
@@ -292,7 +293,7 @@ Page({
     modelChange: function (data) {//模型转换
         const _this = this;
         const object = {
-            orderId:data.orderId,
+            orderId: data.orderId,
             orderTime: $Utils.formatTime(new Date(data.createDate)),
             addr: data.carAddress,
             endTime: data.finishDate != null ? $Utils.formatTime(new Date(data.finishDate)) : "",
@@ -312,6 +313,7 @@ Page({
         const state = _this.data.steps.find(value => {
             return value.id == data.tacheId
         })
+        object.stateId = data.tacheId;
         object.state = state.state;
         object.code = state.code;
         return object

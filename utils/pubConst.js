@@ -44,6 +44,11 @@ module.exports = {
             , id: 3
         }]
     },
+    operationCodes: {
+        reach: {
+            name: "签到"
+        }
+    },
     setValue: function (key, value) {
         const keys = key.split(".");
         let dat = this;
