@@ -4,6 +4,7 @@ const $Service = require('./service');
 const OPRERATOPM = {
     ADD: 0,
     GET: 3,
+    LIST:4,
     GET_WORK_NUM: 10,
 }
 const SERVIE = "orderManger";
@@ -37,7 +38,7 @@ const Methods = {
             error(res)
         })
     }, getOrders: function (data, success, error) {
-        $Service.post(SERVIE, [OPRERATOPM.GET, {
+        $Service.post(SERVIE, [OPRERATOPM.LIST, {
             "carLicenseNumber": data.carLicenseNumber,
             "carAddress": data.carAddress,
             "createDate": data.createDate,
@@ -55,6 +56,15 @@ const Methods = {
     }, getWorkBum: function (data, success, error) {
         $Service.post(SERVIE, [OPRERATOPM.GET_WORK_NUM, {
             "custId": data.custId,
+        }], function (res) {
+            success(res)
+        }, function (res) {
+            error(res)
+        })
+    }, getOrder: function (data, success, error) {
+        $Service.post(SERVIE, [OPRERATOPM.GET, {
+            "orderId": data.orderId,
+            "custId": wx.getStorageSync("openId"),
         }], function (res) {
             success(res)
         }, function (res) {

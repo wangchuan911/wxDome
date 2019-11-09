@@ -8,6 +8,11 @@ const OPRERATOPM = {
     LIST: 4,
     GET_WORK_NUM: 10,
 }
+
+const STATE = {
+    WAIT: -1,
+    END: -2,
+}
 const SERVIE = "tacheManager";
 /**
  * 建单
@@ -28,6 +33,7 @@ var initTacheMap = function (taches) {
     }
 }
 const Methods = {
+    STATE: STATE,
     getTaccheMap: function (data, success, error) {
         const dat = wx.getStorageSync(SERVIE);
         const today = new Date();

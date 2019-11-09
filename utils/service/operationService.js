@@ -16,6 +16,14 @@ const Methods = {
             "oprMan": wx.getStorageSync("openId"),
         }], success, error)
     },
+    toBeContinue: function (data, success, error) {
+        $Service.post("toBeContinue", {
+            "orderId": data.orderId,
+            "userId": wx.getStorageSync("openId"),
+            "tacheId": data.tacheId,
+            "doNext": data.doNext
+        }, success, error)
+    },
 
 }
 

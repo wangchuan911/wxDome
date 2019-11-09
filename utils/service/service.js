@@ -7,13 +7,16 @@ const OPRERATOPM = {
 }
 const methods = {
     post: function () {
-        var datas = [];
-        var func = [];
+        const datas = [];
+        const func = [];
+        let invailArgs = false;
         for (let i = 0; i < arguments.length; i++) {
             if (typeof (arguments[i]) == "function") {
                 func.push(arguments[i])
+                invailArgs = true;
             } else {
-                datas.push(arguments[i])
+                if (!invailArgs)
+                    datas.push(arguments[i])
             }
         }
         wx.request({
@@ -24,18 +27,20 @@ const methods = {
                 'content-type': 'application/json' // 默认值
             },
             success: func[0],
-            fail: func[1]
+            fail: func[1],
+            complete: func[2]
         })
-    }, get: function (datas, seccess, error) {
+    }, get: function () {
         wx.request({
             url: 'https://' + URLS.COMMON, //仅为示例，并非真实的接口地址
-            data: datas,
+            data: arguments[0],
             method: "GET",
             header: {
                 'content-type': 'application/json' // 默认值
             },
-            success: seccess,
-            fail: error
+            success: arguments[1],
+            fail: arguments[2],
+            complete: arguments[3]
         })
     }
     , login: function (success, error) {
@@ -82,8 +87,8 @@ const methods = {
                     //重新登录
                     getOpenId()
                 } else {
-                    methods.post("login",[openId],function (res) {
-                        res.data.result.openid=openId
+                    methods.post("login", [openId], function (res) {
+                        res.data.result.openid = openId
                         success(res.data.result)
                     })
                 }
