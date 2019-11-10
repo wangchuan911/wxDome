@@ -46,7 +46,7 @@ Page({
             }
         })
         eventChannel.on('acceptDataFromOpenerPage', function (data) {
-            _this.reloadOrder(data)
+            _this.initalOrder(data)
         })
     },
 
@@ -100,7 +100,6 @@ Page({
     },
     deal: function () {
         const _this = this;
-        const eventChannel = this.getOpenerEventChannel()
         const data = {
             orderId: this.data.order.orderId,
             tacheId: this.data.operation.operationTacheId,
@@ -116,22 +115,7 @@ Page({
             operation = operation.data.result
             switch (operation.tacheId) {
                 case $TacheService.STATE.END:
-                    $OrderService.getOrder({
-                        orderId: data.orderId
-                    }, order => {
-                        order = $OrderService.modelChange(order.data.result);
-                        eventChannel.emit('acceptDataFromOpenedPage', {
-                            data: {
-                                order: order
-                            }
-                        });
-                        $OperService.getOrderOperation({
-                            orderId: order.orderId
-                        }, operationNew => {
-                            operationNew = operationNew.data.result;
-                            _this.reloadOrder({order: order, operation: operationNew})
-                        });
-                    })
+                    this.reloadOrder(data.orderId)
                     break;
                 case $TacheService.STATE.WAIT:
                     break;
@@ -143,7 +127,26 @@ Page({
 
         })
     },
-    reloadOrder: function (data) {
+    reloadOrder:function(orderId){
+        const eventChannel = this.getOpenerEventChannel()
+        $OrderService.getOrder({
+            orderId: orderId
+        }, order => {
+            order = $OrderService.modelChange(order.data.result);
+            eventChannel.emit('acceptDataFromOpenedPage', {
+                data: {
+                    order: order
+                }
+            });
+            $OperService.getOrderOperation({
+                orderId: order.orderId
+            }, operationNew => {
+                operationNew = operationNew.data.result;
+                this.initalOrder({order: order, operation: operationNew})
+            });
+        })
+    },
+    initalOrder: function (data) {
         const _this = this
         console.info(data)
         _this.setData({
