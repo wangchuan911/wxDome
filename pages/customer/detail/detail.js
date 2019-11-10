@@ -119,7 +119,7 @@ Page({
                     $OrderService.getOrder({
                         orderId: data.orderId
                     }, order => {
-                        order = order.data.result;
+                        order = $OrderService.modelChange(order.data.result);
                         eventChannel.emit('acceptDataFromOpenedPage', {
                             data: {
                                 order: order
@@ -129,7 +129,7 @@ Page({
                             orderId: order.orderId
                         }, operationNew => {
                             operationNew = operationNew.data.result;
-                            _this.reloadOrder({order: $OrderService.modelChange(order), operation: operationNew})
+                            _this.reloadOrder({order: order, operation: operationNew})
                         });
                     })
                     break;

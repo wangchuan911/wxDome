@@ -227,8 +227,7 @@ Page({
                 events: {
                     // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
                     acceptDataFromOpenedPage: data => {
-                        let orderNew = data.data.order;
-                        orderNew = $OrderService.modelChange(orderNew)
+                        const orderNew = data.data.order;
                         orderNew.isCustOrder = order.isCustOrder
                         orderNew.isWorkOrder = order.isWorkOrder
                         _this.setData({
