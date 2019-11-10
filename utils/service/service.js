@@ -1,9 +1,43 @@
 const URLS = {
     COMMON: "www.welisdoon.xyz/wxApp",
+    UPLOAD: "www.welisdoon.xyz/imgUpd",
 }
 const OPRERATOPM = {
     ADD: 0,
     GET: 3,
+}
+
+const uploadFile = function (pictrues, data, complete) {
+    var successPic = [];
+    var failPic = [];
+
+    function upload(pics, idx, dat) {
+        if (pics[idx]) {
+            wx.uploadFile({
+                url: 'https://' + URLS.UPLOAD,
+                filePath: pics[idx],
+                name: 'file',
+                formData: dat,
+                success(res) {
+                    successPic.push({path: pics[idx], result: res})
+                },
+                fail(res) {
+                    failPic.push({path: pics[idx], result: res})
+                },
+                complete() {
+                    upload(pics, ++idx, dat)
+                }
+            })
+        } else {
+            complete({
+                success: successPic,
+                fail: failPic,
+            })
+        }
+    }
+
+    upload(pictrues, 0, data)
+
 }
 const methods = {
     post: function () {
@@ -102,6 +136,13 @@ const methods = {
     },
     getRole: function () {
         return wx.getStorageSync("isAdmin") ? 2 : (wx.getStorageSync("isWorker")) ? 1 : 0;
+    },
+    upload: function (pictrue, formData, complate) {
+        if (pictrue instanceof Array) {
+            uploadFile(pictrue, formData, complate)
+        } else if (pictrue instanceof String) {
+            uploadFile([pictrue], formData, complate)
+        }
     }
 }
 module.exports = methods

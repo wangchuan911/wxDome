@@ -3,6 +3,7 @@ const $PubConst = require('../../../utils/pubConst.js')
 const $OperService = require('../../../utils/service/operationService');
 const $TacheService = require('../../../utils/service/tacheService');
 const $OrderService = require('../../../utils/service/orderService');
+const $Service = require('../../../utils/service/service');
 Page({
 
     /**
@@ -109,6 +110,9 @@ Page({
                 data.doNext = true
                 break;
             default:
+                $Service.upload(_this.data.imgUrls, {test: "test"}, complete => {
+                    console.info(complete)
+                })
                 return;
         }
         $OperService.toBeContinue(data, operation => {
@@ -127,7 +131,7 @@ Page({
 
         })
     },
-    reloadOrder:function(orderId){
+    reloadOrder: function (orderId) {
         const eventChannel = this.getOpenerEventChannel()
         $OrderService.getOrder({
             orderId: orderId
@@ -205,7 +209,7 @@ Page({
         })
     },
     preViewPicture: function (e) {
-        const imgUrls = this.data.order.imgs
+        const imgUrls = this.data.imgUrls
         wx.previewImage({
             current: imgUrls[e.currentTarget.dataset.idx], // 当前显示图片的http链接
             urls: imgUrls // 需要预览的图片http链接列表
