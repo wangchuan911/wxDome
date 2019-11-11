@@ -5,6 +5,7 @@ const qqmapsdk = require('../../../utils/thrid/qqmap-wx-jssdk.js');
 const $OrderService = require('../../../utils/service/orderService');
 const $TacheService = require('../../../utils/service/tacheService');
 const $Service = require('../../../utils/service/service');
+const $PubConst = require('../../../utils/pubConst');
 Page({
 
     /**
@@ -63,17 +64,7 @@ Page({
             text: "备注",
             id: "extraInfo"
         }],
-        serviceType: [{
-            checked: true,
-            value: null,
-            text: "室外",
-            id: "washOut"
-        }, {
-            checked: false,
-            value: null,
-            text: "室内",
-            id: "washIn"
-        }],
+        serviceType: $PubConst.optionTaches,
         submitData: {
             value1: null,
             value2: {},
@@ -101,7 +92,7 @@ Page({
             $TacheService.getTaccheMap({roleMode: roloId})
             const order = _this.data.order
             if (result.work) {
-                const work=result.work;
+                const work = result.work;
                 order.allOrderCount = work.all_nums || 0;
                 order.orderCount = work.nums || 0;
                 _this.setData({

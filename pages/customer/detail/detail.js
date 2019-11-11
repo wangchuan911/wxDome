@@ -24,7 +24,8 @@ Page({
             butText: null,
             code: null,
             operationTacheId: null,
-        }
+        },
+        sendQuene: [],//待发送文件列队
     },
 
     /**
@@ -101,6 +102,25 @@ Page({
     },
     deal: function () {
         const _this = this;
+
+        function toBeContinue(data) {
+            $OperService.toBeContinue(data, operation => {
+                operation = operation.data.result
+                switch (operation.tacheId) {
+                    case $TacheService.STATE.END:
+                        _this.reloadOrder(data.orderId)
+                        break;
+                    case $TacheService.STATE.WAIT:
+                        break;
+                }
+
+            }, function () {
+
+            }, function () {
+
+            })
+        }
+
         const data = {
             orderId: this.data.order.orderId,
             tacheId: this.data.operation.operationTacheId,
@@ -108,28 +128,37 @@ Page({
         switch (this.data.operation.code) {
             case "reach":
                 data.doNext = true
+                toBeContinue(data);
                 break;
             default:
-                $Service.upload(_this.data.imgUrls, {test: "test"}, complete => {
-                    console.info(complete)
-                })
+                data.doNext = true;
+                $Service.upload(_this.data.sendQuene, {test: "test"}, complete => {
+                    if ((complete.fail || []).length > 0) {
+                        let quene = [];
+                        complete.fail.forEach((value) => {
+                            quene.push(value.path)
+                        });
+                        _this.setData({
+                            sendQuene: quene
+                        });
+                        wx.showModal({
+                            title: '提示',
+                            content: '有数据未提交，是否继续？',
+                            success(res) {
+                                if (res.confirm) {
+                                    console.log('用户点击确定')
+                                    toBeContinue(data);
+                                }
+                            }
+                        })
+                        return
+                    } else {
+                        toBeContinue(data);
+                    }
+                });
                 return;
         }
-        $OperService.toBeContinue(data, operation => {
-            operation = operation.data.result
-            switch (operation.tacheId) {
-                case $TacheService.STATE.END:
-                    this.reloadOrder(data.orderId)
-                    break;
-                case $TacheService.STATE.WAIT:
-                    break;
-            }
 
-        }, function () {
-
-        }, function () {
-
-        })
     },
     reloadOrder: function (orderId) {
         const eventChannel = this.getOpenerEventChannel()
@@ -202,6 +231,7 @@ Page({
                 // tempFilePath可以作为img标签的src属性显示图片
                 const tempFilePaths = res.tempFilePaths
                 const imgUrls = (_this.data.imgUrls || []).concat(tempFilePaths)
+                const sendQuene = (_this.data.sendQuene || []).concat(tempFilePaths)
                 _this.setData({
                     imgUrls: imgUrls
                 })

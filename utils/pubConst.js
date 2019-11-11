@@ -48,10 +48,23 @@ module.exports = {
         reach: {
             name: "签到"
         },
-        preCheck:{
-            name:"车辆评估"
+        preCheck: {
+            name: "车辆评估"
         }
     },
+    optionTaches: [{
+        checked: true,
+        value: null,
+        text: "室外",
+        id: "washOut",
+        tacheId: 8
+    }, {
+        checked: false,
+        value: null,
+        text: "室内",
+        id: "washIn",
+        tacheId: 9
+    }],
     setValue: function (key, value) {
         const keys = key.split(".");
         let dat = this;

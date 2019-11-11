@@ -25,11 +25,20 @@ const Methods = {
                 return (!submitData.value3) ? new Date().valueOf() : new Date('2019-11-12 ' + submitData.value3 + ":00.00").valueOf();
             }(),
             "custId": wx.getStorageSync("openId"),
-            "serviceId": function () {
-                var serviceId = ""
-                if (submitData.value6.washOut) serviceId += ",1"
-                if (submitData.value6.washIn) serviceId += ",2"
-                return serviceId.substr(1);
+            "passTache": function () {
+                var passTache = "";
+                /*if (submitData.value6.washOut) passTache += ",1"
+                if (submitData.value6.washIn) passTache += ",2"*/
+
+                for (var index in submitData.value6) {
+                    if (!submitData.value6[index]) {
+                        const val = $PubConst.optionTaches.find(value => value.id == index);
+                        if (val.tacheId) {
+                            passTache += ',' + val.tacheId
+                        }
+                    }
+                }
+                return passTache.substr(1);
             }(),
             "orderNote": (submitData.value2 || {}).value1,
             "posX": submitData.value7.latitude,
@@ -48,7 +57,7 @@ const Methods = {
             "orderAppointPerson": data.orderAppointPerson,
             "orderArrangeDate": data.orderArrangeDate,
             "custId": data.custId,
-            "serviceId": data.serviceId,
+            "passTache": data.passTache,
             "orderNote": data.orderNote
         }], function (res) {
             success(res)
