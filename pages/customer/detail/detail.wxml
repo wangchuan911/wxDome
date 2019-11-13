@@ -1,66 +1,70 @@
 <!--pages/customer/detail/detail.wxml-->
 <i-panel title="客户信息">
-  <i-cell-group i-class="i-group">
-    <i-cell title="车辆位置" i-class="cust-cell">
-      <view slot="footer" style="display:flex">
-        <div style='word-break:break-all;width:34vh;display: block;line-height: 28px;'>{{order.addr}}</div>
-        <i-icon  size="28" type="coordinates_fill" bindtap="openMapBut"/>
-      </view>
-    </i-cell>
-    <i-cell title="车辆信息" i-class="cust-cell">
-    <view slot="footer">
-      <i-tag class="i-tags" name="card-no" color="green" type='border'>
-        {{order.carNo}}
-      </i-tag>
-      <i-tag class="i-tags" name="card-band" color="red" type='border'>
-        {{order.carType}}
-      </i-tag>
-      <i-tag class="i-tags" name="card-color" type='border'>
-        {{order.carColor}}
-      </i-tag></view>
-    </i-cell>
-    <i-cell title="服务时间"  i-class="cust-cell">
-      <view slot="footer">
-        <p style="display: block">{{order.preDate?order.preDate:order.orderTime}}</p>
-        <p style="display: block">至{{order.endTime}}</p>
-      </view>
-    </i-cell>
-  </i-cell-group>
+    <i-cell-group i-class="i-group">
+        <i-cell title="车辆位置" i-class="cust-cell">
+            <view slot="footer" style="display:flex">
+                <div style='word-break:break-all;width:34vh;display: block;line-height: 28px;'>{{order.addr}}</div>
+                <i-icon size="28" type="coordinates_fill" bindtap="openMapBut"/>
+            </view>
+        </i-cell>
+        <i-cell title="车辆信息" i-class="cust-cell">
+            <view slot="footer">
+                <i-tag class="i-tags" name="card-no" color="green" type='border'>
+                    {{order.carNo}}
+                </i-tag>
+                <i-tag class="i-tags" name="card-band" color="red" type='border'>
+                    {{order.carType}}
+                </i-tag>
+                <i-tag class="i-tags" name="card-color" type='border'>
+                    {{order.carColor}}
+                </i-tag>
+            </view>
+        </i-cell>
+        <i-cell title="服务时间" i-class="cust-cell">
+            <view slot="footer">
+                <p style="display: block">{{order.preDate?order.preDate:order.orderTime}}</p>
+                <p style="display: block">至{{order.endTime}}</p>
+            </view>
+        </i-cell>
+    </i-cell-group>
 </i-panel>
 <i-panel title="附件信息">
-  <i-row i-class="i-row-css">
-    <i-col wx:for="{{imgUrls}}" wx:for-index="index" wx:for-item="url" span="4">
-      <image src="{{url}}" style="width: 50px; height: 50px" bindtap="preViewPicture" data-idx="{{index}}"></image>
-    </i-col>
-    <i-col  span="4">
-      <i-icon type="add" size="50" bindtap="addPicture"/>
-    </i-col>
-  </i-row>
+    <i-row i-class="i-row-css">
+        <i-col wx:for="{{imgUrls}}" wx:for-index="index" wx:for-item="url" span="4">
+            <image src="{{url}}" style="width: 50px; height: 50px" bindtap="preViewPicture"
+                   data-idx="{{index}}"></image>
+        </i-col>
+        <i-col span="4">
+            <i-icon type="add" size="50" bindtap="addPicture"/>
+        </i-col>
+    </i-row>
 </i-panel>
 <i-panel title="状态">
-  <!--<i-steps current="{{current}}">
-    <i-step wx:for="{{steps}}" wx:for-index="index" wx:for-item="step">
-      <view slot="title">
-        {{current>index?step.fin_desc:step.desc}}
-      </view>
-      <view slot="content">
-        {{step.desc}}
-      </view>
-    </i-step>
-  </i-steps>-->
-  <scroll-view scroll-x="true" bindscroll="scroll" style="width: 100%" scroll-left="{{scroll.left}}">
-    <view id="scollView" style="width: {{(steps.length/3)*100}}%">
-    <i-steps current="{{current}}" >
+    <!--<i-steps current="{{current}}">
       <i-step wx:for="{{steps}}" wx:for-index="index" wx:for-item="step">
         <view slot="title">
-          {{(current>index?"已":'')+step.name}}
+          {{current>index?step.fin_desc:step.desc}}
         </view>
         <view slot="content">
           {{step.desc}}
         </view>
       </i-step>
-    </i-steps>
-    </view>
-  </scroll-view>
+    </i-steps>-->
+    <scroll-view scroll-x="true" bindscroll="scroll" style="width: 100%" scroll-left="{{scroll.left}}">
+        <view id="scollView" style="width: {{(steps.length/3)*100}}%">
+            <i-steps current="{{current}}">
+                <i-step wx:for="{{steps}}" wx:for-index="index" wx:for-item="step">
+                    <view slot="title">
+                        {{(current>index?"已":'')+step.name}}
+                    </view>
+                    <view slot="content">
+                        {{step.desc}}
+                    </view>
+                </i-step>
+            </i-steps>
+        </view>
+    </scroll-view>
 </i-panel>
-<i-button wx:if="{{operation.butText}}" bindclick="deal" type="primary" shape="circle" size="small">{{operation.butText}}</i-button>
+<i-button wx:if="{{operation.butShow}}" bindclick="deal" type="primary" shape="circle" size="small">
+    {{operation.butText}}
+</i-button>

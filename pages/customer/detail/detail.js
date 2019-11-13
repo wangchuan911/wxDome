@@ -24,6 +24,7 @@ Page({
             butText: null,
             code: null,
             operationTacheId: null,
+            butShow: false,
         },
         sendQuene: [],//待发送文件列队
     },
@@ -102,25 +103,6 @@ Page({
     },
     deal: function () {
         const _this = this;
-
-        function toBeContinue(data) {
-            $OperService.toBeContinue(data, operation => {
-                operation = operation.data.result
-                switch (operation.tacheId) {
-                    case $TacheService.STATE.END:
-                        _this.reloadOrder(data.orderId)
-                        break;
-                    case $TacheService.STATE.WAIT:
-                        break;
-                }
-
-            }, function () {
-
-            }, function () {
-
-            })
-        }
-
         const data = {
             orderId: this.data.order.orderId,
             tacheId: this.data.operation.operationTacheId,
@@ -128,37 +110,71 @@ Page({
         switch (this.data.operation.code) {
             case "reach":
                 data.doNext = true
-                toBeContinue(data);
+                _this.toBeContinue(data);
                 break;
-            default:
+            case"preCheck":
+            /*data.doNext = true;
+            _this.tackPicure(data);
+            break;*/
+            case "washIn":
+            /*data.doNext = true;
+            _this.tackPicure(data);
+            break;*/
+            case "washOut":
                 data.doNext = true;
-                $Service.upload(_this.data.sendQuene, {test: "test"}, complete => {
-                    if ((complete.fail || []).length > 0) {
-                        let quene = [];
-                        complete.fail.forEach((value) => {
-                            quene.push(value.path)
-                        });
-                        _this.setData({
-                            sendQuene: quene
-                        });
-                        wx.showModal({
-                            title: '提示',
-                            content: '有数据未提交，是否继续？',
-                            success(res) {
-                                if (res.confirm) {
-                                    console.log('用户点击确定')
-                                    toBeContinue(data);
-                                }
-                            }
-                        })
-                        return
-                    } else {
-                        toBeContinue(data);
-                    }
-                });
-                return;
+                _this.tackPicure(data);
+                break;
         }
 
+    },
+    tackPicure: function (data) {
+
+        const _this = this;
+        $Service.upload(_this.data.sendQuene, {test: "test"}, complete => {
+            if ((complete.fail || []).length > 0) {
+                let quene = [];
+                complete.fail.forEach((value) => {
+                    quene.push(value.path)
+                });
+                _this.setData({
+                    sendQuene: quene
+                });
+                wx.showModal({
+                    title: '提示',
+                    content: '有数据未提交，是否继续？',
+                    success(res) {
+                        if (res.confirm) {
+                            console.log('用户点击确定')
+                            _this.toBeContinue(data);
+                        }
+                    }
+                })
+                return
+            } else {
+                _this.toBeContinue(data);
+            }
+        });
+    },
+    toBeContinue: function (data) {
+        const _this = this
+        $OperService.toBeContinue(data, operation => {
+            operation = operation.data.result
+            switch (operation.tacheId) {
+                case $TacheService.STATE.END:
+                    _this.reloadOrder(data.orderId)
+                    break;
+                case $TacheService.STATE.WAIT:
+                    break;
+                default:
+                    _this.reloadOrder(data.orderId);
+                    break;
+            }
+
+        }, function () {
+
+        }, function () {
+
+        })
     },
     reloadOrder: function (orderId) {
         const eventChannel = this.getOpenerEventChannel()
@@ -196,20 +212,26 @@ Page({
             current: idx,
         })
         _this.changeScroll()
+        const oprVal = {
+            id: state.id,
+            text: ($PubConst.operationCodes[state.code] || {}).name,
+            code: state.code,
+            show: false,
+        }
         if (data.operation.length > 0) {
             const operation = data.operation[0];
-            _this.setData({
-                ['operation.operationTacheId']: operation.tacheId,
-                ['operation.butText']: ($PubConst.operationCodes[operation.tacheVO.code] || {}).name,
-                ['operation.code']: operation.tacheVO.code
-            })
-        } else {
-            _this.setData({
-                ['operation.operationTacheId']: state.id,
-                ['operation.butText']: ($PubConst.operationCodes[state.code] || {}).name,
-                ['operation.code']: state.code
-            })
+            oprVal.id = operation.tacheId;
+            oprVal.text = ($PubConst.operationCodes[operation.tacheVO.code] || {}).name;
+            oprVal.code = operation.tacheVO.code;
         }
+        oprVal.show = oprVal.text != null;
+
+        _this.setData({
+            ['operation.operationTacheId']: oprVal.id,
+            ['operation.butText']: oprVal.text,
+            ['operation.code']: oprVal.code,
+            ['operation.butShow']: oprVal.show,
+        })
     },
     changeScroll: function () {
         const initPos = this.data.scroll.initPos;
