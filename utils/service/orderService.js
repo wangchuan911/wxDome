@@ -7,7 +7,8 @@ const OPRERATOPM = {
     ADD: 0,
     GET: 3,
     LIST: 4,
-    GET_WORK_NUM: 10,
+    GET_WORK_NUM: 100,
+    APPIONT_WORKER: 101,
 }
 const SERVIE = "orderManger";
 /**
@@ -72,6 +73,16 @@ const Methods = {
         }, function (res) {
             error(res)
         })
+    }, selectWorker: function (data, success, error) {
+        $Service.post(SERVIE, [OPRERATOPM.APPIONT_WORKER, {
+            "orderId": data.orderId,
+            "orderControlPerson": wx.getStorageSync("openId"),
+            "orderAppointPerson": data.orderControlPerson,
+        }], function (res) {
+            success(res)
+        }, function (res) {
+            error(res)
+        })
     }, getOrder: function (data, success, error) {
         $Service.post(SERVIE, [OPRERATOPM.GET, {
             "orderId": data.orderId,
@@ -94,6 +105,7 @@ const Methods = {
             carColor: "xxxxx",
             latitude: data.posX,
             longitude: data.posY,
+            isDeal: data.orderControlPerson != null,
             imgs0: [
                 'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
                 'https://images.unsplash.com/photo-1551214012-84f95e060dee?w=640',

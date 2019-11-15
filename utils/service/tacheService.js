@@ -6,7 +6,7 @@ const OPRERATOPM = {
     ADD: 0,
     GET: 3,
     LIST: 4,
-    GET_WORK_NUM: 10,
+    GET_WORK_NUM: 100,
 }
 
 const STATE = {

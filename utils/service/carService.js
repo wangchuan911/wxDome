@@ -7,7 +7,6 @@ const OPRERATOPM = {
     MODIFY: 2,
     GET: 3,
     LIST: 4,
-    GET_WORK_NUM: 10,
 }
 const SERVIE = "carManger";
 /**

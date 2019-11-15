@@ -50,6 +50,12 @@ module.exports = {
         },
         preCheck: {
             name: "车辆评估"
+        },
+        washIn: {
+            name: "服务完成确认（车内）"
+        },
+        washOut: {
+            name: "服务完成确认（车外）"
         }
     },
     optionTaches: [{
