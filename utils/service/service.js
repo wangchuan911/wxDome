@@ -39,6 +39,24 @@ const uploadFile = function (pictrues, data, complete) {
     upload(pictrues, 0, data)
 
 }
+const initUserInfo = function (dat) {
+    wx.setStorageSync("openId", dat.openid)
+    switch (dat.user.role || 0) {
+        case 0:
+            break;
+        case 1:
+            wx.setStorageSync("isAdmin", true);
+            break;
+        case 2:
+            wx.setStorageSync("isWorker", true);
+            break;
+        case -1:
+            wx.setStorageSync("newUser", true);
+            dat.user.role = 0;
+            break;
+    }
+    wx.setStorageSync("roleMode", dat.user.role || 0)
+}
 const methods = {
     post: function () {
         const datas = [];
@@ -87,18 +105,7 @@ const methods = {
                         methods.get({code: -1, value: res.code}, function (res1) {
                             var dat = res1.data;
                             if (dat.openid) {
-                                wx.setStorageSync("openId", dat.openid)
-                                switch (dat.user.role || 0) {
-                                    case 0:
-                                        break;
-                                    case 1:
-                                        wx.setStorageSync("isAdmin", true);
-                                        break;
-                                    case 2:
-                                        wx.setStorageSync("isWorker", true);
-                                        break;
-                                }
-                                wx.setStorageSync("roleMode", dat.user.role || 0)
+                                initUserInfo(dat)
                                 success(dat)
                             } else {
                                 error("[" + dat.errcode + ']' + dat.errmsg);
@@ -123,6 +130,7 @@ const methods = {
                 } else {
                     methods.post("login", [openId], function (res) {
                         res.data.result.openid = openId
+                        initUserInfo(res.data.result)
                         success(res.data.result)
                     })
                 }

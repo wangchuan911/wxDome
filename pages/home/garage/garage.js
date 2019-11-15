@@ -1,7 +1,8 @@
 // pages/home/garage/garage.js
 
-const { $Message } = require('../../../ui/iview/base/index');
+const {$Message} = require('../../../ui/iview/base/index');
 const $CarService = require('../../../utils/service/carService')
+const $UserService = require('../../../utils/service/userService')
 Page({
 
     /**
@@ -42,7 +43,7 @@ Page({
                         color: '#ed3f14'
                     }
                 ],
-                showActionSheet:false
+                showActionSheet: false
             }
         },
         /*multiArray: [['无脊柱动物', '脊柱动物']],
@@ -99,18 +100,18 @@ Page({
         $CarService.getCars({}, function (res) {
             const data = res.data.result;
             const cars = [];
-            let obj=null;
+            let obj = null;
             for (let i in data) {
-                obj={
+                obj = {
                     carBrand: data[i].brand,
                     carNo: data[i].lisence,
                     carColor: data[i].color,
                     carType: data[i].modal,
                     defaultCar: data[i].defaultSelected
                 }
-                if(data[i].defaultSelected){
+                if (data[i].defaultSelected) {
                     cars.unshift(obj)
-                }else{
+                } else {
                     cars.push(obj)
                 }
                 cars.push();
@@ -207,6 +208,22 @@ Page({
             visible1: false
         });
     },
+    addCarBut: function (e) {
+        console.info(e)
+        const _this = this
+        if (!e.detail.userInfo) {
+            return
+        } else if (wx.getStorageSync("newUser")) {
+            $UserService.newUserr({
+                name: e.detail.userInfo.nickName
+            }, res => {
+                wx.removeStorageSync("newUser")
+                _this.addCar();
+            })
+        } else {
+            this.addCar()
+        }
+    },
     addCar: function () {
         const _this = this
         this.setData({
@@ -229,7 +246,7 @@ Page({
                 carColor: this.data.page.recordInfo.color.value,
                 carType: this.data.page.recordInfo.type.value
             };
-            $CarService.addCar( {
+            $CarService.addCar({
                 brand: data.carBrand,
                 lisence: data.carNo,
                 color: data.carColor,
@@ -281,30 +298,32 @@ Page({
         }
         console.info(e)
 
-    },carActionBut:function (e) {
-        const flag=!this.data.page.carActon.showActionSheet
+    }, carActionBut: function (e) {
+        const flag = !this.data.page.carActon.showActionSheet
         this.setData({
-            ['page.carActon.showActionSheet']:flag
+            ['page.carActon.showActionSheet']: flag
         })
-        if(flag){
-            this.data.page.carActon.carIdx=e.currentTarget.dataset.idx
-        }else{
-            this.data.page.carActon.carIdx=-1;
+        if (flag) {
+            this.data.page.carActon.carIdx = e.currentTarget.dataset.idx
+        } else {
+            this.data.page.carActon.carIdx = -1;
         }
     },
-    carOperationBut:function ({ detail }) {
-        const _this=this;
+    carOperationBut: function ({detail}) {
+        const _this = this;
         const index = detail.index;
         const action = [...this.data.page.carActon.items];
+
         function LOADING(flag) {
             action[index].loading = flag;
             _this.setData({
                 ['page.carActon.items']: action
             });
-            if(!flag){
+            if (!flag) {
                 _this.carActionBut()
             }
         }
+
         LOADING(true)
         switch (index) {
             case 0:
@@ -335,7 +354,7 @@ Page({
                     lisence: this.data.page.carList.cars[this.data.page.carActon.carIdx].carNo
                 }, function (res) {
                     const cars = _this.data.page.carList.cars;
-                    cars.splice(_this.data.page.carActon.carIdx,1);
+                    cars.splice(_this.data.page.carActon.carIdx, 1);
                     _this.setData({
                         ['page.carList.cars']: cars
                     })

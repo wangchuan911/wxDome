@@ -24,7 +24,8 @@
 
 <i-panel title="车辆信息" hide-top="true" hide-border="true" wx:if="{{page.carList.enable}}">
 
-    <i-card title="{{item.carBrand}}（{{item.carColor}}）" extra="{{item.carType}}" wx:for="{{page.carList.cars}}" wx:for-index="index" wx:for-item="item" bindtap="carActionBut" data-idx="{{index}}"
+    <i-card title="{{item.carBrand}}（{{item.carColor}}）" extra="{{item.carType}}" wx:for="{{page.carList.cars}}"
+            wx:for-index="index" wx:for-item="item" bindtap="carActionBut" data-idx="{{index}}"
             wx:key="index">
         <view slot="content">
             <view style="width:100%;display: flex;justify-content: center;align-items: center; ">
@@ -32,10 +33,11 @@
             </view>
         </view>
         <view slot="footer" wx:if="{{item.defaultCar}}">
-            <i-icon size="25" type="success_fill" />默认
+            <i-icon size="25" type="success_fill"/>
+            默认
         </view>
     </i-card>
-    <i-button bind:click="addCar" loading="{{loading.submitBut}}"
+    <i-button bindgetuserinfo="addCarBut" open-type="getUserInfo" loading="{{loading.submitBut}}"
               type="primary" shape="circle" size="small">添加车辆
     </i-button>
 </i-panel>
@@ -46,7 +48,8 @@
              key-board-type="{{page.recordInfo.keyBoardType}}" backgroundColor="white"/>
 </i-modal>
 
-<i-action-sheet visible="{{ page.carActon.showActionSheet }}" actions="{{ page.carActon.items }}" show-cancel bind:cancel="carActionBut" bind:click="carOperationBut" mask-closable="{{ false }}">
+<i-action-sheet visible="{{ page.carActon.showActionSheet }}" actions="{{ page.carActon.items }}" show-cancel
+                bind:cancel="carActionBut" bind:click="carOperationBut" mask-closable="{{ false }}">
     <view slot="header" style="padding: 16px">
         <view style="color: #444;font-size: 16px">操作</view>
     </view>
