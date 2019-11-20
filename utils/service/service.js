@@ -41,6 +41,9 @@ const uploadFile = function (pictrues, data, complete) {
 }
 const initUserInfo = function (dat) {
     wx.setStorageSync("openId", dat.openid)
+    wx.removeStorageSync("isWorker");
+    wx.removeStorageSync("isAdmin");
+    wx.removeStorageSync("newUser");
     switch (dat.user.role || 0) {
         case 0:
             break;

@@ -1,47 +1,48 @@
 <!--pages/dispatch/detail/detail.wxml-->
 <i-panel title="客户信息">
-  <i-cell-group i-class="i-group">
-    <i-cell title="车辆位置">
-      <view slot="footer" bindtap="openMapBut">
-        <span>{{order.addr}}</span>
-        <i-icon size="28" type="coordinates_fill" />
-      </view>
-    </i-cell>
-    <i-cell title="车辆信息">
-      <view slot="footer">
-        <i-tag class="i-tags" name="card-no" color="green" type='border'>
-          {{order.carNo}}
-        </i-tag>
-        <i-tag class="i-tags" name="card-band" color="red" type='border'>
-          {{order.carType}}
-        </i-tag>
-        <i-tag class="i-tags" name="card-color" type='border'>
-          {{order.carColor}}
-        </i-tag>
-      </view>
-    </i-cell>
-    <i-cell title="预约时间">
-      <view slot="footer">
-        {{order.preDate}}
-      </view>
-    </i-cell>
-    <i-cell title="提车时间">
-      <view slot="footer">
-        {{order.endTime}}
-      </view>
-    </i-cell>
-    <i-cell title="工单负责人" bindclick="selectDealManBut" is-link>
-      <view slot="footer">
-        {{order.worker.name}}
-      </view>
-    </i-cell>
-  </i-cell-group>
+    <i-cell-group i-class="i-group">
+        <i-cell title="车辆位置">
+            <view slot="footer" bindtap="openMapBut">
+                <span>{{order.addr}}</span>
+                <i-icon size="28" type="coordinates_fill"/>
+            </view>
+        </i-cell>
+        <i-cell title="车辆信息">
+            <view slot="footer">
+                <i-tag class="i-tags" name="card-no" color="green" type='border'>
+                    {{order.carNo}}
+                </i-tag>
+                <i-tag class="i-tags" name="card-band" color="red" type='border'>
+                    {{order.carType}}
+                </i-tag>
+                <i-tag class="i-tags" name="card-color" type='border'>
+                    {{order.carColor}}
+                </i-tag>
+            </view>
+        </i-cell>
+        <i-cell title="预约时间">
+            <view slot="footer">
+                {{order.preDate}}
+            </view>
+        </i-cell>
+        <i-cell title="提车时间">
+            <view slot="footer">
+                {{order.endTime}}
+            </view>
+        </i-cell>
+        <i-cell title="工单负责人" bindclick="selectDealManBut" is-link>
+            <view slot="footer">
+                {{order.worker.name}}
+            </view>
+        </i-cell>
+    </i-cell-group>
 </i-panel>
 <i-panel title="附件信息">
-  <i-row i-class="i-row-css">
-    <i-col wx:for="{{order.imgs}}" wx:for-index="index" wx:for-item="url" span="4">
-      <image src="{{url}}" style="width: 50px; height: 50px" bindtap="preViewPicture" data-idx="{{index}}"></image>
-    </i-col>
-  </i-row>
+    <i-row i-class="i-row-css">
+        <i-col wx:for="{{order.imgs}}" wx:for-index="index" wx:for-item="url" span="4">
+            <image src="{{url}}" style="width: 50px; height: 50px" bindtap="preViewPicture"
+                   data-idx="{{index}}"></image>
+        </i-col>
+    </i-row>
 </i-panel>
-<i-button bindclick="dispathBut">派单</i-button>
+<i-button wx:if="{{operation.code!=null}}" bindclick="dispathBut">{{operation.codeName}}</i-button>

@@ -6,7 +6,13 @@ Page({
     /**
      * 页面的初始数据
      */
-    data: {},
+    data: {
+        operation: {
+            code: null,
+            codeName: null,
+            tacheId: null
+        }
+    },
 
     /**
      * 生命周期函数--监听页面加载
@@ -27,7 +33,20 @@ Page({
                 orderId: data.data.orderId
             }, operationNew => {
                 operationNew = operationNew.data.result;
-                console.info(operationNew)
+                let code;
+                let codeName;
+                let tacheId;
+                if (operationNew[0]) {
+                    const oper = operationNew[0];
+                    code = oper.tacheVO.code
+                    codeName = oper.tacheVO.tacheName
+                    tacheId = oper.tacheVO.tacheId
+                }
+                _this.setData({
+                    ['operation.code']: code,
+                    ['operation.codeName']: codeName,
+                    ['operation.tacheId']: tacheId
+                })
             });
         })
     },
@@ -108,22 +127,33 @@ Page({
         })
     },
     dispathBut: function () {
-        if (!this.data.order.worker) {
-            wx.showToast({
-                title: '请选择负责人',
-                image: '/',
-                duration: 2000
-            })
-            return
+        const data = {
+            orderId: this.data.order.orderId,
+            tacheId: this.data.operation.tacheId,
         }
-        const _this = this
-        const eventChannel = this.getOpenerEventChannel()
-        eventChannel.emit('acceptDataFromOpenedPage', {
-            data: {
-                isDeal: true
+        switch (this.data.operation.code) {
+            case "dispatch": {
+                if (!this.data.order.worker) {
+                    wx.showToast({
+                        title: '请选择负责人',
+                        image: '/',
+                        duration: 2000
+                    })
+                    return
+                }
+                const _this = this
+                const eventChannel = this.getOpenerEventChannel()
+                $OperService.toBeContinue(data, res => {
+                    eventChannel.emit('acceptDataFromOpenedPage', {
+                        data: {
+                            isDeal: true
+                        }
+                    });
+                    wx.navigateBack({})
+                })
             }
-        });
-        wx.navigateBack({})
+                break;
+        }
     },
     openMapBut: function () {
         const _this = this
