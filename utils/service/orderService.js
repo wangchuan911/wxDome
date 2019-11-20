@@ -105,7 +105,7 @@ const Methods = {
             carColor: "xxxxx",
             latitude: data.posX,
             longitude: data.posY,
-            isDeal: data.orderControlPerson != null,
+            isDeal: data.orderAppointPerson != null,
             imgs0: [
                 'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
                 'https://images.unsplash.com/photo-1551214012-84f95e060dee?w=640',

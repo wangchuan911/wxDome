@@ -45,10 +45,10 @@ const initUserInfo = function (dat) {
         case 0:
             break;
         case 1:
-            wx.setStorageSync("isAdmin", true);
+            wx.setStorageSync("isWorker", true);
             break;
         case 2:
-            wx.setStorageSync("isWorker", true);
+            wx.setStorageSync("isAdmin", true);
             break;
         case -1:
             wx.setStorageSync("newUser", true);
