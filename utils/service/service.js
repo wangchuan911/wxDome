@@ -154,6 +154,11 @@ const methods = {
         } else if (pictrue instanceof String) {
             uploadFile([pictrue], formData, complate)
         }
+    },
+    getUserInfo: function () {
+        return {
+            id: wx.getStorageSync("openId"),
+        }
     }
 }
 module.exports = methods

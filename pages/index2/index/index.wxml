@@ -82,7 +82,7 @@
                                 图片
                             </i-tag>
                             <i-tag i-class="i-tags i-tags-circle" color="blue" checkable="{{true}}" type="border"
-                                   checked="{{true}}" style="margin-right:5px" wx:if="{{submitData.value2.value1}}}"
+                                   checked="{{true}}" style="margin-right:5px" wx:if="{{submitData.value2.value1.length>0}}"
                                    bindtap="extraBut">
                                 文字
                             </i-tag>

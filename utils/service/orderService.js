@@ -43,7 +43,9 @@ const Methods = {
             }(),
             "orderNote": (submitData.value2 || {}).value1,
             "posX": submitData.value7.latitude,
-            "posY": submitData.value7.longitude
+            "posY": submitData.value7.longitude,
+            "orderCode": submitData.value8,
+            "pictureIds": submitData.value2.pictureIds
         }], function (res) {
             success(res)
         }, function (res) {

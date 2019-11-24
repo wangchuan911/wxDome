@@ -6,6 +6,7 @@ const $OrderService = require('../../../utils/service/orderService');
 const $TacheService = require('../../../utils/service/tacheService');
 const $Service = require('../../../utils/service/service');
 const $PubConst = require('../../../utils/pubConst');
+const $Utils = require('../../../utils/util');
 Page({
 
     /**
@@ -73,6 +74,7 @@ Page({
             value5: null,
             value6: {},
             value7: {},
+            value8: $Utils.getDate(new Date(), "")
         },
         roleMode: 0
     },
@@ -84,7 +86,7 @@ Page({
         const _this = this;
         this.getUserInfo();
         $Service.login(function (result) {
-            var openId = result.openid;
+            let openId = result.openid;
             const roloId = _this.getRole();
             /*_this.setData({
                 ["openType"]: ((roloId == 0) ? "getPhoneNumber" : "getUserInfo")
@@ -126,7 +128,10 @@ Page({
                     success: function (res1) {//成功后的回调
                         _this.setData({
                             ['submitData.value1']: res1.result.address,
+                            ['submitData.value8']: res1.result.ad_info.adcode + _this.data.submitData.value8,
                         })
+                        const user = $Service.getUserInfo();
+                        _this.data.submitData.value8 += user.id.substr(user.id.length - 5);
                     },
                     fail: function (res1) {
                     }
@@ -283,16 +288,69 @@ Page({
         console.info("提交")
         console.info(this.data.submitData)
         this.data.submitData.value7 = _this.data.markers[0]
-        $OrderService.newOrder(this.data.submitData, function (res) {
-            console.info(res)
-            _this.initCircle();
-            _this.setData({
-                ['progressShow.progress']: 10,
-                ['loading.submitBut']: false
-            })
-        }, function (res) {
 
-        })
+        function uplaod() {
+            const pictures = _this.data.submitData.value2.value3 || _this.data.submitData.value2.value2 || [];
+            $Service.upload(pictures, {tacheId: 1, orderCode: _this.data.submitData.value8}, complete => {
+                if ((complete.fail || []).length > 0) {
+                    let quene = [];
+                    complete.fail.forEach((value) => {
+                        quene.push(value.path)
+                    });
+                    _this.setData({
+                        ['submitData.value2.value3']: quene
+                    });
+                    wx.showModal({
+                        title: '提示',
+                        content: '有图片尚未上传成功，是否忽略',
+                        success(res) {
+                            if (res.confirm) {
+                                console.log('用户点击确定')
+                                newOrder({
+                                    pic: complete.success
+                                })
+                            }
+                        }
+                    })
+                    return;
+                } else {
+                    newOrder({
+                        pic: complete.success
+                    })
+                }
+            });
+        }
+
+        function newOrder(data) {
+            const form = _this.data.submitData;
+            form.value2.pictureIds = function () {
+                const pictureIds = [];
+                for (let i = 0; i < data.pic.length; i++) {
+                    pictureIds.push(JSON.parse(data.pic[i].result.data).result.pictrueId);
+                }
+                return pictureIds;
+            }();
+            $OrderService.newOrder(form, function (res) {
+                console.info(res)
+                if (res.data.result) {
+                    const orderCounts = res.data.result;
+                    _this.initCircle();
+                    _this.setData({
+                        ['progressShow.progress']: orderCounts.all_nums > 0 ? parseInt(((orderCounts.nums || 0) / orderCounts.all_nums) * 100) : 1,
+                        ['loading.submitBut']: false
+                    })
+                } else {
+                    _this.setData({
+                        isBook: false,
+                        ['loading.submitBut']: false
+                    })
+                }
+            }, function (res) {
+
+            })
+        }
+
+        uplaod();
     },
     mileStoneBut: function (e) {
         this.getUserInfo(e)
