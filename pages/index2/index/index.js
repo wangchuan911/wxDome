@@ -309,6 +309,11 @@ Page({
                                 newOrder({
                                     pic: complete.success
                                 })
+                            }else{
+                                _this.setData({
+                                    isBook: false,
+                                    ['loading.submitBut']: false
+                                })
                             }
                         }
                     })
