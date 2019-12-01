@@ -114,6 +114,18 @@ const Methods = {
                 'https://images.unsplash.com/photo-1551446591-142875a901a1?w=640'
             ]
         }
+        if (data.pictureVOS || [] > 0) {
+            let pic;
+            for (let idx in data.pictureVOS) {
+                pic = data.pictureVOS[idx];
+                let names = object["imgs" + pic.tacheId]
+                if (!names) {
+                    names = [];
+                    object["imgs" + pic.tacheId] = names;
+                }
+                names.push($Service.getUrl("PIC") + "/" + pic.name);
+            }
+        }
         const state = $PubConst.customer.step1.find(value => {
             return value.id == data.tacheId
         })

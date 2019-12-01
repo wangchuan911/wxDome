@@ -1,6 +1,7 @@
 const URLS = {
     COMMON: "www.welisdoon.xyz/wxApp",
     UPLOAD: "www.welisdoon.xyz/imgUpd",
+    PIC: "https://www.welisdoon.xyz/pic"
 }
 const OPRERATOPM = {
     ADD: 0,
@@ -61,6 +62,9 @@ const initUserInfo = function (dat) {
     wx.setStorageSync("roleMode", dat.user.role || 0)
 }
 const methods = {
+    getUrl: function (name) {
+        return URLS[name]
+    },
     post: function () {
         const datas = [];
         const func = [];
