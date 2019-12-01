@@ -1,7 +1,7 @@
 <!--pages/milestone/milestone.wxml-->
 <!-- <text>pages/milestone/milestone.wxml</text> -->
 <i-panel title="服务进度">
-  <i-card title='定单编码：xxxxxxxx' extra="{{item.carNo}}" wx:for="{{orders}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+  <i-card title='定单编码：{{item.orderCode}}' extra="{{item.carNo}}" wx:for="{{orders}}" wx:for-index="index" wx:for-item="item" wx:key="index">
     <view slot="content">
       <view wx:if="{{item.state<100 && item.isCustOrder}}">
         <i-row>
