@@ -21,10 +21,11 @@ Page({
         },
         operation: {
             codes: $PubConst.operationCodes,
-            butText: null,
+            /*butText: null,
             code: null,
             operationTacheId: null,
-            butShow: false,
+            butShow: false,*/
+            oprBut:[]
         },
         sendQuene: [],//待发送文件列队
     },
@@ -101,13 +102,13 @@ Page({
     onShareAppMessage: function () {
 
     },
-    deal: function () {
+    deal: function (e) {
         const _this = this;
         const data = {
             orderId: this.data.order.orderId,
-            tacheId: this.data.operation.operationTacheId,
+            tacheId: this.data.operation.oprBut[e.currentTarget.dataset.idx].operationTacheId,
         };
-        switch (this.data.operation.code) {
+        switch (this.data.operation.oprBut[e.currentTarget.dataset.idx].code) {
             case "reach":
                 data.doNext = true
                 _this.toBeContinue(data);
@@ -164,6 +165,7 @@ Page({
                     _this.reloadOrder(data.orderId)
                     break;
                 case $TacheService.STATE.WAIT:
+                    _this.reloadOrder(data.orderId)
                     break;
                 default:
                     _this.reloadOrder(data.orderId);
@@ -212,7 +214,7 @@ Page({
             current: idx,
         })
         _this.changeScroll()
-        const oprVal = {
+        /*const oprVal = {
             id: state.id,
             text: ($PubConst.operationCodes[state.code] || {}).name,
             code: state.code,
@@ -231,6 +233,20 @@ Page({
             ['operation.butText']: oprVal.text,
             ['operation.code']: oprVal.code,
             ['operation.butShow']: oprVal.show,
+        })*/
+        const operationNew = data.operation
+        const operations = []
+        if (operationNew.length > 0) {
+            operationNew.forEach(operation => {
+                operations.push({
+                    operationTacheId: operation.tacheId,
+                    butText: ($PubConst.operationCodes[operation.tacheVO.code] || {}).name,
+                    code: operation.tacheVO.code,
+                })
+            })
+        }
+        _this.setData({
+            ['operation.oprBut']: operations
         })
     },
     changeScroll: function () {
