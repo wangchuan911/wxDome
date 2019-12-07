@@ -1,0 +1,26 @@
+<!--pages/customer/operation/feedback/feedback.wxml-->
+<form bindsubmit="submitBut">
+    <view style="height: 80%">
+        <i-panel title="请填写工作结果并拍照上传"></i-panel>
+        <i-panel title="车辆图片或其他">
+            <view style="padding: 15px;">
+                <i-row i-class="i-row-css">
+                    <i-col wx:for="{{imgs}}" wx:for-index="index" wx:for-item="url" span="4">
+                        <image src="{{url}}" style="width: 50px; height: 50px" bindtap="preViewPicture"
+                               data-idx="{{index}}"></image>
+                    </i-col>
+                    <i-col span="4">
+                        <i-icon type="add" size="50" bindtap="addPicture"/>
+                    </i-col>
+                </i-row>
+            </view>
+        </i-panel>
+        <i-panel title="结果说明及备注">
+            <view style="padding: 0 5%;width: 100%;">
+                <textarea style="width: 90%;" placeholder="完整的需求能让我们更好的提供服务" name="text" maxlength="255"
+                          value="{{text}}"/>
+            </view>
+        </i-panel>
+    </view>
+    <button class="i-btn i-btn-primary i-btn-circle" form-type="submit"> 提交</button>
+</form>

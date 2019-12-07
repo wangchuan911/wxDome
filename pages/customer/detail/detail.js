@@ -130,12 +130,20 @@ Page({
                         // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
                         acceptDataFromOpenedPage: function (res) {
                             /*if (res.data) {
-                                data.doNext = true;
-                                _this.tackPicure(data);
                                 break;
                             }*/
                             console.info(res)
                             _this.data.operation.tmpData = res.data;
+                            _this.data.sendQuene = function (quene, newImgs) {
+                                (newImgs || []).forEach(value => {
+                                    if (quene.indexOf(value) < 0) {
+                                        quene.push(value)
+                                    }
+                                })
+                                return quene;
+                            }(_this.data.sendQuene, res.data.imgs)
+                            data.doNext = true;
+                            _this.tackPicure(data);
                         },
                     },
                     success: function (res) {
@@ -149,7 +157,7 @@ Page({
 
     },
     tackPicure: function (data) {
-
+        data.info = data.info || {};
         const _this = this;
         $Service.upload(_this.data.sendQuene, {test: "test"}, complete => {
             if ((complete.fail || []).length > 0) {
@@ -166,12 +174,14 @@ Page({
                     success(res) {
                         if (res.confirm) {
                             console.log('用户点击确定')
+                            data.info.pictureIds = $Service.getSuccessPictureIds(complete.success);
                             _this.toBeContinue(data);
                         }
                     }
                 })
                 return
             } else {
+                data.info.pictureIds = $Service.getSuccessPictureIds(complete.success);
                 _this.toBeContinue(data);
             }
         });

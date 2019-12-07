@@ -22,7 +22,8 @@ const Methods = {
             "orderId": data.orderId,
             "userId": wx.getStorageSync("openId"),
             "tacheId": data.tacheId,
-            "doNext": data.doNext
+            "doNext": data.doNext,
+            "info": data.info,
         }], success, error)
     },
 
