@@ -163,6 +163,14 @@ const methods = {
         return {
             id: wx.getStorageSync("openId"),
         }
+    },
+    getSuccessPictureIds(picArr) {
+        picArr = picArr || [];
+        const pictureIds = [];
+        for (let i = 0; i < picArr.length; i++) {
+            pictureIds.push(JSON.parse(picArr[i].result.data).result.pictrueId);
+        }
+        return pictureIds
     }
 }
 module.exports = methods

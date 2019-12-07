@@ -15,6 +15,7 @@ Page({
     data: {
         loading: {
             spin: true,
+            spinVal: 2,
             submitBut: false
         },
         openType: "getPhoneNumber",
@@ -112,13 +113,12 @@ Page({
             if ((result.cars || []).length > 0) {
                 wx.setStorageSync("carLicence", result.cars[0].lisence);
             }
+            _this.setSpin();
         })
         wx.getLocation({
             type: 'gcj02',
             success(res) {
-                _this.setData({
-                    ['loading.spin']: false
-                })
+                _this.setSpin();
                 _this.setData({
                     ['markers[0].latitude']: res.latitude,
                     ['markers[0].longitude']: res.longitude,
@@ -309,7 +309,7 @@ Page({
                                 newOrder({
                                     pic: complete.success
                                 })
-                            }else{
+                            } else {
                                 _this.setData({
                                     isBook: false,
                                     ['loading.submitBut']: false
@@ -328,13 +328,7 @@ Page({
 
         function newOrder(data) {
             const form = _this.data.submitData;
-            form.value2.pictureIds = function () {
-                const pictureIds = [];
-                for (let i = 0; i < data.pic.length; i++) {
-                    pictureIds.push(JSON.parse(data.pic[i].result.data).result.pictrueId);
-                }
-                return pictureIds;
-            }();
+            form.value2.pictureIds = $Service.getSuccessPictureIds(data.pic);
             $OrderService.newOrder(form, function (res) {
                 console.info(res)
                 if (res.data.result) {
@@ -564,5 +558,13 @@ Page({
             roleMode: role
         })
         return role;
+    }
+    , setSpin() {
+        const _this = this;
+        if (--_this.data.loading.spinVal == 0) {
+            _this.setData({
+                ['loading.spin']: false
+            })
+        }
     }
 })

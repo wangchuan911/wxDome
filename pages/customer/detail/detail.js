@@ -25,7 +25,8 @@ Page({
             code: null,
             operationTacheId: null,
             butShow: false,*/
-            oprBut:[]
+            oprBut: [],
+            tmpData: {}
         },
         sendQuene: [],//待发送文件列队
     },
@@ -108,7 +109,8 @@ Page({
             orderId: this.data.order.orderId,
             tacheId: this.data.operation.oprBut[e.currentTarget.dataset.idx].operationTacheId,
         };
-        switch (this.data.operation.oprBut[e.currentTarget.dataset.idx].code) {
+        const code = this.data.operation.oprBut[e.currentTarget.dataset.idx].code
+        switch (code) {
             case "reach":
                 data.doNext = true
                 _this.toBeContinue(data);
@@ -122,9 +124,27 @@ Page({
             _this.tackPicure(data);
             break;*/
             case "washOut":
-                data.doNext = true;
-                _this.tackPicure(data);
-                break;
+                wx.navigateTo({
+                    url: '/pages/customer/operation/feedback/feedback',
+                    events: {
+                        // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
+                        acceptDataFromOpenedPage: function (res) {
+                            /*if (res.data) {
+                                data.doNext = true;
+                                _this.tackPicure(data);
+                                break;
+                            }*/
+                            console.info(res)
+                            _this.data.operation.tmpData = res.data;
+                        },
+                    },
+                    success: function (res) {
+                        // 通过eventChannel向被打开页面传送数据
+                        const params = _this.data.operation.tmpData;
+                        params.title = ($PubConst.operationCodes[code] || {}).name
+                        res.eventChannel.emit('acceptDataFromOpenerPage', params)
+                    }
+                })
         }
 
     },
