@@ -14,6 +14,9 @@ Page({
      * 页面的初始数据
      */
     data: {
+        state: {
+            freshView: false
+        },
         loading: {
             spin: true,
             spinVal: 2,
@@ -119,7 +122,6 @@ Page({
         wx.getLocation({
             type: 'gcj02',
             success(res) {
-                _this.setSpin();
                 _this.setData({
                     ['markers[0].latitude']: res.latitude,
                     ['markers[0].longitude']: res.longitude,
@@ -133,12 +135,21 @@ Page({
                         })
                         const user = $Service.getUserInfo();
                         _this.data.submitData.value8 += user.id.substr(user.id.length - 5);
+                        _this.setSpin();
                     },
                     fail: function (res1) {
+                        if (!_this.data.state.freshView) {
+                            _this.data.state.freshView = true;
+                            $Utils.getPositionAuth();
+                        }
                     }
                 })
                 // const speed = res.speed
                 // const accuracy = res.accuracy
+            },
+            fail(res) {
+                _this.data.state.freshView = true;
+                $Utils.getPositionAuth();
             }
         })
 
@@ -154,8 +165,12 @@ Page({
      * 生命周期函数--监听页面初次渲染完成
      */
     onReady: function () {
-        if (this.isBook) {
-            this.initCircle();
+        if (this.data.state.freshView) {
+            this.onLoad()
+        } else {
+            if (this.isBook) {
+                this.initCircle();
+            }
         }
     },
 
@@ -163,12 +178,15 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-        if (this.circle1) {
-            this.data.progressShow.count--
-            this.countInterval()
+        if (this.data.state.freshView) {
+            this.onLoad()
+        } else {
+            if (this.circle1) {
+                this.data.progressShow.count--
+                this.countInterval()
+            }
+            this.getRole();
         }
-
-        this.getRole();
 
     },
 
@@ -572,7 +590,7 @@ Page({
     }
     , setSpin() {
         const _this = this;
-        if (--_this.data.loading.spinVal == 0) {
+        if ((--_this.data.loading.spinVal) == 0) {
             _this.setData({
                 ['loading.spin']: false
             })
