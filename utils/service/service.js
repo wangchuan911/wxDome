@@ -7,6 +7,12 @@ const OPRERATOPM = {
     ADD: 0,
     GET: 3,
 }
+const getUserId = function () {
+    return wx.getStorageSync("openId");
+}
+const setUserId = function (openId) {
+    wx.setStorageSync("openId", openId);
+}
 
 const uploadFile = function (pictrues, data, complete) {
     var successPic = [];
@@ -41,7 +47,7 @@ const uploadFile = function (pictrues, data, complete) {
 
 }
 const initUserInfo = function (dat) {
-    wx.setStorageSync("openId", dat.openid)
+    setUserId(dat.openid)
     wx.removeStorageSync("isWorker");
     wx.removeStorageSync("isAdmin");
     wx.removeStorageSync("newUser");
@@ -130,7 +136,7 @@ const methods = {
         wx.checkSession({
             success: function () {
                 //session_key 未过期，并且在本生命周期一直有效
-                let openId = wx.getStorageSync("openId")
+                let openId = getOpenId()
                 if (!openId || !openId.trim()) {
                     //重新登录
                     getOpenId()
@@ -161,7 +167,7 @@ const methods = {
     },
     getUserInfo: function () {
         return {
-            id: wx.getStorageSync("openId"),
+            id: getUserId(),
         }
     },
     getSuccessPictureIds(picArr) {
@@ -171,6 +177,8 @@ const methods = {
             pictureIds.push(JSON.parse(picArr[i].result.data).result.pictrueId);
         }
         return pictureIds
-    }
+    },
+    getUserId: getUserId,
+    setUserId: setUserId
 }
 module.exports = methods

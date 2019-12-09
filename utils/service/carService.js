@@ -3,7 +3,7 @@ const $Service = require('./service');
 
 const OPRERATOPM = {
     ADD: 0,
-    DELETE:1,
+    DELETE: 1,
     MODIFY: 2,
     GET: 3,
     LIST: 4,
@@ -12,6 +12,13 @@ const SERVIE = "carManger";
 /**
  * 建单
  * */
+
+const getDefaultCarNo = function () {
+    return wx.getStorageSync("carLicence")
+}
+const setDefaultCarNo = function (carNo) {
+    wx.setStorageSync("carLicence", carNo)
+}
 const Methods = {
     addCar: function (data, success, error) {
         $Service.post(SERVIE, [OPRERATOPM.ADD, {
@@ -59,7 +66,9 @@ const Methods = {
         }, function (res) {
             error(res)
         })
-    }
+    },
+    getDefaultCarNo: getDefaultCarNo,
+    setDefaultCarNo: setDefaultCarNo
 }
 
 
