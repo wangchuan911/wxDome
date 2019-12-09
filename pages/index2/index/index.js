@@ -4,6 +4,7 @@ const {$Toast} = require('../../../ui/iview/base/index');
 const qqmapsdk = require('../../../utils/thrid/qqmap-wx-jssdk.js');
 const $OrderService = require('../../../utils/service/orderService');
 const $TacheService = require('../../../utils/service/tacheService');
+const $CarService = require('../../../utils/service/carService');
 const $Service = require('../../../utils/service/service');
 const $PubConst = require('../../../utils/pubConst');
 const $Utils = require('../../../utils/util');
@@ -111,7 +112,7 @@ Page({
                 _this.initCircle();
             }
             if ((result.cars || []).length > 0) {
-                wx.setStorageSync("carLicence", result.cars[0].lisence);
+                $CarService.setDefaultCarNo(result.cars[0].lisence);
             }
             _this.setSpin();
         })
@@ -274,17 +275,27 @@ Page({
     },
     bookBut: function (e) {
         this.getUserInfo(e)
+        if (!$CarService.getDefaultCarNo()) {
+            wx.showModal({
+                title: '需要登陆',
+                content: '您尚未设置车牌号,是否设置',
+                success(res) {
+                    if (res.confirm) {
+                        console.log('用户点击确定');
+                        wx.navigateTo({
+                            url: "/pages/home/garage/garage"
+                        })
+                    }
+                }
+            })
+            return;
+        }
         if (this.data.loading.submitBut) return
         const _this = this
         _this.setData({
             isBook: true,
             ['loading.submitBut']: true
         })
-        setTimeout(function () {
-        }, 2000)
-        setTimeout(function () {
-
-        }, 7000);
         console.info("提交")
         console.info(this.data.submitData)
         this.data.submitData.value7 = _this.data.markers[0]

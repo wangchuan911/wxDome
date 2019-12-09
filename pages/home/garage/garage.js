@@ -110,7 +110,8 @@ Page({
                     defaultCar: data[i].defaultSelected
                 }
                 if (data[i].defaultSelected) {
-                    cars.unshift(obj)
+                    cars.unshift(obj);
+                    $CarService.setDefaultCarNo(obj.carNo)
                 } else {
                     cars.push(obj)
                 }
@@ -244,16 +245,20 @@ Page({
                 carNo: this.data.page.recordInfo.carNo,
                 carBrand: this.data.page.recordInfo.carBrand,
                 carColor: this.data.page.recordInfo.color.value,
-                carType: this.data.page.recordInfo.type.value
+                carType: this.data.page.recordInfo.type.value,
+                defaultCar: _this.data.page.carList.cars.length > 0 ? false : true
             };
             $CarService.addCar({
                 brand: data.carBrand,
                 lisence: data.carNo,
                 color: data.carColor,
                 modal: data.carType,
-                defaultSelected: 0,
+                defaultSelected: data.defaultCar ? 1 : 0,
             }, function (res) {
                 cars.push(data);
+                if (data.defaultCar) {
+                    $CarService.setDefaultCarNo(data.carNo)
+                }
                 _this.setData({
                     ['page.carList.cars']: cars,
                 })
@@ -334,11 +339,14 @@ Page({
                     const newCars = []
                     for (let i = 0; i < cars.length; i++) {
                         if (_this.data.page.carActon.carIdx == i) {
-                            cars[i].defaultCar = true
-                            newCars.unshift(cars[i])
+                            cars[i].defaultCar = true;
+                            newCars.unshift(cars[i]);
+                            if (cars[i].defaultCar) {
+                                $CarService.setDefaultCarNo(cars[i].carNo)
+                            }
                         } else {
-                            cars[i].defaultCar = false
-                            newCars.push(cars[i])
+                            cars[i].defaultCar = false;
+                            newCars.push(cars[i]);
                         }
                     }
                     _this.setData({
