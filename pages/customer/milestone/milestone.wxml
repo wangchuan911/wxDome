@@ -17,7 +17,7 @@
           </view>
           <view slot="content">
             {{step.desc}}
-            <i-tag i-class="i-tag" wx:if="{{item['imgs'+step.state] && item['imgs'+step.state].length>0}}" checkable="{{true}}" checked="{{false}}" color="blue" type='border' bindtap="preViewPicture" data-idx="{{index}}"  data-img-idx="{{step.state}}">图片</i-tag>
+            <i-tag i-class="i-tag" wx:if="{{item['imgs'+step.id] && item['imgs'+step.id].length>0}}" checkable="{{true}}" checked="{{false}}" color="blue" type='border' bindtap="preViewPicture" data-idx="{{index}}"  data-img-idx="{{step.state}}">图片</i-tag>
           </view>
         </i-step>
       </i-steps>
