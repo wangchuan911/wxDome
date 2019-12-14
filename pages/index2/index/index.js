@@ -155,9 +155,7 @@ Page({
 
         for (let idx in this.data.serviceType) {
             const type = this.data.serviceType[idx];
-            if (type.checked) {
-                this.data.submitData.value6[type.id] = type.checked
-            }
+            this.data.submitData.value6[type.id] = type.checked
         }
     },
 
