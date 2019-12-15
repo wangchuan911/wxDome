@@ -282,17 +282,20 @@ Page({
             }
         })
     },
-    callHelpBut: function (event) {
-        console.info(event.detail)
-    },
-    callWorkerBut: function (event) {
-        console.info(event.detail)
-    },
     foldBut: function (e) {
         const order = this.data.orders[e.currentTarget.dataset.idx];
         this.setData({
             ['orders[' + e.currentTarget.dataset.idx + '].fold']: !order.fold
         })
     },
+    callBut: function (e) {
+        if (e.currentTarget.dataset.phone) {
+            wx.makePhoneCall({
+                phoneNumber: e.currentTarget.dataset.phone //仅为示例，并非真实的电话号码
+            })
+        } else if (e.currentTarget.dataset.help) {
+            console.info("help")
+        }
+    }
 
 })

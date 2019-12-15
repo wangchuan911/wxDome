@@ -53,11 +53,11 @@
 <!--      </i-row>-->
       <!--<i-divider height="20"></i-divider>-->
           <div style="text-align:center;display: flex;justify-content: flex-end;" wx:if="{{!item.isWorkOrder}}">
-            <div class="helper-div" bindtap="callHelpBut" data-idx="{{index}}">
+            <div class="helper-div" bindtap="callBut" data-idx="{{index}}" data-help="true">
                 <i-icon style="display: block" size="28" color="#80848f" type="customerservice" />
               <p>联系客服</p>
             </div>
-            <div class="helper-div" wx:if="{{item.state!=101}}" bindtap="callWorkerBut" data-idx="{{index}}">
+            <div class="helper-div" wx:if="{{item.state!=101}}" bindtap="callBut" data-idx="{{index}}" data-phone="{{item.workerPhone}}">
                 <i-icon style="display: block" size="28" color="#80848f" type="interactive" />
               <p>呼叫小伙</p>
             </div>
@@ -67,11 +67,11 @@
             </div>
           </div>
           <div style="text-align:center;display: flex;justify-content: flex-end;" wx:if="{{item.isWorkOrder}}">
-            <div class="helper-div" bindtap="callHelpBut" data-idx="{{index}}">
+            <div class="helper-div" bindtap="callBut" data-idx="{{index}}" data-help="true">
               <i-icon style="display: block" size="28" color="#80848f" type="customerservice" />
               <p>客服</p>
             </div>
-            <div class="helper-div"  bindtap="callWorkerBut" data-idx="{{index}}">
+            <div class="helper-div"  bindtap="callBut" data-idx="{{index}}" data-phone="{{item.custPhone}}">
               <i-icon style="display: block" size="28" color="#80848f" type="interactive" />
               <p>联系客户</p>
             </div>

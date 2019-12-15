@@ -109,6 +109,10 @@ const Methods = {
             longitude: data.posY,
             isDeal: data.orderAppointPerson != null,
             orderCode: data.orderCode,
+            worker: data.orderAppointPersonName,
+            workerPhone: data.orderAppointPhone,
+            custName: data.custName,
+            custPhone: data.custPhone,
         }
         if (data.pictureVOS || [] > 0) {
             let pic;
