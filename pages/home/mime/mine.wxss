@@ -14,7 +14,7 @@
 }
 
 .userinfo-nickName {
-  width: 128rpx;
+  /*width: 128rpx;*/
   height: 128rpx;
   margin: 20rpx;
   color: #aaa;

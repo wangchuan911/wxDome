@@ -48,7 +48,7 @@ const uploadFile = function (pictrues, data, complete) {
 }
 const initUserInfo = function (dat) {
     setUserId(dat.openid)
-    wx.removeStorageSync("isWorker");
+    /*wx.removeStorageSync("isWorker");
     wx.removeStorageSync("isAdmin");
     wx.removeStorageSync("newUser");
     switch (dat.user.role || 0) {
@@ -64,8 +64,8 @@ const initUserInfo = function (dat) {
             wx.setStorageSync("newUser", true);
             dat.user.role = 0;
             break;
-    }
-    wx.setStorageSync("roleMode", dat.user.role || 0)
+    }*/
+    wx.setStorageSync("roleMode", isNaN(dat.user.role) ? -1 : dat.user.role);
 }
 const methods = {
     getUrl: function (name) {
@@ -132,7 +132,7 @@ const methods = {
             })
         }
 
-        wx.setStorageSync("roleMode", 0);
+        wx.setStorageSync("roleMode", -1);
         wx.checkSession({
             success: function () {
                 //session_key 未过期，并且在本生命周期一直有效
@@ -156,7 +156,8 @@ const methods = {
         })
     },
     getRole: function () {
-        return wx.getStorageSync("isAdmin") ? 2 : (wx.getStorageSync("isWorker")) ? 1 : 0;
+        // return wx.getStorageSync("isAdmin") ? 2 : (wx.getStorageSync("isWorker")) ? 1 : 0;
+        return wx.getStorageSync("roleMode");
     },
     upload: function (pictrue, formData, complate) {
         if (pictrue instanceof Array) {

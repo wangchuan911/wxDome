@@ -81,18 +81,26 @@ Page({
             value7: {},
             value8: $Utils.getDate(new Date(), "")
         },
-        roleMode: 0
+        roleMode: -1
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
+        this.login();
+        this.initMap();
+        for (let idx in this.data.serviceType) {
+            const type = this.data.serviceType[idx];
+            this.data.submitData.value6[type.id] = type.checked
+        }
+    },
+    login: function () {
         const _this = this;
-        this.getUserInfo();
         $Service.login(function (result) {
             let openId = result.openid;
             const roloId = _this.getRole();
+            _this.data.state.freshView = roloId < 0;
             /*_this.setData({
                 ["openType"]: ((roloId == 0) ? "getPhoneNumber" : "getUserInfo")
             })*/
@@ -106,7 +114,7 @@ Page({
                     ['progressShow.progress']: order.orderCount == 0 ? 1 : parseInt((order.orderCount / order.allOrderCount) * 100)
                 })
             }
-            if (roloId != 0 || (((order.allOrderCount || 0) - (order.orderCount || 0)) > 0)) {
+            if (roloId > 0 || (((order.allOrderCount || 0) - (order.orderCount || 0)) > 0)) {
                 _this.setData({
                     isBook: true,
                     ['loading.submitBut']: false,
@@ -119,6 +127,8 @@ Page({
             }
             _this.setSpin();
         })
+    }, initMap: function () {
+        const _this = this;
         wx.getLocation({
             type: 'gcj02',
             success(res) {
@@ -152,13 +162,7 @@ Page({
                 $Utils.getPositionAuth();
             }
         })
-
-        for (let idx in this.data.serviceType) {
-            const type = this.data.serviceType[idx];
-            this.data.submitData.value6[type.id] = type.checked
-        }
     },
-
     /**
      * 生命周期函数--监听页面初次渲染完成
      */
@@ -251,20 +255,6 @@ Page({
                     }
                 })
             }
-            wx.getSetting({
-                success: function (res) {
-                    if (res.authSetting['scope.userInfo']) {
-                        wx.getUserInfo({
-                            success: function (res) {
-                                _this.setData({
-                                    userInfo: res.userInfo,
-                                    hasUserInfo: true
-                                })
-                            }
-                        })
-                    }
-                }
-            })
         }
     },
     /**
@@ -291,17 +281,42 @@ Page({
     },
     bookBut: function (e) {
         this.getUserInfo(e)
-        if (!$CarService.getDefaultCarNo()) {
-            wx.showModal({
-                title: '需要登陆',
-                content: '您尚未设置车牌号,是否设置',
-                success(res) {
-                    if (res.confirm) {
-                        console.log('用户点击确定');
-                        wx.navigateTo({
-                            url: "/pages/home/garage/garage"
-                        })
+
+        var noLogin = this.getRole() < 0;
+        var noCarNo = !$CarService.getDefaultCarNo();
+        if (noLogin || noCarNo) {
+            var msgBody = {};
+            if (noLogin) {
+                msgBody.msg = '请先登陆';
+                msgBody.jumpToPage = "/pages/home/mime/mine"
+
+            } else if (noCarNo) {
+                msgBody.msg = '请完善车牌信息';
+                msg.jumpToPage = "/pages/home/garage/garage"
+                /*wx.showModal({
+                    title: msgBody.title,
+                    content: msgBody.content,
+                    success(res) {
+                        if (res.confirm) {
+                            console.log('用户点击确定');
+                            wx.navigateTo({
+                                url: "/pages/home/garage/garage"
+                            })
+                        }
                     }
+                })*/
+            }
+            wx.showToast({
+                title: msgBody.msg,
+                icon: 'none',
+                duration: 1500,
+                mask: true,
+                complete(res) {
+                    setTimeout(function () {
+                        wx.navigateTo({
+                            url: msgBody.jumpToPage,
+                        })
+                    }, 1000);
                 }
             })
             return;
@@ -579,9 +594,9 @@ Page({
 
         }
     }
-    , getRole(_this) {
+    , getRole() {
         const role = $Service.getRole();
-        (_this || this).setData({
+        this.setData({
             roleMode: role
         })
         return role;

@@ -133,8 +133,8 @@ Page({
                         let orders = res.data.result || [];
                         for (let i = 0; i < orders.length; i++) {
                             orders[i] = $OrderService.modelChange(orders[i])
-                            orders[i].isCustOrder = role == 0
-                            orders[i].isWorkOrder = !(role == 0)
+                            orders[i].isCustOrder = (role == 0)
+                            orders[i].isWorkOrder = (role == 1)
                         }
                         _this.setData({
                             ['orders']: orders

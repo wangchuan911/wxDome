@@ -93,15 +93,15 @@
                     </i-row>
                 </view>
 
-                <i-button wx:if="roleMode==0" loading="{{loading.submitBut}}"
-                          bind:getphonenumber="{{ isBook?'':'bookBut'}}"
-                          bind:click="{{isBook?'mileStoneBut':''}}"
-                          open-type="{{isBook?'':openType}}"
-                          type="primary" shape="circle" size="small">{{ isBook?'进度详情':'立即下单'}}
+                <i-button wx:if="{{roleMode<=0 && !isBook}}" loading="{{loading.submitBut}}"
+                          bind:getphonenumber="bookBut"
+                          bind:click="{{(roleMode<0)?'bookBut':''}}"
+                          open-type="{{(roleMode<0)?'':openType}}"
+                          type="primary" shape="circle" size="small">立即下单
                 </i-button>
                 <i-button wx:else loading="{{loading.submitBut}}"
-                          bind:getphonenumber="mileStoneBut"
-                          open-type="{{openType}}"
+                          bindgetuserinfo="mileStoneBut"
+                          open-type="getUserInfo"
                           type="primary" shape="circle" size="small">进度详情
                 </i-button>
             </view>
