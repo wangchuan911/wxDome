@@ -28,7 +28,8 @@ Page({
             oprBut: [],
             tmpData: {}
         },
-        sendQuene: [],//待发送文件列队
+        sendQuene: [],//待发送文件列队,
+        tachePanelInfo: {}
     },
 
     /**
@@ -325,5 +326,17 @@ Page({
         console.info(e.detail);
         this.data.scroll.stepWidth = parseInt(e.detail.scrollWidth / this.data.steps.length);
         this.data.scroll.scrollViewWidth = e.detail.scrollWidth
+    },
+    historyBut: function (e) {
+        const step = this.data.steps[e.currentTarget.dataset.idx];
+        console.info(step);
+        const order = (this.data.order);
+        const tachePanelInfo = {};
+        tachePanelInfo.id = step.id;
+        tachePanelInfo.name = step.name;
+        tachePanelInfo.imgs = order["imgs" + step.id] || [];
+        this.setData({
+            tachePanelInfo: tachePanelInfo
+        })
     }
 })

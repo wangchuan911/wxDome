@@ -26,18 +26,24 @@
                 <p style="display: block">至{{order.endTime}}</p>
             </view>
         </i-cell>
+        <i-cell title="备注图片" i-class="cust-cell">
+            <i-row i-class="i-row-css">
+                <i-col wx:for="{{order.imgs1}}" wx:for-index="index" wx:for-item="url" span="4">
+                    <image src="{{url}}" style="width: 50px; height: 50px" bindtap="preViewPicture"
+                           data-idx="{{index}}"></image>
+                </i-col>
+            </i-row>
+        </i-cell>
     </i-cell-group>
 </i-panel>
-<i-panel title="附件信息">
-    <i-row i-class="i-row-css">
-        <i-col wx:for="{{imgUrls}}" wx:for-index="index" wx:for-item="url" span="4">
+<i-panel title="环节信息({{tachePanelInfo.name}})" wx:if="{{tachePanelInfo.id}}">
+    <i-row i-class="i-row-css" wx:if="tachePanelInfo.imgs.length>0">
+        <i-col wx:for="{{tachePanelInfo.imgs}}" wx:for-index="index" wx:for-item="url" span="4">
             <image src="{{url}}" style="width: 50px; height: 50px" bindtap="preViewPicture"
                    data-idx="{{index}}"></image>
         </i-col>
-        <i-col span="4">
-            <i-icon type="add" size="50" bindtap="addPicture"/>
-        </i-col>
     </i-row>
+    <p wx:else>环节无数据</p>
 </i-panel>
 <i-panel title="状态">
     <!--<i-steps current="{{current}}">
@@ -53,7 +59,7 @@
     <scroll-view scroll-x="true" bindscroll="scroll" style="width: 100%" scroll-left="{{scroll.left}}">
         <view id="scollView" style="width: {{(steps.length/3)*100}}%">
             <i-steps current="{{current}}">
-                <i-step wx:for="{{steps}}" wx:for-index="index" wx:for-item="step">
+                <i-step wx:for="{{steps}}" wx:for-index="index" wx:for-item="step" bindtap="{{current>index?'historyBut':''}}" data-idx="{{index}}">
                     <view slot="title">
                         {{(current>index?"已":'')+step.name}}
                     </view>
