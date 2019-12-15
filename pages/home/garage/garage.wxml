@@ -4,7 +4,7 @@
     <!--<picker mode="multiSelector" bindchange="bindMultiPickerChange" bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex}}" range="{{multiArray}}">
         <i-input class="picker" value="{{multiArray[0][multiIndex[0]]}}，{{multiArray[1][multiIndex[1]]}}，{{multiArray[2][multiIndex[2]]}}" title="用车时间"  placeholder="（选填）最少预留1小时"   disabled="disabled"/>
     </picker>-->
-    <i-input i-class="picker" id="carBand" value="{{page.recordInfo.carBrand }}" title="车辆品牌"/>
+    <i-input i-class="picker" id="carBand" value="{{page.recordInfo.carBrand }}" title="车辆品牌" bind:change="textInputChange"/>
     <i-input i-class="picker" id="carNo" value="{{page.recordInfo.carNo }}" title="车辆牌号" disabled="disabled"
              bindtap="inputBut"/>
     <picker id="color" value="{{page.recordInfo.color.value}}" bindchange="pickerChange" hidden="hidden"
@@ -15,7 +15,7 @@
             value="{{page.recordInfo.type.index}}" range="{{page.recordInfo.type.array}}">
         <i-input i-class="picker" value="{{ page.recordInfo.type.value }}" title="车辆类型" disabled="disabled"/>
     </picker>
-    <i-input i-class="picker" id="phone" value="{{ page.recordInfo.phone }}" title="联系电话"/>
+    <i-input i-class="picker" id="phone" value="{{ page.recordInfo.phone }}" title="联系电话" type="number"  bind:change="textInputChange"/>
     <!--<i-input i-class="picker" id="phone" value="{{page.recordInfo.phone }}" type="phone" title="联系电话"
              placeholder="不填默认使用当前微信电话"/>-->
     <i-button bind:click="addCar" loading="{{loading.submitBut}}"

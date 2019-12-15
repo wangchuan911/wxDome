@@ -14,6 +14,7 @@ Page({
             recordInfo: {
                 enable: false,
                 carNo: "",
+                phone: "123",
                 keyBoardType: 1,
                 color: {
                     index: 0,
@@ -248,6 +249,7 @@ Page({
                 color: data.carColor,
                 modal: data.carType,
                 defaultSelected: data.defaultCar ? 1 : 0,
+                phone: data.phone,
             }, function (res) {
                 cars.push(data);
                 if (data.defaultCar) {
@@ -364,6 +366,17 @@ Page({
                 }, function () {
                     LOADING(false)
                 });
+                break;
+        }
+    },
+    textInputChange: function (e) {
+        const value = e.detail.detail.value;
+        switch (e.currentTarget.id) {
+            case "phone":
+                this.data.page.recordInfo.phone = value;
+                break;
+            case "carBand":
+                this.data.page.recordInfo.carBrand = value;
                 break;
         }
     }
