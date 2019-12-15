@@ -239,7 +239,8 @@ Page({
                 carBrand: this.data.page.recordInfo.carBrand,
                 carColor: this.data.page.recordInfo.color.value,
                 carType: this.data.page.recordInfo.type.value,
-                defaultCar: _this.data.page.carList.cars.length > 0 ? false : true
+                defaultCar: _this.data.page.carList.cars.length > 0 ? false : true,
+                phone: this.data.page.recordInfo.phone
             };
             $CarService.addCar({
                 brand: data.carBrand,
