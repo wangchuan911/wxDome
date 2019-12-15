@@ -27,7 +27,7 @@
             </view>
         </i-cell>
         <i-cell title="备注图片" i-class="cust-cell">
-            <i-row i-class="i-row-css">
+            <i-row i-class="">
                 <i-col wx:for="{{order.imgs1}}" wx:for-index="index" wx:for-item="url" span="4">
                     <image src="{{url}}" style="width: 50px; height: 50px" bindtap="preViewPicture"
                            data-idx="{{index}}"></image>
