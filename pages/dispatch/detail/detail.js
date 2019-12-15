@@ -127,9 +127,13 @@ Page({
         })
     },
     dispathBut: function () {
+        const _this = this;
         const data = {
             orderId: this.data.order.orderId,
             tacheId: this.data.operation.tacheId,
+            info: {
+                setWorker: _this.data.order.worker.id
+            }
         }
         switch (this.data.operation.code) {
             case "dispatch": {
