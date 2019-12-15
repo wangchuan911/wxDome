@@ -331,10 +331,13 @@ Page({
         const step = this.data.steps[e.currentTarget.dataset.idx];
         console.info(step);
         const order = (this.data.order);
-        const tachePanelInfo = {};
+        const tachePanelInfo = {noData: true};
         tachePanelInfo.id = step.id;
         tachePanelInfo.name = step.name;
         tachePanelInfo.imgs = order["imgs" + step.id] || [];
+        if (tachePanelInfo.imgs.length > 0) {
+            tachePanelInfo.noData = false;
+        }
         this.setData({
             tachePanelInfo: tachePanelInfo
         })

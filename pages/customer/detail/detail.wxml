@@ -43,7 +43,7 @@
                    data-idx="{{index}}"></image>
         </i-col>
     </i-row>
-    <p wx:else>环节无数据</p>
+    <p style="margin: 20px" wx:if="{{tachePanelInfo.noData}}">环节无数据</p>
 </i-panel>
 <i-panel title="状态">
     <!--<i-steps current="{{current}}">
