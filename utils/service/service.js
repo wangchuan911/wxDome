@@ -46,6 +46,10 @@ const uploadFile = function (pictrues, data, complete) {
     upload(pictrues, 0, data)
 
 }
+
+const setRole = function (role) {
+    return wx.setStorageSync("roleMode", role);
+}
 const initUserInfo = function (dat) {
     setUserId(dat.openid)
     /*wx.removeStorageSync("isWorker");
@@ -65,7 +69,7 @@ const initUserInfo = function (dat) {
             dat.user.role = 0;
             break;
     }*/
-    wx.setStorageSync("roleMode", isNaN(dat.user.role) ? -1 : dat.user.role);
+    setRole(isNaN(dat.user.role) ? -1 : dat.user.role);
 }
 const methods = {
     getUrl: function (name) {
@@ -110,7 +114,7 @@ const methods = {
     }
     , login: function (success, error) {
 
-        function getOpenId() {
+        const getOpenId = () => {
             wx.login({
                 success: function (res) {
                     if (res.code) {
@@ -132,7 +136,7 @@ const methods = {
             })
         }
 
-        wx.setStorageSync("roleMode", -1);
+        setRole(-1);
         wx.checkSession({
             success: function () {
                 //session_key 未过期，并且在本生命周期一直有效
@@ -158,6 +162,9 @@ const methods = {
     getRole: function () {
         // return wx.getStorageSync("isAdmin") ? 2 : (wx.getStorageSync("isWorker")) ? 1 : 0;
         return wx.getStorageSync("roleMode");
+    },
+    setRole: function (role) {
+        return setRole(role);
     },
     upload: function (pictrue, formData, complate) {
         if (pictrue instanceof Array) {

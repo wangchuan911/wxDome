@@ -130,8 +130,19 @@ Page({
             $UserService.newUserr({
                 name: e.detail.userInfo.nickName
             }, res => {
-                this.setData({
-                    roleMode: 0
+                $Service.setRole(0);
+                this.getRole();
+                wx.showModal({
+                    title: '完善信息？',
+                    content: "是否去完善信息",
+                    success(res) {
+                        if (res.confirm) {
+                            console.log('用户点击确定');
+                            wx.navigateTo({
+                                url: "/pages/home/garage/garage"
+                            })
+                        }
+                    }
                 })
             }, res => {
                 wx.showToast({
@@ -147,5 +158,33 @@ Page({
             roleMode: role
         })
         return role;
+    },
+    goPage: function (e) {
+        if (!e.currentTarget.dataset.page) {
+            wx.showToast({
+                title: "功能即将上线！",
+                icon: 'none',
+                duration: 2000
+            })
+            return;
+        }
+        if (e.currentTarget.dataset.role > this.getRole()) {
+            wx.showToast({
+                title: e.currentTarget.dataset.role == 0 ? "请先登陆！" : "权限不足请联系管理员",
+                icon: 'none',
+                duration: 2000
+            })
+            return;
+        }
+        wx.navigateTo({
+            url: e.currentTarget.dataset.page,
+            fail: res => {
+                wx.showToast({
+                    title: "功能即将上线！",
+                    icon: 'none',
+                    duration: 2000
+                })
+            }
+        })
     }
 })

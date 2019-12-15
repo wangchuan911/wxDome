@@ -95,8 +95,8 @@
 
                 <i-button wx:if="{{roleMode<=0 && !isBook}}" loading="{{loading.submitBut}}"
                           bind:getphonenumber="bookBut"
-                          bind:click="{{(roleMode<0)?'bookBut':''}}"
-                          open-type="{{(roleMode<0)?'':openType}}"
+                          bind:click="{{state.userCheckFail?'userCheck':''}}"
+                          open-type="{{state.userCheckFail?'':openType}}"
                           type="primary" shape="circle" size="small">立即下单
                 </i-button>
                 <i-button wx:else loading="{{loading.submitBut}}"

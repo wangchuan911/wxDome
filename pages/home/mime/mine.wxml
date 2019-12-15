@@ -9,20 +9,20 @@
     </i-col>
 </i-row>
 <i-row wx:else>
-    <i-button bindgetuserinfo="login" type="success" shape="circle" size="large" open-type="getUserInfo" >
+    <i-button bindgetuserinfo="login" type="success" shape="circle" size="large" open-type="getUserInfo">
         <i-icon class="userinfo-avatar" type="emoji_fill" size='40'/>
         微信授权点击登陆
     </i-button>
 </i-row>
 <view>
     <i-cell-group>
-        <i-cell title="联系客服" is-link>
+        <i-cell title="联系客服" bind:click="goPage">
             <i-icon size='24' slot="icon" type="customerservice"/>
         </i-cell>
-        <i-cell title="车辆信息" is-link url="/pages/home/garage/garage">
+        <i-cell title="车辆信息" data-page="/pages/home/garage/garage" data-role="0" bind:click="goPage">
             <i-icon slot="icon" size='24' type="activity"/>
         </i-cell>
-        <i-cell title="服务状态" is-link url="/pages/dashboard/index" only-tap-footer>
+        <i-cell title="服务状态" data-page="/pages/dashboard/index" bind:click="goPage">
             <i-icon slot="icon" size='24' type="success"/>
         </i-cell>
         <i-cell title="{{switchButChecked?'服务人员':'顾客'}}">

@@ -15,7 +15,8 @@ Page({
      */
     data: {
         state: {
-            freshView: false
+            freshView: false,
+            userCheckFail: true,
         },
         loading: {
             spin: true,
@@ -122,9 +123,11 @@ Page({
                 })
                 _this.initCircle();
             }
-            if ((result.cars || []).length > 0) {
-                $CarService.setDefaultCarNo(result.cars[0].lisence);
-            }
+            const carNo = (result.cars || []).length > 0 ? result.cars[0].lisence : null
+            $CarService.setDefaultCarNo(carNo);
+            _this.setData({
+                ['state.userCheckFail']: !_this.userCheck(null, true)
+            });
             _this.setSpin();
         })
     }, initMap: function () {
@@ -180,6 +183,7 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
+        const _this = this;
         if (this.data.state.freshView) {
             this.onLoad()
         } else {
@@ -188,6 +192,9 @@ Page({
                 this.countInterval()
             }
             this.getRole();
+            _this.setData({
+                ['state.userCheckFail']: !_this.userCheck(null, true)
+            });
         }
 
     },
@@ -279,9 +286,7 @@ Page({
         console.info(e)
         this.data.markers[0]
     },
-    bookBut: function (e) {
-        this.getUserInfo(e)
-
+    userCheck: function (e, notTip) {
         var noLogin = this.getRole() < 0;
         var noCarNo = !$CarService.getDefaultCarNo();
         if (noLogin || noCarNo) {
@@ -292,7 +297,7 @@ Page({
 
             } else if (noCarNo) {
                 msgBody.msg = '请完善车牌信息';
-                msg.jumpToPage = "/pages/home/garage/garage"
+                msgBody.jumpToPage = "/pages/home/garage/garage"
                 /*wx.showModal({
                     title: msgBody.title,
                     content: msgBody.content,
@@ -306,21 +311,29 @@ Page({
                     }
                 })*/
             }
-            wx.showToast({
-                title: msgBody.msg,
-                icon: 'none',
-                duration: 1500,
-                mask: true,
-                complete(res) {
-                    setTimeout(function () {
-                        wx.navigateTo({
-                            url: msgBody.jumpToPage,
-                        })
-                    }, 1000);
-                }
-            })
-            return;
+            if (!notTip) {
+                wx.showToast({
+                    title: msgBody.msg,
+                    icon: 'none',
+                    duration: 1500,
+                    mask: true,
+                    complete(res) {
+                        setTimeout(function () {
+                            wx.navigateTo({
+                                url: msgBody.jumpToPage,
+                            })
+                        }, 1000);
+                    }
+                })
+            }
+            return false;
         }
+        return true;
+    },
+    bookBut: function (e) {
+        this.getUserInfo(e)
+        if (!this.userCheck(e)) return;
+
         if (this.data.loading.submitBut) return
         const _this = this
         _this.setData({
@@ -395,6 +408,7 @@ Page({
     },
     mileStoneBut: function (e) {
         this.getUserInfo(e)
+        if (!this.userCheck(e)) return;
         const _this = this
         wx.navigateTo({
             url: (_this.data.roleMode == 2) ? '/pages/dispatch/orders/orders' : '/pages/customer/milestone/milestone',

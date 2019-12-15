@@ -214,13 +214,6 @@ Page({
         const _this = this
         if (!e.detail.userInfo) {
             return
-        } else if (wx.getStorageSync("newUser")) {
-            $UserService.newUserr({
-                name: e.detail.userInfo.nickName
-            }, res => {
-                wx.removeStorageSync("newUser")
-                _this.addCar();
-            })
         } else {
             this.addCar()
         }
