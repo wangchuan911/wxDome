@@ -136,7 +136,7 @@ const methods = {
         wx.checkSession({
             success: function () {
                 //session_key 未过期，并且在本生命周期一直有效
-                let openId = getOpenId()
+                let openId = getUserId()
                 if (!openId || !openId.trim()) {
                     //重新登录
                     getOpenId()
