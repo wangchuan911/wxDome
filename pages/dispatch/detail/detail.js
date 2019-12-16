@@ -1,6 +1,7 @@
 // pages/dispatch/detail/detail.js
 const $OrderService = require('../../../utils/service/orderService');
 const $OperService = require('../../../utils/service/operationService');
+const $PubConst = require('../../../utils/pubConst');
 Page({
 
     /**
@@ -25,8 +26,9 @@ Page({
         // 监听acceptDataFromOpenerPage事件，获取上一页面通过eventChannel传送到当前页面的数据
         eventChannel.on('acceptDataFromOpenerPage', function (data) {
             console.info(data)
+            const order = data.data;
             _this.setData({
-                order: data.data
+                order: order
             })
 
             $OperService.getOrderOperation({
@@ -41,6 +43,11 @@ Page({
                     code = oper.tacheVO.code
                     codeName = oper.tacheVO.tacheName
                     tacheId = oper.tacheVO.tacheId
+                } else {
+                    const state = $PubConst.operationCodes[order.code]
+                    code = order.code;
+                    tacheId = order.stateId;
+                    codeName = state.name;
                 }
                 _this.setData({
                     ['operation.code']: code,

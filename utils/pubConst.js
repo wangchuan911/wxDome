@@ -3,7 +3,7 @@ module.exports = {
         step1: [
             {
                 state: 0,
-                name: "订单受理中",
+                name: "订单受理",
                 desc: "正在为您指派服务人员"
             },
             {
@@ -45,6 +45,9 @@ module.exports = {
         }]
     },
     operationCodes: {
+        dispatch:{
+            name: "人员派遣"
+        },
         reach: {
             name: "签到"
         },

@@ -15,7 +15,7 @@ const SERVIE = "userManger";
 const Methods = {
     newUserr: function (data, success, error) {
         $Service.post(SERVIE, [OPRERATOPM.ADD, {
-            id: wx.getStorageSync("openId"),
+            id: $Service.getUserId(),
             name: data.name,
             phone: data.phone
         }], function (res) {
@@ -26,7 +26,7 @@ const Methods = {
     },
     getUser: function (success, error) {
         $Service.post(SERVIE, [OPRERATOPM.GET, {
-            id: wx.getStorageSync("openId")
+            id: $Service.getUserId()
         }], function (res) {
             success(res)
         }, function (res) {
@@ -34,7 +34,9 @@ const Methods = {
         })
     },
     getWorkers: function (success, error) {
-        $Service.post(SERVIE, [OPRERATOPM.GET_WORKERS, {}], function (res) {
+        $Service.post(SERVIE, [OPRERATOPM.GET_WORKERS, {
+            id: $Service.getUserId(),
+        }], function (res) {
             success(res)
         }, function (res) {
             error(res)
