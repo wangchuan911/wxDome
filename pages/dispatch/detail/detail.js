@@ -161,8 +161,15 @@ Page({
                         }
                     });
                     wx.navigateBack({})
-                })
+                });
+                break;
             }
+            default:
+                wx.showToast({
+                    title: '当前面板不支持单前操作',
+                    image: '/',
+                    duration: 2000
+                });
                 break;
         }
     },
