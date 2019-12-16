@@ -111,8 +111,9 @@
 </view>
 <button class="absolute"
         style="width:100%;display:block;right:20px;top:20px;width: 50px;height: 50px;background-color: white;border-radius: 100px;"
-        open-type="getUserInfo"
-        bindgetuserinfo="mine">
+        bindtap="mine">
+        <!--open-type="getUserInfo"
+        bindgetuserinfo="mine">-->
     <i-icon wx:if="{{!userInfo.avatarUrl}}" class="i-awatar" type="mine_fill" size='50'/>
     <image wx:else src="{{userInfo.avatarUrl}}" class="i-awatar" openType="getUserInfo"></image>
 </button>

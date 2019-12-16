@@ -89,6 +89,7 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
+        this.getUserInfo()
         this.login();
         this.initMap();
         for (let idx in this.data.serviceType) {
@@ -425,7 +426,7 @@ Page({
         })
     },
     mine: function (e) {
-        this.getUserInfo();
+        // this.getUserInfo();
         wx.navigateTo({
             url: '/pages/home/mime/mine',
             /*events: {
