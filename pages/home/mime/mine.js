@@ -209,7 +209,12 @@ Page({
     },
     roleChangeBut: function ({detail = {}}) {
         const role = this.data.role.find(value => value.name == detail.value) || {};
-        if (role.id < 0) return;
+        if (this.data.roleMode >= 0 && role.id < 0) {
+            this.setData({
+                current: detail.value
+            })
+            return;
+        };
         $UserService.updateUser({role: role.id}, res => {
             this.setData({
                 current: detail.value
