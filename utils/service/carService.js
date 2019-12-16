@@ -28,6 +28,7 @@ const Methods = {
             color: data.color,
             modal: data.modal,
             defaultSelected: data.defaultSelected,
+            phone: data.phone,
         }], function (res) {
             success(res)
         }, function (res) {
