@@ -8,19 +8,27 @@ Page({
      * 页面的初始数据
      */
     data: {
-        roleMode: -1
+        roleMode: -1,
+        role: [{
+            id: -1,
+            name: '路人（未注册）',
+        }, {
+            id: 0,
+            name: '顾客',
+        }, {
+            id: 1,
+            name: '工作人员'
+        }, {
+            id: 2,
+            name: '监管'
+        }],
+        current: 0
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-        {
-            this.setData({
-                switchButChecked: wx.getStorageSync("isWorker"),
-                switchButChecked2: wx.getStorageSync("isAdmin")
-            });
-        }
         if (app.globalData.userInfo) {
             this.setData({
                 userInfo: app.globalData.userInfo,
@@ -153,9 +161,21 @@ Page({
             })
         }
     }, getRole() {
+        const _this = this;
         const role = $Service.getRole();
         this.setData({
-            roleMode: role
+            roleMode: role,
+            current: function () {
+                let name = 0;
+                _this.data.role.find((value) => {
+                    if (value.id == role) {
+                        name = value.name;
+                        return true;
+                    }
+                    return false;
+                })
+                return name;
+            }()
         })
         return role;
     },
@@ -185,6 +205,15 @@ Page({
                     duration: 2000
                 })
             }
+        })
+    },
+    roleChangeBut: function ({detail = {}}) {
+        const role = this.data.role.find(value => value.name == detail.value) || {};
+        if (role.id < 0) return;
+        $UserService.updateUser({role: role.id}, res => {
+            this.setData({
+                current: detail.value
+            });
         })
     }
 })

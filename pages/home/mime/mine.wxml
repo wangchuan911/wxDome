@@ -25,11 +25,15 @@
         <i-cell title="服务状态" data-page="/pages/dashboard/index" bind:click="goPage">
             <i-icon slot="icon" size='24' type="success"/>
         </i-cell>
-        <i-cell title="{{switchButChecked?'服务人员':'顾客'}}">
+       <!-- <i-cell title="{{switchButChecked?'服务人员':'顾客'}}">
             <switch slot="footer" checked="{{switchButChecked}}" bindchange="switchBut"/>
         </i-cell>
         <i-cell title="{{switchButChecked2?'admin':'一般'}}">
             <switch slot="footer" checked="{{switchButChecked2}}" bindchange="switchBut2"/>
-        </i-cell>
+        </i-cell>-->
     </i-cell-group>
+    <i-radio-group current="{{current}}" bindchange="roleChangeBut">
+        <i-radio wx:for="{{role}}"  wx:key="{{item.id}}" value="{{item.name}}">
+        </i-radio>
+    </i-radio-group>
 </view>
