@@ -187,6 +187,18 @@ const methods = {
         return pictureIds
     },
     getUserId: getUserId,
-    setUserId: setUserId
+    setUserId: setUserId,
+    getValueFaster(obj, key) {
+        const keys = key.split(".");
+        let dat = obj;
+        for (var idx = 0; idx < keys.length; idx++) {
+            if (idx != keys.length - 1) {
+                if (!dat) return null;
+                dat = dat[keys[idx]]
+            } else
+                return dat[keys[idx]]
+        }
+        return null;
+    }
 }
 module.exports = methods

@@ -308,7 +308,7 @@ Page({
         })
     },
     preViewPicture: function (e) {
-        const imgUrls = this.data.imgUrls
+        const imgUrls = $Service.getValueFaster(this.data, e.currentTarget.dataset.key);
         wx.previewImage({
             current: imgUrls[e.currentTarget.dataset.idx], // 当前显示图片的http链接
             urls: imgUrls // 需要预览的图片http链接列表

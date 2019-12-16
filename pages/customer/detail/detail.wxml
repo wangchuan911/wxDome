@@ -30,7 +30,7 @@
             <i-row i-class="">
                 <i-col wx:for="{{order.imgs1}}" wx:for-index="index" wx:for-item="url" span="4">
                     <image src="{{url}}" style="width: 50px; height: 50px" bindtap="preViewPicture"
-                           data-idx="{{index}}"></image>
+                           data-idx="{{index}}" data-key="order.imgs1"></image>
                 </i-col>
             </i-row>
         </i-cell>
@@ -40,7 +40,7 @@
     <i-row i-class="i-row-css" wx:if="tachePanelInfo.imgs.length>0">
         <i-col wx:for="{{tachePanelInfo.imgs}}" wx:for-index="index" wx:for-item="url" span="4">
             <image src="{{url}}" style="width: 50px; height: 50px" bindtap="preViewPicture"
-                   data-idx="{{index}}"></image>
+                   data-idx="{{index}}" data-key="tachePanelInfo.imgs"></image>
         </i-col>
     </i-row>
     <p style="margin: 20px" wx:if="{{tachePanelInfo.noData}}">环节无数据</p>
