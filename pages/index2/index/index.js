@@ -297,7 +297,7 @@ Page({
                 msgBody.jumpToPage = "/pages/home/mime/mine"
 
             } else if (noCarNo) {
-                msgBody.msg = '请完善车牌信息';
+                msgBody.msg = '请完善车辆信息';
                 msgBody.jumpToPage = "/pages/home/garage/garage"
                 /*wx.showModal({
                     title: msgBody.title,

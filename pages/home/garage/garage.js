@@ -233,6 +233,16 @@ Page({
             })
         }
 
+        function confireCheck(data) {
+            var msg = null;
+            msg = data.carNo ? msg : "车牌信息不能为空";
+            msg = data.carBrand ? msg : "品牌信息不能为空";
+            msg = data.carColor ? msg : "车牌颜色不能为空";
+            msg = data.carType ? msg : "类型信息不能为空";
+            msg = (_this.data.page.carList.cars.length == 0 || data.phone) ? msg : "电话信息不能为空";
+            return msg;
+        }
+
         if (this.data.page.recordInfo.enable) {
             const cars = this.data.page.carList.cars;
             const data = {
@@ -243,6 +253,15 @@ Page({
                 defaultCar: _this.data.page.carList.cars.length > 0 ? false : true,
                 phone: this.data.page.recordInfo.phone
             };
+            const check = confireCheck(data)
+            if (check != null) {
+                wx.showToast({
+                    title: check,
+                    image: '/',
+                    duration: 2000
+                })
+                return
+            }
             $CarService.addCar({
                 brand: data.carBrand,
                 lisence: data.carNo,
@@ -254,6 +273,9 @@ Page({
                 cars.push(data);
                 if (data.defaultCar) {
                     $CarService.setDefaultCarNo(data.carNo)
+                }
+                if (data.phone) {
+                    $UserService.setDefaultPhoneNum(data.phone)
                 }
                 _this.setData({
                     ['page.carList.cars']: cars,

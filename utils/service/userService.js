@@ -33,14 +33,18 @@ const Methods = {
             error(res)
         })
     },
-    getWorkers: function ( success, error) {
-        $Service.post(SERVIE, [OPRERATOPM.GET_WORKERS, {
-
-        }], function (res) {
+    getWorkers: function (success, error) {
+        $Service.post(SERVIE, [OPRERATOPM.GET_WORKERS, {}], function (res) {
             success(res)
         }, function (res) {
             error(res)
         })
+    },
+    setDefaultPhoneNum(phoneNum) {
+        wx.setStorageSync("defaultPhoneNum", phoneNum)
+    },
+    getDefaultPhoneNum() {
+        return wx.getStorageSync("defaultPhoneNum")
     }
 }
 

@@ -15,7 +15,7 @@
             value="{{page.recordInfo.type.index}}" range="{{page.recordInfo.type.array}}">
         <i-input i-class="picker" value="{{ page.recordInfo.type.value }}" title="车辆类型" disabled="disabled"/>
     </picker>
-    <i-input i-class="picker" id="phone" value="{{ page.recordInfo.phone }}" title="联系电话" type="number"  bind:change="textInputChange"/>
+    <i-input wx:if="{{page.carList.cars.length==0}}" i-class="picker" id="phone" value="{{ page.recordInfo.phone }}" title="联系电话" type="number"  bind:change="textInputChange"/>
     <!--<i-input i-class="picker" id="phone" value="{{page.recordInfo.phone }}" type="phone" title="联系电话"
              placeholder="不填默认使用当前微信电话"/>-->
     <i-button bind:click="addCar" loading="{{loading.submitBut}}"
