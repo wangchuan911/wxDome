@@ -64,14 +64,14 @@ module.exports = {
     optionTaches: [{
         checked: true,
         value: null,
-        text: "室外",
+        text: "车外",
         id: "washOut",
         cost:"20",
         tacheId: 8
     }, {
         checked: false,
         value: null,
-        text: "室内",
+        text: "车内",
         id: "washIn",
         cost:"20",
         tacheId: 9
