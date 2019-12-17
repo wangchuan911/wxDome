@@ -52,11 +52,11 @@
                             <i-input value="" title="服务范围" autofocus disabled="disabled" placeholder=""/>
                         </i-col>
                         <i-col span="17" i-class="col-class i-extra">
-                            <i-tag i-class="i-tags i-tags-circle" color="blue" checkable="{{true}}" type="border"
+                            <i-tag i-class="i-tags i-tags-circle i-tags-no-width" color="blue" checkable="{{true}}" type="border"
                                    checked="{{srvItem.checked}}" style="margin-right:5px" bindchange="selectSrvTypeBut"
                                    wx:for="{{serviceType}}" name="{{srvIndex}}" wx:key="{{srvIndex}}"
                                    wx:for-index="srvIndex" wx:for-item="srvItem" :>
-                                {{srvItem.text}}
+                                {{srvItem.text}}(￥{{srvItem.cost}})
                             </i-tag>
                         </i-col>
                     </i-row>

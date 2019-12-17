@@ -52,6 +52,9 @@ page {
   align-items: center;
   justify-content: center;
 }
+.i-tags-no-width{
+  width:auto !important;
+}
 .i-tags-circle{
   border-radius: 50px !important;
 }

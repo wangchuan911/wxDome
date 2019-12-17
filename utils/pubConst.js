@@ -66,12 +66,14 @@ module.exports = {
         value: null,
         text: "室外",
         id: "washOut",
+        cost:"20",
         tacheId: 8
     }, {
         checked: false,
         value: null,
         text: "室内",
         id: "washIn",
+        cost:"20",
         tacheId: 9
     }],
     setValue: function (key, value) {
