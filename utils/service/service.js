@@ -7,11 +7,18 @@ const OPRERATOPM = {
     ADD: 0,
     GET: 3,
 }
+
+const KEY = {
+    OPEN_ID: "openId",
+    CAR_LISENCE: "carLicence",
+    PHONE: "defaultPhoneNum"
+}
+
 const getUserId = function () {
-    return wx.getStorageSync("openId");
+    return wx.getStorageSync(KEY.OPEN_ID);
 }
 const setUserId = function (openId) {
-    wx.setStorageSync("openId", openId);
+    wx.setStorageSync(KEY.OPEN_ID, openId);
 }
 
 const uploadFile = function (pictrues, data, complete) {
@@ -46,7 +53,6 @@ const uploadFile = function (pictrues, data, complete) {
     upload(pictrues, 0, data)
 
 }
-
 const setRole = function (role) {
     return wx.setStorageSync("roleMode", role);
 }
@@ -70,6 +76,7 @@ const initUserInfo = function (dat) {
             break;
     }*/
     setRole(isNaN(dat.user.role) ? -1 : dat.user.role);
+    wx.setStorageSync(KEY.PHONE, dat.user.phone)
 }
 const methods = {
     getUrl: function (name) {
@@ -199,6 +206,9 @@ const methods = {
                 return dat[keys[idx]]
         }
         return null;
+    },
+    getKey(keyWord) {
+        return KEY[keyWord];
     }
 }
 module.exports = methods

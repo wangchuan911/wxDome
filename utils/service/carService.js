@@ -12,12 +12,12 @@ const SERVIE = "carManger";
 /**
  * 建单
  * */
-
+const carLisenceKey = $Service.getKey("CAR_LISENCE");
 const getDefaultCarNo = function () {
-    return wx.getStorageSync("carLicence")
+    return wx.getStorageSync(carLisenceKey)
 }
 const setDefaultCarNo = function (carNo) {
-    wx.setStorageSync("carLicence", carNo)
+    wx.setStorageSync(carLisenceKey, carNo)
 }
 const Methods = {
     addCar: function (data, success, error) {

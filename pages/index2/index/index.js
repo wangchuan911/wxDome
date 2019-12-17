@@ -288,7 +288,7 @@ Page({
         this.data.markers[0]
     },
     userCheck: function (e, notTip) {
-        var noLogin = this.getRole() < 0;
+        var noLogin = this.getRole() < 0 || !app.globalData.userInfo;
         var noCarNo = !$CarService.getDefaultCarNo();
         if (noLogin || noCarNo) {
             var msgBody = {};

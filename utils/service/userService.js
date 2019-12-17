@@ -43,14 +43,14 @@ const Methods = {
         })
     },
     setDefaultPhoneNum(phoneNum) {
-        wx.setStorageSync("defaultPhoneNum", phoneNum)
+        wx.setStorageSync($Service.getKey("PHONE"), phoneNum)
     },
     getDefaultPhoneNum() {
-        return wx.getStorageSync("defaultPhoneNum")
+        return wx.getStorageSync($Service.getKey("PHONE"))
     },
     updateUser(data, success, error) {
         $Service.post(SERVIE, [OPRERATOPM.MODIFY, {
-            id: wx.getStorageSync("openId"),
+            id: $Service.getUserId(),
             name: data.name,
             phone: data.phone,
             role: data.role,
