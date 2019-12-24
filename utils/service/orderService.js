@@ -23,7 +23,7 @@ const Methods = {
             "orderControlPerson": null,
             "orderAppointPerson": null,
             "orderArrangeDate": function () {
-                return (!submitData.value3) ? new Date().valueOf() : new Date('2019-11-12 ' + submitData.value3 + ":00.00").valueOf();
+                return (!submitData.value3) ? new Date().valueOf() :$Utils.getPickerDate(submitData.value3).valueOf();
             }(),
             "custId": wx.getStorageSync("openId"),
             "passTache": function () {

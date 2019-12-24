@@ -61,14 +61,12 @@
                         </i-col>
                     </i-row>
                     <i-row>
-                        <picker wx:if="{{tags[0].checked}}" mode="time" value="{{submitData.value3}}" start="09:00"
-                                end="20:00" bindchange="changeTime" hidden="hidden">
+                        <picker wx:if="{{tags[0].checked}}" mode="multiSelector" id="value3" bindcolumnchange="bindMultiPickerColumnChange" value="{{dateData.preIndex}}" range="{{dateData.preArray}}" bindchange="changeTime" hidden="hidden">
                             <i-input class="picker" value="{{ submitData.value3 }}" title="预约时间"
                                      placeholder="预约时间9点至20点"
                                      disabled="disabled"/>
                         </picker>
-                        <picker wx:if="{{tags[1].checked}}" mode="time" value="{{submitData.value4}}" start="09:00"
-                                end="20:00" bindchange="changeTime2" hidden="hidden">
+                        <picker wx:if="{{tags[1].checked}}" mode="multiSelector"  id="value4" bindcolumnchange="bindMultiPickerColumnChange" value="{{dateData.finIndex}}" range="{{dateData.finArray}}" bindchange="changeTime"  hidden="hidden">
                             <i-input class="picker" value="{{ submitData.value4 }}" title="用车时间" placeholder="最少预留1小时"
                                      disabled="disabled"/>
                         </picker>

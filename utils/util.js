@@ -58,9 +58,43 @@ const getPositionAuth = function () {
     })
 }
 
+function getDatePicker(date, option) {
+    const maxDays = (option || {}).maxDay || 1;
+    const arr1 = [];
+    const hours = date.getHours();
+    const minDay = hours > 18 ? 1 : 0;
+    for (let day = minDay; day <= maxDays; day++) {
+        date.setDate(date.getDate() + day);
+        var date1 = (date.getMonth() + 1) + "月" + (date.getDate()) + '日';
+        arr1.push(date1);
+    }
+    const arr2 = [];
+    for (let i = minDay > 0 ? 9 : hours; i <= 18; i++) {
+        i = (i < 10) ? '0' + i : i;
+        arr2.push(i + "时");
+    }
+    const arr3 = ['00', '15', '30', '45'];
+    arr3.forEach((value, index, array) => array[index] += '分');
+    const arr = [arr1, arr2, arr3];
+    return arr;
+}
+
+function getPickerDate(dateStr) {
+    const today = new Date();
+    let date = (new Date().getFullYear()) + "-" + dateStr.replace(/时/, ':').replace(/分/, ':').replace(/月/, '-').replace(/日/, ' ') + '00.00';
+    date = new Date(date);
+    if (today.getMonth() == 11 && date.getMonth() == 0) {
+        date.setFullYear(date.getFullYear() + 1);
+    }
+    console.info(date);
+    return date;
+}
+
 
 module.exports = {
     formatTime: formatTime,
     getDate: getDate,
-    getPositionAuth: getPositionAuth
+    getPositionAuth: getPositionAuth,
+    getDatePicker: getDatePicker,
+    getPickerDate: getPickerDate
 }

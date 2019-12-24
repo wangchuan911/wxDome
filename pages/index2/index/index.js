@@ -82,6 +82,12 @@ Page({
             value7: {},
             value8: $Utils.getDate(new Date(), "")
         },
+        dateData: {
+            preIndex: [0, 0, 0],
+            preArray: $Utils.getDatePicker(new Date()),
+            finIndex: [0, 0, 0],
+            finArray: $Utils.getDatePicker(new Date()),
+        },
         roleMode: -1
     },
 
@@ -513,15 +519,68 @@ Page({
         })
     },
     changeTime: function (e) {
-        console.log('picker发送选择改变，携带值为', e.detail.value)
+        let data;
+        let dataColume;
+        const id = e.currentTarget.id;
+        switch (id) {
+            case "value3":
+                data = {
+                    multiArray: this.data.dateData.preArray,
+                    multiIndex: e.detail.value
+                };
+                dataColume = "dateData.preIndex";
+                break
+            case "value4":
+                data = {
+                    multiArray: this.data.dateData.finArray,
+                    multiIndex: this.data.dateData.finIndex
+                };
+                dataColume = "dateData.finIndex";
+                break
+            default:
+                return;
+        }
         this.setData({
-            ['submitData.value3']: e.detail.value
+            ['submitData.' + id]: function () {
+                let str = "";
+                for (let i = 0; i < data.multiIndex.length; i++) {
+                    str += data.multiArray[i][data.multiIndex[i]]
+                }
+                return str;
+            }(),
+            [dataColume]: e.detail.value
         })
     },
-    changeTime2: function (e) {
-        console.log('picker发送选择改变，携带值为', e.detail.value)
+    bindMultiPickerColumnChange: function (e) {
+        console.log(e.currentTarget.id + '修改的列为', e.detail.column, '，值为', e.detail.value);
+        let data;
+        let dataColume;
+        let dataColume2;
+        const id = e.currentTarget.id;
+        switch (id) {
+            case "value3":
+                data = {
+                    multiArray: this.data.dateData.preArray,
+                    multiIndex: this.data.dateData.preIndex
+                };
+                dataColume = "dateData.preIndex";
+                dataColume2 = "dateData.preArray";
+                break
+            case "value4":
+                data = {
+                    multiArray: this.data.dateData.finArray,
+                    multiIndex: this.data.dateData.finIndex
+                };
+                dataColume = "dateData.finIndex";
+                dataColume2 = "dateData.finArray";
+                break
+            default:
+                return;
+        }
+        data.multiIndex[e.detail.column] = e.detail.value;
         this.setData({
-            ['submitData.value4']: e.detail.value
+            [dataColume]: data.multiIndex,
+            [dataColume2]: data.multiArray
         })
     },
     countInterval: function () {
