@@ -52,7 +52,7 @@ const Methods = {
         wx.setStorageSync($Service.getKey("USER_ATTR"), userAttr)
     },
     getUserAttr() {
-        return JSON.parse(wx.getStorageSync($Service.getKey("USER_ATTR")))
+        return wx.getStorageSync($Service.getKey("USER_ATTR"))
     },
     updateUser(data, success, error) {
         $Service.post(SERVIE, [OPRERATOPM.MODIFY, {

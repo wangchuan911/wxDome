@@ -127,9 +127,20 @@ Page({
         eventChannel.on('acceptDataFromOpenerPage', function (data) {
             switch (data.mode) {
                 case 0:
-                    $OrderService.getOrders({
-                        custId: wx.getStorageSync("openId"),
-                    }, function (res) {
+                    const role = $Service.getRole();
+                    const param = {};
+                    switch (role) {
+                        case 0:
+                            param.custId = $Service.getUserId()
+                            break;
+                        case 1:
+                            param.orderControlPerson = $Service.getUserId()
+                            break;
+                        default:
+                            wx.navigateBack({})
+                            return;
+                    }
+                    $OrderService.getOrders(param, function (res) {
                         let orders = res.data.result || [];
                         for (let i = 0; i < orders.length; i++) {
                             orders[i] = $OrderService.modelChange(orders[i])

@@ -61,7 +61,8 @@ const Methods = {
             "orderArrangeDate": data.orderArrangeDate,
             "custId": data.custId,
             "passTache": data.passTache,
-            "orderNote": data.orderNote
+            "orderNote": data.orderNote,
+            "regionCode": data.regionCode,
         }], function (res) {
             success(res)
         }, function (res) {

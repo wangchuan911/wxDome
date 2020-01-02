@@ -1,5 +1,6 @@
 // pages/dispatch/orders/orders.js
 const $OrderService = require('../../../utils/service/orderService');
+const $UserService = require('../../../utils/service/userService');
 const $Service = require('../../../utils/service/service');
 Page({
 
@@ -65,8 +66,23 @@ Page({
     onLoad: function (options) {
         const role = $Service.getRole()
         const _this = this;
+        const regionCode = function () {
+            const code = $UserService.getUserAttr().regionCode || [];
+            let codeStr = "";
+            for (let i = 0; i < code.length; i++) {
+                codeStr += ',' + code[i]
+            }
+            if (codeStr)
+                return codeStr.substring(1);
+            else
+                return null
+        }();
+        if (role != 2 || !regionCode) {
+            wx.navigateBack({})
+            return;
+        }
         $OrderService.getOrders({
-            custId: wx.getStorageSync("openId"),
+            regionCode: regionCode
         }, function (res) {
             let orders = res.data.result || [];
             let doCnt = 0;
