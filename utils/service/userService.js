@@ -48,6 +48,12 @@ const Methods = {
     getDefaultPhoneNum() {
         return wx.getStorageSync($Service.getKey("PHONE"))
     },
+    setUserAttr(userAttr) {
+        wx.setStorageSync($Service.getKey("USER_ATTR"), userAttr)
+    },
+    getUserAttr() {
+        return JSON.parse(wx.getStorageSync($Service.getKey("USER_ATTR")))
+    },
     updateUser(data, success, error) {
         $Service.post(SERVIE, [OPRERATOPM.MODIFY, {
             id: $Service.getUserId(),

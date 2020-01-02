@@ -11,7 +11,8 @@ const OPRERATOPM = {
 const KEY = {
     OPEN_ID: "openId",
     CAR_LISENCE: "carLicence",
-    PHONE: "defaultPhoneNum"
+    PHONE: "defaultPhoneNum",
+    USER_ATTR: "USER_ATTR",
 }
 
 const getUserId = function () {
@@ -58,25 +59,16 @@ const setRole = function (role) {
 }
 const initUserInfo = function (dat) {
     setUserId(dat.openid)
-    /*wx.removeStorageSync("isWorker");
-    wx.removeStorageSync("isAdmin");
-    wx.removeStorageSync("newUser");
-    switch (dat.user.role || 0) {
-        case 0:
-            break;
-        case 1:
-            wx.setStorageSync("isWorker", true);
-            break;
-        case 2:
-            wx.setStorageSync("isAdmin", true);
-            break;
-        case -1:
-            wx.setStorageSync("newUser", true);
-            dat.user.role = 0;
-            break;
-    }*/
     setRole(isNaN(dat.user.role) ? -1 : dat.user.role);
     wx.setStorageSync(KEY.PHONE, dat.user.phone)
+    wx.setStorageSync(KEY.USER_ATTR, dat.user.userAttr || {});
+}
+
+const clearUserInfo = function () {
+    const userId = getUserId();
+    wx.clearStorageSync();
+    setUserId(userId)
+    setRole(-1);
 }
 const methods = {
     getUrl: function (name) {
@@ -142,8 +134,7 @@ const methods = {
                 }
             })
         }
-
-        setRole(-1);
+        clearUserInfo()
         wx.checkSession({
             success: function () {
                 //session_key 未过期，并且在本生命周期一直有效
