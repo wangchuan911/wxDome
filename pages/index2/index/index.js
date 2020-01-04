@@ -105,8 +105,8 @@ Page({
     },
     login: function () {
         const _this = this;
-        $Service.login(function (result) {
-            let openId = result.openid;
+        $Service.login(success => {
+            let openId = success.openid;
             const roloId = _this.getRole();
             _this.data.state.freshView = roloId < 0;
             /*_this.setData({
@@ -114,8 +114,8 @@ Page({
             })*/
             $TacheService.getTaccheMap({roleMode: roloId})
             const order = _this.data.order
-            if (result.work) {
-                const work = result.work;
+            if (success.work) {
+                const work = success.work;
                 order.allOrderCount = work.all_nums || 0;
                 order.orderCount = work.nums || 0;
                 _this.setData({
@@ -130,12 +130,23 @@ Page({
                 })
                 _this.initCircle();
             }
-            const carNo = (result.cars || []).length > 0 ? result.cars[0].lisence : null
+            const carNo = (success.cars || []).length > 0 ? success.cars[0].lisence : null
             $CarService.setDefaultCarNo(carNo);
             _this.setData({
                 ['state.userCheckFail']: !_this.userCheck(null, true)
             });
             _this.setSpin();
+        }, error => {
+            wx.showModal({
+                title: '服务异常',
+                content: error+'\n请受稍后再试!',
+                success(res) {
+                    if (res.confirm) {
+                        console.log('用户点击确定');
+                        _this.login();
+                    }
+                }
+            })
         })
     }, initMap: function () {
         const _this = this;

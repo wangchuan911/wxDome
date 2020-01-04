@@ -131,6 +131,10 @@ const methods = {
                         error(res.errMsg)
                         console.log('登录失败！' + res.errMsg)
                     }
+                },
+                fail(res) {
+                    console.log('登录失败！' + res.errMsg)
+                    error("网络异常")
                 }
             })
         }
@@ -143,10 +147,13 @@ const methods = {
                     //重新登录
                     getOpenId()
                 } else {
-                    methods.post("login", [openId], function (res) {
+                    methods.post("login", [openId], res => {
                         res.data.result.openid = openId
                         initUserInfo(res.data.result)
                         success(res.data.result)
+                    }, err=>{
+                        console.log('登录失败！' + err)
+                        error("网络异常")
                     })
                 }
             },
