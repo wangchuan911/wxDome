@@ -45,6 +45,7 @@ const Methods = {
             "posX": submitData.value7.latitude,
             "posY": submitData.value7.longitude,
             "orderCode": submitData.value8,
+            "regionCode": submitData.value9,
             "pictureIds": submitData.value2.pictureIds
         }], function (res) {
             success(res)
