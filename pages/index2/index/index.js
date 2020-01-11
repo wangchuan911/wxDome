@@ -80,7 +80,8 @@ Page({
             value5: null,
             value6: {},
             value7: {},
-            value8: $Utils.getDate(new Date(), "")
+            value8: '',
+            value9: '45'
         },
         dateData: {
             preIndex: [0, 0, 0],
@@ -160,7 +161,8 @@ Page({
                     success: function (res1) {//成功后的回调
                         _this.setData({
                             ['submitData.value1']: res1.result.address,
-                            ['submitData.value8']: res1.result.ad_info.adcode + _this.data.submitData.value8,
+                            ['submitData.value8']: res1.result.ad_info.adcode + $Utils.getDate(new Date(), ""),
+                            ['submitData.value9']: res1.result.ad_info.adcode
                         })
                         const user = $Service.getUserInfo();
                         _this.data.submitData.value8 += user.id.substr(user.id.length - 5);
