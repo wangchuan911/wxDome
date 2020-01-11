@@ -132,9 +132,7 @@ Page({
             }
             const carNo = (success.cars || []).length > 0 ? success.cars[0].lisence : null
             $CarService.setDefaultCarNo(carNo);
-            _this.setData({
-                ['state.userCheckFail']: !_this.userCheck(null, true)
-            });
+            _this.userCheck(null, true)
             _this.setSpin();
         }, error => {
             wx.showModal({
@@ -210,9 +208,7 @@ Page({
                 this.countInterval()
             }
             this.getRole();
-            _this.setData({
-                ['state.userCheckFail']: !_this.userCheck(null, true)
-            });
+            _this.userCheck(null, true)
         }
 
     },
@@ -346,6 +342,9 @@ Page({
             }
             return false;
         }
+        this.setData({
+            ['state.userCheckFail']: false
+        });
         return true;
     },
     bookBut: function (e) {
