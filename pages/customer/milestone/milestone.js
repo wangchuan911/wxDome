@@ -134,7 +134,7 @@ Page({
                             param.custId = $Service.getUserId()
                             break;
                         case 1:
-                            param.orderControlPerson = $Service.getUserId()
+                            param.orderAppointPerson = $Service.getUserId()
                             break;
                         default:
                             wx.navigateBack({})
