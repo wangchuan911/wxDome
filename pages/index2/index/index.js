@@ -19,9 +19,7 @@ Page({
             userCheckFail: true,
         },
         loading: {
-            spin: true,
-            spinVal: 2,
-            submitBut: false
+            spinVal: 2
         },
         openType: "getPhoneNumber",
         userInfo: {},
@@ -96,6 +94,9 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
+        $Utils.UILock(this, 'loading.spin', true);
+        $Utils.UILock(this, 'loading.submitBut', true);
+
         this.getUserInfo()
         this.login();
         this.initMap();
@@ -107,7 +108,6 @@ Page({
     login: function () {
         const _this = this;
         $Service.login(success => {
-            let openId = success.openid;
             const roloId = _this.getRole();
             _this.data.state.freshView = roloId < 0;
             /*_this.setData({
@@ -126,9 +126,9 @@ Page({
             if (roloId > 0 || (((order.allOrderCount || 0) - (order.orderCount || 0)) > 0)) {
                 _this.setData({
                     isBook: true,
-                    ['loading.submitBut']: false,
                     ["openType"]: null
-                })
+                });
+                $Utils.unlockUI(_this,'loading.submitBut')
                 _this.initCircle();
             }
             const carNo = (success.cars || []).length > 0 ? success.cars[0].lisence : null
@@ -138,7 +138,7 @@ Page({
         }, error => {
             wx.showModal({
                 title: '服务异常',
-                content: error+'\n请受稍后再试!',
+                content: error + '\n请受稍后再试!',
                 success(res) {
                     if (res.confirm) {
                         console.log('用户点击确定');
@@ -303,10 +303,10 @@ Page({
         this.data.markers[0]
     },
     userCheck: function (e, notTip) {
-        var noLogin = this.getRole() < 0 || !app.globalData.userInfo;
-        var noCarNo = !$CarService.getDefaultCarNo();
+        const noLogin = this.getRole() < 0 || !app.globalData.userInfo;
+        const noCarNo = !$CarService.getDefaultCarNo();
         if (noLogin || noCarNo) {
-            var msgBody = {};
+            const msgBody = {};
             if (noLogin) {
                 msgBody.msg = '请先登陆';
                 msgBody.jumpToPage = "/pages/home/mime/mine"
@@ -347,18 +347,23 @@ Page({
         this.setData({
             ['state.userCheckFail']: false
         });
+        $Utils.unlockUI(this,'loading.submitBut')
         return true;
     },
     bookBut: function (e) {
         this.getUserInfo(e)
         if (!this.userCheck(e)) return;
 
-        if (this.data.loading.submitBut) return
+        let lock;
         const _this = this
-        _this.setData({
-            isBook: true,
-            ['loading.submitBut']: true
-        })
+        if ($Utils.isLock(this, 'loading.submitBut')) {
+            return
+        } else {
+            lock = $Utils.lockUI(this, 'loading.submitBut');
+            _this.setData({
+                isBook: true
+            })
+        }
         console.info("提交")
         console.info(this.data.submitData)
         this.data.submitData.value7 = _this.data.markers[0]
@@ -386,8 +391,8 @@ Page({
                             } else {
                                 _this.setData({
                                     isBook: false,
-                                    ['loading.submitBut']: false
-                                })
+                                });
+                                lock.unlock();
                             }
                         }
                     })
@@ -410,13 +415,13 @@ Page({
                     _this.initCircle();
                     _this.setData({
                         ['progressShow.progress']: orderCounts.all_nums > 0 ? parseInt(((orderCounts.nums || 0) / orderCounts.all_nums) * 100) : 1,
-                        ['loading.submitBut']: false
-                    })
+                    });
+                    lock.unlock();
                 } else {
                     _this.setData({
                         isBook: false,
-                        ['loading.submitBut']: false
-                    })
+                    });
+                    lock.unlock();
                 }
             }, function (res) {
 
@@ -690,9 +695,7 @@ Page({
     , setSpin() {
         const _this = this;
         if ((--_this.data.loading.spinVal) == 0) {
-            _this.setData({
-                ['loading.spin']: false
-            })
+            $Utils.unlockUI(this, "loading.spin")
         }
     }
 })

@@ -91,19 +91,19 @@
                     </i-row>
                 </view>
 
-                <i-button wx:if="{{roleMode<=0 && !isBook}}" loading="{{loading.submitBut}}"
+                <i-button wx:if="{{roleMode<=0 && !isBook}}" loading="{{UI_LOCK_STATE['loading.submitBut']}}"
                           bind:getphonenumber="bookBut"
                           bind:click="{{state.userCheckFail?'userCheck':''}}"
                           open-type="{{state.userCheckFail?'':openType}}"
                           type="primary" shape="circle" size="small">立即下单
                 </i-button>
-                <i-button wx:else loading="{{loading.submitBut}}"
+                <i-button wx:else loading="{{UI_LOCK_STATE['loading.submitBut']}}"
                           bindgetuserinfo="mileStoneBut"
                           open-type="getUserInfo"
                           type="primary" shape="circle" size="small">进度详情
                 </i-button>
             </view>
-            <i-spin size="large" fix wx:if="{{ loading.spin }}"></i-spin>
+            <i-spin size="large" fix wx:if="{{ UI_LOCK_STATE['loading.spin'] }}"></i-spin>
         </view>
     </view>
 </view>
