@@ -244,9 +244,11 @@ Page({
     },
     getUserInfo: function (e) {
         const _this = this;
+
         function check() {
             _this.userCheck(null, true)
         }
+
         if (((e || {}).detail || {}).userInfo) {
             console.log(e)
             app.globalData.userInfo = e.detail.userInfo
@@ -312,7 +314,8 @@ Page({
     userCheck: function (e, notTip) {
         const noLogin = this.getRole() < 0 || !app.globalData.userInfo;
         const noCarNo = !$CarService.getDefaultCarNo();
-        if (noLogin || noCarNo) {
+        const fail = noLogin || noCarNo;
+        if (fail) {
             const msgBody = {};
             if (noLogin) {
                 msgBody.msg = '请先登陆';
@@ -349,13 +352,11 @@ Page({
                     }
                 })
             }
-            return false;
+        } else {
+            $Utils.setOneData(this, "state.userCheckFail", fail);
+            $Utils.unlockUI(this, 'loading.submitBut');
         }
-        this.setData({
-            ['state.userCheckFail']: false
-        });
-        $Utils.unlockUI(this, 'loading.submitBut')
-        return true;
+        return !fail;
     },
     bookBut: function (e) {
         this.getUserInfo(e)
@@ -367,7 +368,7 @@ Page({
         }
 
         const lock = $Utils.lockUI(this, 'loading.submitBut');
-        $Utils.setOneData(_this,'isBook',true);
+        $Utils.setOneData(_this, 'isBook', true);
 
         console.info("提交")
         console.info(this.data.submitData)
@@ -394,7 +395,7 @@ Page({
                                     pic: complete.success
                                 })
                             } else {
-                                $Utils.setOneData(_this,'isBook',false);
+                                $Utils.setOneData(_this, 'isBook', false);
                                 lock.unlock();
                             }
                         }
