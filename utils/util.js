@@ -90,11 +90,48 @@ function getPickerDate(dateStr) {
     return date;
 }
 
+const KEY_UI_LOCK_STATE = 'UI_LOCK_STATE';
+
+function UILock(_this, butName, lock) {
+    const butState = _this.data[KEY_UI_LOCK_STATE] || {};
+    butState[butName] = lock || false
+    _this.setData({[KEY_UI_LOCK_STATE]: butState});
+}
+
+function lockUI(_this, butName) {
+    UILock(_this, butName, true);
+    return function (_this, butName) {
+        return {
+            unlock: function () {
+                unlockUI(_this, butName);
+            }
+        }
+    }(_this, butName)
+}
+
+function unlockUI(_this, butName) {
+    UILock(_this, butName, false);
+}
+
+function isLock(_this, butName) {
+    return _this.data[KEY_UI_LOCK_STATE][butName];
+}
+
+function setOneData(_this, name, value) {
+    _this.setData({
+        [name]: value
+    })
+}
 
 module.exports = {
     formatTime: formatTime,
     getDate: getDate,
     getPositionAuth: getPositionAuth,
     getDatePicker: getDatePicker,
-    getPickerDate: getPickerDate
+    getPickerDate: getPickerDate,
+    UILock: UILock,
+    lockUI: lockUI,
+    unlockUI: unlockUI,
+    isLock: isLock,
+    setOneData: setOneData,
 }
