@@ -13,7 +13,8 @@
     "component/wave/wave",
     "pages/index2/extra/extra",
     "pages/customer/evaluate/evaluate",
-    "pages/home/garage/garage"
+    "pages/home/garage/garage",
+    "pages/customer/operation/feedback/feedback"
   ],
   "window": {
     "backgroundTextStyle": "light",
