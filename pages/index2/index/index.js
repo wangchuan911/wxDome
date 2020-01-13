@@ -128,7 +128,7 @@ Page({
                     isBook: true,
                     ["openType"]: null
                 });
-                $Utils.unlockUI(_this,'loading.submitBut')
+                $Utils.unlockUI(_this, 'loading.submitBut')
                 _this.initCircle();
             }
             const carNo = (success.cars || []).length > 0 ? success.cars[0].lisence : null
@@ -243,7 +243,10 @@ Page({
 
     },
     getUserInfo: function (e) {
-        const _this = this
+        const _this = this;
+        function check() {
+            _this.userCheck(null, true)
+        }
         if (((e || {}).detail || {}).userInfo) {
             console.log(e)
             app.globalData.userInfo = e.detail.userInfo
@@ -251,12 +254,14 @@ Page({
                 userInfo: e.detail.userInfo,
                 hasUserInfo: true
             })
+            check();
         } else {
             if (app.globalData.userInfo) {
                 this.setData({
                     userInfo: app.globalData.userInfo,
                     hasUserInfo: true
                 })
+                check();
             } else if (this.data.canIUse) {
                 // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
                 // 所以此处加入 callback 以防止这种情况
@@ -265,6 +270,7 @@ Page({
                         userInfo: res.userInfo,
                         hasUserInfo: true
                     })
+                    check();
                 }
             } else {
                 // 在没有 open-type=getUserInfo 版本的兼容处理
@@ -275,6 +281,7 @@ Page({
                             userInfo: res.userInfo,
                             hasUserInfo: true
                         })
+                        check();
                     }
                 })
             }
@@ -347,23 +354,21 @@ Page({
         this.setData({
             ['state.userCheckFail']: false
         });
-        $Utils.unlockUI(this,'loading.submitBut')
+        $Utils.unlockUI(this, 'loading.submitBut')
         return true;
     },
     bookBut: function (e) {
         this.getUserInfo(e)
         if (!this.userCheck(e)) return;
 
-        let lock;
         const _this = this
         if ($Utils.isLock(this, 'loading.submitBut')) {
             return
-        } else {
-            lock = $Utils.lockUI(this, 'loading.submitBut');
-            _this.setData({
-                isBook: true
-            })
         }
+
+        const lock = $Utils.lockUI(this, 'loading.submitBut');
+        $Utils.setOneData(_this,'isBook',true);
+
         console.info("提交")
         console.info(this.data.submitData)
         this.data.submitData.value7 = _this.data.markers[0]
@@ -389,9 +394,7 @@ Page({
                                     pic: complete.success
                                 })
                             } else {
-                                _this.setData({
-                                    isBook: false,
-                                });
+                                $Utils.setOneData(_this,'isBook',false);
                                 lock.unlock();
                             }
                         }
@@ -433,6 +436,7 @@ Page({
     mileStoneBut: function (e) {
         this.getUserInfo(e)
         if (!this.userCheck(e)) return;
+        const lock = $Utils.lockUI(this, 'loading.submitBut');
         const _this = this
         wx.navigateTo({
             url: (_this.data.roleMode == 2) ? '/pages/dispatch/orders/orders' : '/pages/customer/milestone/milestone',
