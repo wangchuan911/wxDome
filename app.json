@@ -14,7 +14,8 @@
     "pages/index2/extra/extra",
     "pages/customer/evaluate/evaluate",
     "pages/home/garage/garage",
-    "pages/customer/operation/feedback/feedback"
+    "pages/customer/operation/feedback/feedback",
+    "pages/common/car/typeSelector/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

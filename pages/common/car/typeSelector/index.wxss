@@ -1,0 +1,16 @@
+/* pages/common/car/typeSelector/index.wxss */
+.i-cell-text {
+    line-height: 24px;
+    font-size: 14px;
+}
+
+.i-cell {
+    padding: 12px 15px;
+    background: #fff;
+    align-items: center;
+    line-height: 1.4;
+    font-size: 14px;
+    overflow: hidden;
+
+}
+

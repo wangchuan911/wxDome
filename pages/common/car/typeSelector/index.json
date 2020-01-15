@@ -1,0 +1,10 @@
+{
+  "usingComponents": {
+    "i-index": "/ui/iview/index/index",
+    "i-index-item": "/ui/iview/index-item/index",
+    "i-cell-group": "/ui/iview/cell-group/index",
+    "i-cell": "/ui/iview/cell/index",
+    "i-sticky": "/ui/iview/sticky/index",
+    "i-sticky-item": "/ui/iview/sticky-item/index"
+  }
+}
