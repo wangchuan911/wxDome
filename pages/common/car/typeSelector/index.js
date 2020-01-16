@@ -113,12 +113,17 @@ Page({
                 // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
                 acceptDataFromOpenedPageLv2: function (res) {
                     console.info(res.data.indexs);
+                    const value = [].concat(indexs).concat(res.data.indexs);
+                    const carType1 = _this.data.carTypes[value[0]].items[value[1]];
+                    const carType2 = carType1.list[value[2]].list[value[3]]
                     eventChannel.emit('acceptDataFromOpenedPage', {
                         data: {
-                            indexs: [].concat(indexs).concat(res.data.indexs),
+                            indexs: value,
+                            name: carType1.name + " " + carType2.text,
+                            id: carType2.value
                         }
                     });
-                    wx.navigateBack({});
+                    wx.navigateBack({delta: 2});
                 },
             },
             success: function (res) {
@@ -147,6 +152,5 @@ Page({
                 indexs: [e.currentTarget.dataset.index1, e.currentTarget.dataset.index2],
             }
         });
-        wx.navigateTo({})
     }
 })
