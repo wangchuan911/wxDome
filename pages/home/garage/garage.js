@@ -3,6 +3,7 @@
 const {$Message} = require('../../../ui/iview/base/index');
 const $CarService = require('../../../utils/service/carService')
 const $UserService = require('../../../utils/service/userService')
+const $Util = require('../../../utils/util');
 Page({
 
     /**
@@ -12,7 +13,9 @@ Page({
         loading: {submitBut: false},
         page: {
             recordInfo: {
+                carBrand: "",
                 enable: false,
+                carId: null,
                 carNo: "",
                 phone: "123",
                 keyBoardType: 1,
@@ -359,13 +362,18 @@ Page({
         }
     },
 
-    carTypeSelecttBut:function () {
+    carTypeSelecttBut: function () {
+        const _this = this;
         wx.navigateTo({
             url: '/pages/common/car/typeSelector/index',
             events: {
                 // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
                 acceptDataFromOpenedPage: function (res) {
                     console.info(res);
+                    _this.setData({
+                        ["page.recordInfo.carBrand"]: res.data.name,
+                        ["page.recordInfo.carId"]:res.data.id
+                    })
                 },
             },
             success: function (res) {
