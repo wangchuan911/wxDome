@@ -620,21 +620,22 @@ Page({
         // 设置倒计时 定时器 假设每隔100毫秒 count递增+1，当 count递增到两倍maxCount的时候刚好是一个圆环（ step 从0到2为一周），然后改变txt值并且清除定时器
         const _this = this
         this.clearInterval();
-        this.data.progressShow.countTimer = setInterval(function () {
-                if (_this.data.progressShow.count == _this.data.progressShow.progress) {
+        const progressShow = this.data.progressShow;
+        progressShow.countTimer = setInterval(function () {
+                if (progressShow.count == progressShow.progress) {
                     return;
                 }
-                if (_this.data.progressShow.count != _this.data.progressShow.maxCount) {
+                if (progressShow.count != progressShow.maxCount) {
                     // 绘制彩色圆环进度条
-                    _this.circle1.drawCircle('circle_draw1', 50, 8, _this.data.progressShow.count * 2 / _this.data.progressShow.maxCount)
-                    if (_this.data.progressShow.count < _this.data.progressShow.progress) {
-                        _this.data.progressShow.count++;
+                    _this.circle1.drawCircle('circle_draw1', 50, 8, progressShow.count * 2 / progressShow.maxCount)
+                    if (progressShow.count < progressShow.progress) {
+                        progressShow.count++;
                     } else {
-                        _this.data.progressShow.count--
+                        progressShow.count--
                     }
                     if (_this.data.roleMode == 0) {
                         _this.setData({
-                            txt: _this.data.progressShow.count + '%',
+                            txt: progressShow.count + '%',
                         });
                     } else {
                         _this.setData({
