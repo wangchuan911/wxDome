@@ -79,6 +79,18 @@ function getDatePicker(date, option) {
     return arr;
 }
 
+function getDatePickerHour(tomorrow) {
+    const date = new Date();
+    const hours = date.getHours();
+    const minDay = (tomorrow ? 24 : hours) > 18 ? 1 : 0;
+    const arr2 = [];
+    for (let i = minDay > 0 ? 9 : hours; i <= 18; i++) {
+        i = (i < 10) ? '0' + i : i;
+        arr2.push(i + "时");
+    }
+    return arr2
+}
+
 function getPickerDate(dateStr) {
     const today = new Date();
     let date = (new Date().getFullYear()) + "-" + dateStr.replace(/时/, ':').replace(/分/, ':').replace(/月/, '-').replace(/日/, ' ') + '00.00';
@@ -152,5 +164,6 @@ module.exports = {
     lockUI: lockUI,
     unlockUI: unlockUI,
     isLock: isLock,
-    setOneData: setOneData
+    setOneData: setOneData,
+    getDatePickerHour:getDatePickerHour
 }

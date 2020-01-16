@@ -576,6 +576,7 @@ Page({
         })
     },
     bindMultiPickerColumnChange: function (e) {
+        const colum = e.detail.column;
         console.log(e.currentTarget.id + '修改的列为', e.detail.column, '，值为', e.detail.value);
         let data;
         let dataColume;
@@ -601,7 +602,11 @@ Page({
             default:
                 return;
         }
-        data.multiIndex[e.detail.column] = e.detail.value;
+        data.multiIndex[colum] = e.detail.value;
+        if (colum == 0) {
+            let date = $Utils.getPickerDate(data.multiArray[0][data.multiIndex[0]] + data.multiArray[1][data.multiIndex[1]] + data.multiArray[2][data.multiIndex[2]]);
+            data.multiArray[1] = $Utils.getDatePickerHour(date.getDate() > (new Date().getDate()));
+        }
         this.setData({
             [dataColume]: data.multiIndex,
             [dataColume2]: data.multiArray
