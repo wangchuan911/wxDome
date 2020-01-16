@@ -32,7 +32,9 @@
                       wx:for-index="index2"
                       wx:key="{{index2}}"
                       wx:for-item="item2"
-                      class="i-cell i-cell-text">
+                      class="i-cell i-cell-text"
+                      data-index1="{{index1}}" data-index2="{{index2}}"
+                      bindtap="selectCarTypeBut">
                     {{item2.text}}
                 </view>
                 <!--<i-cell-group>

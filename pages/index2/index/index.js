@@ -603,9 +603,13 @@ Page({
                 return;
         }
         data.multiIndex[colum] = e.detail.value;
-        if (colum == 0) {
-            let date = $Utils.getPickerDate(data.multiArray[0][data.multiIndex[0]] + data.multiArray[1][data.multiIndex[1]] + data.multiArray[2][data.multiIndex[2]]);
-            data.multiArray[1] = $Utils.getDatePickerHour(date.getDate() > (new Date().getDate()));
+        switch (colum) {
+            case 0:
+                let date = $Utils.getPickerDate(data.multiArray[0][data.multiIndex[0]] + data.multiArray[1][data.multiIndex[1]] + data.multiArray[2][data.multiIndex[2]]);
+                data.multiArray[1] = $Utils.getDatePickerHour(date.getDate() > (new Date().getDate()));
+                data.multiIndex[1] = 0;
+            case 1:
+                data.multiIndex[2] = 0;
         }
         this.setData({
             [dataColume]: data.multiIndex,

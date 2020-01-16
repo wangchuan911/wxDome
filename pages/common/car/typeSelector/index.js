@@ -25,7 +25,7 @@ Page({
             const show = (data == null);
             _this.setData({
                 ["show"]: show ? 1 : 2,
-                ["carTypes"]: show ? $CarConst.getList() : $CarConst.getList(data[0], data[1])
+                ["carTypes"]: show ? $CarConst.getList() : $CarConst.getList(data[0], data[1]),
             });
         })
         wx.getSystemInfo({
@@ -104,23 +104,30 @@ Page({
     },
     showCardTypeBut: function (e) {
         const _this = this;
+        const eventChannel = this.getOpenerEventChannel()
         console.info(e);
+        const indexs = [e.currentTarget.dataset.index1, e.currentTarget.dataset.index2];
         wx.navigateTo({
             url: '/pages/common/car/typeSelector/index',
             events: {
                 // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
-                acceptDataFromOpenedPage: function (res) {
-                    console.info(res);
+                acceptDataFromOpenedPageLv2: function (res) {
+                    console.info(res.data.indexs);
+                    eventChannel.emit('acceptDataFromOpenedPage', {
+                        data: {
+                            indexs: [].concat(indexs).concat(res.data.indexs),
+                        }
+                    });
                     wx.navigateBack({});
                 },
             },
             success: function (res) {
                 // 通过eventChannel向被打开页面传送数据
-                res.eventChannel.emit('acceptDataFromOpenerPage', [e.currentTarget.dataset.index1, e.currentTarget.dataset.index2])
+                res.eventChannel.emit('acceptDataFromOpenerPage', indexs)
             }
         })/*
         $Utils.setOneData(this, "show", true);
-        $Utils.setOneData(this, "index", [e.currentTarget.dataset.index1,e.currentTarget.dataset.index2]);*/
+        $Utils.setOneData(this, "indexs", [e.currentTarget.dataset.index1, e.currentTarget.dataset.index2]);*/
     },
     onChange(event) {
         console.log(event.detail, 'click right menu callback data')
@@ -130,5 +137,16 @@ Page({
         this.setData({
             scrollTop: event.scrollTop
         })
+    },
+    selectCarTypeBut(e) {
+        console.info(e);
+        const _this = this
+        const eventChannel = this.getOpenerEventChannel()
+        eventChannel.emit('acceptDataFromOpenedPageLv2', {
+            data: {
+                indexs: [e.currentTarget.dataset.index1, e.currentTarget.dataset.index2],
+            }
+        });
+        wx.navigateTo({})
     }
 })
