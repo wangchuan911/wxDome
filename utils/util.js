@@ -124,6 +124,13 @@ function lockUI(_this, butName) {
 
 function unlockUI(_this, butName) {
     UILock(_this, butName, false);
+    return function (_this, butName) {
+        return {
+            lock: function () {
+                lockUI(_this, butName);
+            },
+        }
+    }(_this, butName)
 }
 
 function isLock(_this, butName) {
