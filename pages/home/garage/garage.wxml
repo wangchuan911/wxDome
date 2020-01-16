@@ -18,7 +18,7 @@
     <i-input wx:if="{{page.carList.cars.length==0}}" i-class="picker" id="phone" value="{{ page.recordInfo.phone }}" title="联系电话" type="number"  bind:change="textInputChange"/>
     <!--<i-input i-class="picker" id="phone" value="{{page.recordInfo.phone }}" type="phone" title="联系电话"
              placeholder="不填默认使用当前微信电话"/>-->
-    <i-button bind:click="addCar" loading="{{loading.submitBut}}"
+    <i-button bind:click="addCar" loading="{{UI_LOCK_STATE['loading.submitBut']}}"
               type="primary" shape="circle" size="small">提交
     </i-button>
 </i-panel>
@@ -38,7 +38,7 @@
             默认
         </view>
     </i-card>
-    <i-button bindgetuserinfo="addCarBut" open-type="getUserInfo" loading="{{loading.submitBut}}"
+    <i-button bindgetuserinfo="addCarBut" open-type="getUserInfo" loading="{{UI_LOCK_STATE['loading.submitBut']}}"
               type="primary" shape="circle" size="small">添加车辆
     </i-button>
 </i-panel>

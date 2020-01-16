@@ -56,6 +56,7 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
+        $Util.UILock(this, "loading.submitBut", false)
         const _this = this
         $CarService.getCars({}, function (res) {
             const data = res.data.result;
@@ -180,16 +181,14 @@ Page({
     },
     addCar: function () {
         const _this = this
-        this.setData({
-            ["loading.submitBut"]: true
-        })
+        const lock = $Util.lockUI(this, "loading.submitBut");
 
         function end() {
             _this.setData({
                 ['page.recordInfo.enable']: false,
                 ['page.carList.enable']: true,
-                ["loading.submitBut"]: false
-            })
+            });
+            lock.unlock();
         }
 
         function confireCheck(data) {
@@ -219,6 +218,7 @@ Page({
                     image: '/',
                     duration: 2000
                 })
+                lock.unlock();
                 return
             }
             $CarService.addCar({
@@ -248,9 +248,7 @@ Page({
                 ['page.recordInfo.enable']: true,
                 ['page.carList.enable']: false
             })
-            this.setData({
-                ["loading.submitBut"]: false
-            })
+            lock.unlock();
         }
     },
 
@@ -372,7 +370,7 @@ Page({
                     console.info(res);
                     _this.setData({
                         ["page.recordInfo.carBrand"]: res.data.name,
-                        ["page.recordInfo.carId"]:res.data.id
+                        ["page.recordInfo.carId"]: res.data.id
                     })
                 },
             },
