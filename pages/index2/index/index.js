@@ -621,7 +621,7 @@ Page({
         const _this = this
         this.clearInterval();
         const progressShow = this.data.progressShow;
-        progressShow.countTimer = setInterval(function () {
+        progressShow.countTimer = setInterval(() => {
                 if (progressShow.count == progressShow.progress) {
                     return;
                 }
