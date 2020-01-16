@@ -1,7 +1,7 @@
 <!--component/car-type-selector/index.wxml-->
 <!--component/car-type-selector/index.wxml-->
-<view>
-    <i-index wx:if="{{!show}}">
+<view style="height: 100vh;">
+    <i-index wx:if="{{!show}}" height="{{heigth}}">
         <i-index-item name="{{item1.name}}"
                       wx:for="{{ carTypes }}"
                       wx:for-index="index1"

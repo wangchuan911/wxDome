@@ -123,6 +123,25 @@ function setOneData(_this, name, value) {
     })
 }
 
+function nonceStr() {
+    const arr = [];
+    const arr1 = [];
+    while (arr.length < 32) {
+        var index = Math.floor(Math.random() * 52);
+        var offset = (index < 26) ? 0x41 : 0x61
+        var code = index % 26 + offset;
+        arr1.push(code)
+        arr.push(String.fromCharCode(code))
+    }
+    console.info(arr1.join(","))
+    return arr.join("");
+}
+
+function timeStamp(isSeccond) {
+    const date = new Date().valueOf();
+    return isSeccond ? Math.floor(date / 1000) : date;
+}
+
 module.exports = {
     formatTime: formatTime,
     getDate: getDate,
@@ -133,5 +152,5 @@ module.exports = {
     lockUI: lockUI,
     unlockUI: unlockUI,
     isLock: isLock,
-    setOneData: setOneData,
+    setOneData: setOneData
 }
