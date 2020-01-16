@@ -9,10 +9,10 @@ Page({
      */
     data: {
         scrollTop: 0,
-        show: false,
+        show: 0,
         index: [0, 0],
         carTypes: [],
-        heigth:300
+        heigth: 300
     },
 
     /**
@@ -22,15 +22,15 @@ Page({
         const _this = this;
         const eventChannel = this.getOpenerEventChannel();
         eventChannel.on('acceptDataFromOpenerPage', function (data) {
-            const show = data != null;
+            const show = (data == null);
             _this.setData({
-                ["show"]: show,
-                ["carTypes"]: $CarConst.getList()
+                ["show"]: show ? 1 : 2,
+                ["carTypes"]: show ? $CarConst.getList() : $CarConst.getList(data[0], data[1])
             });
         })
         wx.getSystemInfo({
             success(res) {
-                $Utils.setOneData(_this,"heigth",res.windowHeight)
+                $Utils.setOneData(_this, "heigth", res.windowHeight)
             }
         })
     },

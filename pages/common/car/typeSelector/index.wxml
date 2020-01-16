@@ -1,7 +1,7 @@
 <!--component/car-type-selector/index.wxml-->
 <!--component/car-type-selector/index.wxml-->
 <view style="height: 100vh;">
-    <i-index wx:if="{{!show}}" height="{{heigth}}">
+    <i-index wx:if="{{show==1}}" height="{{heigth}}">
         <i-index-item name="{{item1.name}}"
                       wx:for="{{ carTypes }}"
                       wx:for-index="index1"
@@ -18,9 +18,9 @@
             </i-cell-group>
         </i-index-item>
     </i-index>
-    <i-sticky wx:else scrollTop="{{scrollTop}}">
+    <i-sticky wx:if="{{show==2}}" scrollTop="{{scrollTop}}">
         <i-sticky-item is-link
-                       wx:for="{{ carTypes[index[0]].items[index[1]].list }}"
+                       wx:for="{{ carTypes}}"
                        wx:for-index="index1"
                        wx:key="{{index1}}"
                        wx:for-item="item1">
