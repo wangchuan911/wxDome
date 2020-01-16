@@ -83,6 +83,7 @@ function getDatePickerHour(tomorrow) {
     const date = new Date();
     const hours = date.getHours();
     const minDay = (tomorrow ? 24 : hours) > 18 ? 1 : 0;
+    if (!tomorrow && hours > 18) return [];
     const arr2 = [];
     for (let i = minDay > 0 ? 9 : hours; i <= 18; i++) {
         i = (i < 10) ? '0' + i : i;
@@ -165,5 +166,5 @@ module.exports = {
     unlockUI: unlockUI,
     isLock: isLock,
     setOneData: setOneData,
-    getDatePickerHour:getDatePickerHour
+    getDatePickerHour: getDatePickerHour
 }
