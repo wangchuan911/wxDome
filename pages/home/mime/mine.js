@@ -206,10 +206,10 @@ Page({
             },
             success: function (res) {
                 // 通过eventChannel向被打开页面传送数据
-                res.eventChannel.emit('acceptDataFromOpenerPage', function (data) {
+                res.eventChannel.emit('acceptDataFromOpenerPage', function (datTtoe, data) {
                     console.info(data);
                     try {
-                        switch ((e.currentTarget.dataset.dattype || '').toUpperCase()) {
+                        switch (datTtoe.toUpperCase()) {
                             case "JSON":
                                 return JSON.parse(data);
                             default:
@@ -218,7 +218,7 @@ Page({
                     } catch (e) {
                         return data;
                     }
-                }(e.currentTarget.dataset.data))
+                }((e.currentTarget.dataset.dattype || ''), e.currentTarget.dataset.data))
             },
             fail: res => {
                 wx.showToast({
@@ -236,7 +236,8 @@ Page({
                 current: detail.value
             })
             return;
-        };
+        }
+        ;
         $UserService.updateUser({role: role.id}, res => {
             this.setData({
                 current: detail.value
