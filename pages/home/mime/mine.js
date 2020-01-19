@@ -198,6 +198,28 @@ Page({
         }
         wx.navigateTo({
             url: e.currentTarget.dataset.page,
+            events: {
+                // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
+                acceptDataFromOpenedPage: function (res) {
+                    console.info(res);
+                },
+            },
+            success: function (res) {
+                // 通过eventChannel向被打开页面传送数据
+                res.eventChannel.emit('acceptDataFromOpenerPage', function (data) {
+                    console.info(data);
+                    try {
+                        switch ((e.currentTarget.dataset.dattype || '').toUpperCase()) {
+                            case "JSON":
+                                return JSON.parse(data);
+                            default:
+                                return data;
+                        }
+                    } catch (e) {
+                        return data;
+                    }
+                }(e.currentTarget.dataset.data))
+            },
             fail: res => {
                 wx.showToast({
                     title: "功能即将上线！",
