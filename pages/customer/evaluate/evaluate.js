@@ -19,6 +19,7 @@ Page({
             }
         ],
         remarks: "",
+        isEvaluate: true
     },
 
     /**
@@ -32,8 +33,23 @@ Page({
         // 监听acceptDataFromOpenerPage事件，获取上一页面通过eventChannel传送到当前页面的数据
         eventChannel.on('acceptDataFromOpenerPage', function (data) {
             console.info(data)
+            const order = data.order
+            $EvaluateService.get({
+                orderId: order.orderId,
+                userId: order.custId,
+            }, success => {
+                const flag = success.data.result != null;
+                $Utils.setOneData(_this, 'isEvaluate', flag)
+                if (flag) {
+                    const result = success.data.result;
+                    $Utils.setOneData(_this, 'remarks', result.remarks);
+                    $EvaluateService.intToStarsVal(result.star).forEach((value, index) => {
+                        $Utils.setOneData(_this, 'rateInfo[' + index + '].value', value + 1);
+                    });
+                }
+            })
             _this.setData({
-                order: data.order
+                order: order
             })
         })
     },

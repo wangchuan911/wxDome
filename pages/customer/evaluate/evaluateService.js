@@ -33,6 +33,7 @@ const starsValToInt = function (stars) {
     return v2;
 };
 const intToStarsVal = function (val) {
+    console.info(val)
     let v = val
     let v1 = []
     while (v > 0) {
@@ -40,6 +41,7 @@ const intToStarsVal = function (val) {
         v = Math.floor(v / MAX_STAR_VAL)
         console.info(v1);
     }
+    console.info(v1)
     return v1;
 }
 const Methods = {
@@ -47,10 +49,13 @@ const Methods = {
         $Service.post(SERVIE, [OPRERATOPM.MODIFY, getData(data)], success, error)
     },
     get: function (data, success, error) {
-        $Service.post(SERVIE, [OPRERATOPM.GET, getData(data)], res => {
-            res.data.star
-        }, error)
-    }
+        $Service.post(SERVIE, [OPRERATOPM.GET, {
+            orderId: data.orderId,
+            userId: data.userId
+        }], success, error)
+    },
+    intToStarsVal: intToStarsVal,
+    starsValToInt: starsValToInt
 }
 
 
