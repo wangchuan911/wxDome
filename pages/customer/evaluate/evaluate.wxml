@@ -5,12 +5,16 @@
                 bind:change="onChange"
                 value="{{rate.value}}"
                 size="32"
-                data-idx="{{index}}">
+                data-idx="{{index}}" id="star{{index}}">
         </i-rate>
     </i-cell>
     <i-cell title="吐槽/建议">
         <view style="width: 100%;">
-            <textarea style="width: 100%;width: 96%;background-color: #e9eaec;border-radius: 20px;padding: 2%;" placeholder="您的建议是我们前进最大的动力" name="value1" maxlength="255" value="{{value1}}"/>
+            <textarea name="remarks"
+                      style="width: 100%;width: 96%;background-color: #e9eaec;border-radius: 20px;padding: 2%;"
+                      placeholder="您的建议是我们前进最大的动力" name="value1" maxlength="255" value="{{remarks}}"
+                      bindinput="textChage"
+            />
         </view>
     </i-cell>
     <i-button bind:click="rateFinBut" type="primary" shape="circle">确定

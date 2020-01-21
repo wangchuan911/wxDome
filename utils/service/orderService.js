@@ -23,7 +23,7 @@ const Methods = {
             "orderControlPerson": null,
             "orderAppointPerson": null,
             "orderArrangeDate": function () {
-                return (!submitData.value3) ? new Date().valueOf() :$Utils.getPickerDate(submitData.value3).valueOf();
+                return (!submitData.value3) ? new Date().valueOf() : $Utils.getPickerDate(submitData.value3).valueOf();
             }(),
             "custId": wx.getStorageSync("openId"),
             "passTache": function () {
@@ -115,6 +115,7 @@ const Methods = {
             workerPhone: data.orderAppointPhone,
             custName: data.custName,
             custPhone: data.custPhone,
+            custId: data.custId
         }
         if (data.pictureVOS || [] > 0) {
             let pic;
