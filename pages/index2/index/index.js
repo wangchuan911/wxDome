@@ -711,7 +711,7 @@ Page({
     }
     , setSpin() {
         const _this = this;
-        if ((--_this.data.loading.spinVal) == 0) {
+        if ((--_this.data.loading.spinVal) <= 0) {
             $Utils.unlockUI(this, "loading.spin")
         }
     }

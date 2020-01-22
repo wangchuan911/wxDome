@@ -5,7 +5,7 @@
                 bind:change="onChange"
                 value="{{rate.value}}"
                 size="32"
-                data-idx="{{index}}" id="star{{index}}">
+                data-idx="{{index}}" id="star{{index}}" disabled="{{isEvaluate}}">
         </i-rate>
     </i-cell>
     <i-cell title="吐槽/建议">
@@ -17,6 +17,7 @@
             />
         </view>
     </i-cell>
-    <i-button bind:click="rateFinBut" type="primary" shape="circle">确定
+    <i-button bind:click="rateFinBut" type="primary" shape="circle" disabled="{{isEvaluate}}">
+        {{isEvaluate?"感謝您的支持":"确定"}}
     </i-button>
 </i-cell-group>

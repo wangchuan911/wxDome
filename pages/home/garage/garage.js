@@ -17,7 +17,7 @@ Page({
                 enable: false,
                 carId: null,
                 carNo: "",
-                phone: "123",
+                phone: "",
                 keyBoardType: 1,
                 color: {
                     index: 0,
