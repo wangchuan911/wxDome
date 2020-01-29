@@ -5,20 +5,20 @@ const OPRERATOPM = {
     GET: 3,
     LIST: 4,
 }
-const SERVIE = "operationManager";
+const SERVIE = "operation";
 /**
  * 建单
  * */
 const Methods = {
     getOrderOperation: function (data, success, error) {
-        $Service.post(SERVIE, [OPRERATOPM.LIST, {
+        $Service.post(SERVIE, null, [OPRERATOPM.LIST, {
             "orderId": data.orderId,
             "oprMan": wx.getStorageSync("openId"),
             "active": true,
         }], success, error)
     },
     toBeContinue: function (data, success, error) {
-        $Service.post("toBeContinue", [{
+        $Service.post(SERVIE, "toBeContinue", [{
             "orderId": data.orderId,
             "userId": wx.getStorageSync("openId"),
             "tacheId": data.tacheId,

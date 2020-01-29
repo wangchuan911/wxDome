@@ -8,7 +8,7 @@ const OPRERATOPM = {
     GET: 3,
     LIST: 4,
 }
-const SERVIE = "carManger";
+const SERVIE = "car";
 /**
  * 建单
  * */
@@ -21,7 +21,7 @@ const setDefaultCarNo = function (carNo) {
 }
 const Methods = {
     addCar: function (data, success, error) {
-        $Service.post(SERVIE, [OPRERATOPM.ADD, {
+        $Service.post(SERVIE, null, [OPRERATOPM.ADD, {
             userId: wx.getStorageSync("openId"),
             brand: data.brand,
             lisence: data.lisence,
@@ -36,7 +36,7 @@ const Methods = {
         })
     },
     getCars: function (data, success, error) {
-        $Service.post(SERVIE, [OPRERATOPM.LIST, {
+        $Service.post(SERVIE,null, [OPRERATOPM.LIST, {
             userId: wx.getStorageSync("openId"),
             brand: data.brand,
             lisence: data.lisence,
@@ -49,7 +49,7 @@ const Methods = {
         })
     },
     setDefault: function (data, success, error) {
-        $Service.post(SERVIE, [OPRERATOPM.MODIFY, {
+        $Service.post(SERVIE,null, [OPRERATOPM.MODIFY, {
             userId: wx.getStorageSync("openId"),
             lisence: data.lisence,
         }], function (res) {
@@ -59,7 +59,7 @@ const Methods = {
         })
     },
     delCar: function (data, success, error) {
-        $Service.post(SERVIE, [OPRERATOPM.DELETE, {
+        $Service.post(SERVIE,null, [OPRERATOPM.DELETE, {
             userId: wx.getStorageSync("openId"),
             lisence: data.lisence,
         }], function (res) {

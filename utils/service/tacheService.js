@@ -13,7 +13,7 @@ const STATE = {
     WAIT: -1,
     END: -2,
 }
-const SERVIE = "tacheManager";
+const SERVIE = "tache";
 /**
  * 建单
  * */
@@ -48,7 +48,7 @@ const Methods = {
                 return
             }
         }
-        $Service.post(SERVIE, [OPRERATOPM.LIST, {
+        $Service.post(SERVIE, null, [OPRERATOPM.LIST, {
             "tampalateId": WASH_MAIN_TAMPLATE,
         }], function (res) {
             wx.setStorageSync(SERVIE, {
@@ -60,7 +60,7 @@ const Methods = {
                 success(res.data.result)
         }, error)
     }, getWorkBum: function (data, success, error) {
-        $Service.post(SERVIE, [OPRERATOPM.GET_WORK_NUM, {
+        $Service.post(SERVIE, null, [OPRERATOPM.GET_WORK_NUM, {
             "userId": data.userId,
         }], success, error)
     },

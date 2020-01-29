@@ -8,13 +8,13 @@ const OPRERATOPM = {
     LIST: 4,
     GET_WORKERS: 100
 }
-const SERVIE = "userManger";
+const SERVIE = "user";
 /**
  * 建单
  * */
 const Methods = {
     newUserr: function (data, success, error) {
-        $Service.post(SERVIE, [OPRERATOPM.ADD, {
+        $Service.post(SERVIE, null, [OPRERATOPM.ADD, {
             id: $Service.getUserId(),
             name: data.name,
             phone: data.phone
@@ -25,7 +25,7 @@ const Methods = {
         })
     },
     getUser: function (success, error) {
-        $Service.post(SERVIE, [OPRERATOPM.GET, {
+        $Service.post(SERVIE, null, [OPRERATOPM.GET, {
             id: $Service.getUserId()
         }], function (res) {
             success(res)
@@ -34,7 +34,7 @@ const Methods = {
         })
     },
     getWorkers: function (success, error) {
-        $Service.post(SERVIE, [OPRERATOPM.GET_WORKERS, {
+        $Service.post(SERVIE, null, [OPRERATOPM.GET_WORKERS, {
             id: $Service.getUserId(),
         }], function (res) {
             success(res)
@@ -55,7 +55,7 @@ const Methods = {
         return wx.getStorageSync($Service.getKey("USER_ATTR"))
     },
     updateUser(data, success, error) {
-        $Service.post(SERVIE, [OPRERATOPM.MODIFY, {
+        $Service.post(SERVIE, null, [OPRERATOPM.MODIFY, {
             id: $Service.getUserId(),
             name: data.name,
             phone: data.phone,

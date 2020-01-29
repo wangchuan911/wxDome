@@ -8,7 +8,7 @@ const OPRERATOPM = {
     LIST: 4,
     GET_WORKERS: 100
 }
-const SERVIE = "payManger";
+const SERVIE = "pay";
 
 function nonceStr() {
     const arr = [];

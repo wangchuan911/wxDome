@@ -10,13 +10,13 @@ const OPRERATOPM = {
     GET_WORK_NUM: 100,
     APPIONT_WORKER: 101,
 }
-const SERVIE = "orderManger";
+const SERVIE = "order";
 /**
  * 建单
  * */
 const Methods = {
     newOrder: function (submitData, success, error) {
-        $Service.post(SERVIE, [OPRERATOPM.ADD, {
+        $Service.post(SERVIE, null, [OPRERATOPM.ADD, {
             "carLicenseNumber": wx.getStorageSync("carLicence"),
             "carAddress": submitData.value1,
             "createDate": new Date().valueOf(),
@@ -53,7 +53,7 @@ const Methods = {
             error(res)
         })
     }, getOrders: function (data, success, error) {
-        $Service.post(SERVIE, [OPRERATOPM.LIST, {
+        $Service.post(SERVIE,null,  [OPRERATOPM.LIST, {
             "carLicenseNumber": data.carLicenseNumber,
             "carAddress": data.carAddress,
             "createDate": data.createDate,
@@ -70,7 +70,7 @@ const Methods = {
             error(res)
         })
     }, getWorkBum: function (data, success, error) {
-        $Service.post(SERVIE, [OPRERATOPM.GET_WORK_NUM, {
+        $Service.post(SERVIE,null,  [OPRERATOPM.GET_WORK_NUM, {
             "custId": data.custId,
         }], function (res) {
             success(res)
@@ -78,7 +78,7 @@ const Methods = {
             error(res)
         })
     }, selectWorker: function (data, success, error) {
-        $Service.post(SERVIE, [OPRERATOPM.APPIONT_WORKER, {
+        $Service.post(SERVIE, null, [OPRERATOPM.APPIONT_WORKER, {
             "orderId": data.orderId,
             "orderControlPerson": wx.getStorageSync("openId"),
             "orderAppointPerson": data.orderControlPerson,
@@ -88,7 +88,7 @@ const Methods = {
             error(res)
         })
     }, getOrder: function (data, success, error) {
-        $Service.post(SERVIE, [OPRERATOPM.GET, {
+        $Service.post(SERVIE,null,  [OPRERATOPM.GET, {
             "orderId": data.orderId,
             "custId": wx.getStorageSync("openId"),
         }], function (res) {

@@ -8,7 +8,7 @@ const OPRERATOPM = {
     LIST: 4,
     GET_WORKERS: 100
 }
-const SERVIE = "evaluateManager";
+const SERVIE = "evaluate";
 /**
  * 建单
  * */
@@ -46,10 +46,10 @@ const intToStarsVal = function (val) {
 }
 const Methods = {
     add: function (data, success, error) {
-        $Service.post(SERVIE, [OPRERATOPM.MODIFY, getData(data)], success, error)
+        $Service.post(SERVIE, null, [OPRERATOPM.MODIFY, getData(data)], success, error)
     },
     get: function (data, success, error) {
-        $Service.post(SERVIE, [OPRERATOPM.GET, {
+        $Service.post(SERVIE, null, [OPRERATOPM.GET, {
             orderId: data.orderId,
             userId: data.userId
         }], success, error)

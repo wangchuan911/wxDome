@@ -1,6 +1,6 @@
 const URLS = {
     COMMON: "www.welisdoon.xyz/wxApp",
-    UPLOAD: "www.welisdoon.xyz/imgUpd",
+    UPLOAD: "www.welisdoon.xyz/imgUpd?A1=picture",
     PIC: "https://www.welisdoon.xyz/pic"
 }
 const OPRERATOPM = {
@@ -88,8 +88,8 @@ const methods = {
             }
         }
         wx.request({
-            url: 'https://' + URLS.COMMON, //仅为示例，并非真实的接口地址
-            data: datas,
+            url: 'https://' + URLS.COMMON + "?A1=" + datas[0] + "&A2=" + datas[1], //仅为示例，并非真实的接口地址
+            data: datas[2],
             method: "POST",
             header: {
                 'content-type': 'application/json' // 默认值
@@ -147,11 +147,11 @@ const methods = {
                     //重新登录
                     getOpenId()
                 } else {
-                    methods.post("login", [openId], res => {
+                    methods.post("user", "login", [openId], res => {
                         res.data.result.openid = openId
                         initUserInfo(res.data.result)
                         success(res.data.result)
-                    }, err=>{
+                    }, err => {
                         console.log('登录失败！' + err)
                         error("网络异常")
                     })
