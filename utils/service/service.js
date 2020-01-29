@@ -1,6 +1,5 @@
 const URLS = {
     COMMON: "www.welisdoon.xyz/wxApp",
-    UPLOAD: "www.welisdoon.xyz/imgUpd?A1=picture",
     PIC: "https://www.welisdoon.xyz/pic"
 }
 const OPRERATOPM = {
@@ -29,7 +28,7 @@ const uploadFile = function (pictrues, data, complete) {
     function upload(pics, idx, dat) {
         if (pics[idx]) {
             wx.uploadFile({
-                url: 'https://' + URLS.UPLOAD,
+                url: 'https://' + URLS.COMMON + "?A1=picture&A3=UP",
                 filePath: pics[idx],
                 name: 'file',
                 formData: dat,
