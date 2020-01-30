@@ -35,7 +35,7 @@ const methods = {
             B1: -2,
             B2: nonceStr(32) + data.orderId + '.' + timeStamp(true) + '.' + data.custId,
         }
-        $Service.get(SERVIE, "pay", [param],
+        $Service.get(param,
             function (data) {
                 wx.requestPayment({
                     timeStamp: param.timeStamp,

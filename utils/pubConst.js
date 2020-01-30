@@ -66,20 +66,20 @@ module.exports = {
         value: null,
         text: "车外",
         id: "washOut",
-        cost:"20",
+        // cost:"20",
         tacheId: 8
     }, {
         checked: false,
         value: null,
         text: "车内",
         id: "washIn",
-        cost:"20",
+        // cost:"20",
         tacheId: 9
     }],
     setValue: function (key, value) {
         const keys = key.split(".");
         let dat = this;
-        for (var idx = 0; idx < keys.length; idx++) {
+        for (let idx = 0; idx < keys.length; idx++) {
             if (idx != keys.length - 1)
                 dat = dat[keys[idx]]
             else
