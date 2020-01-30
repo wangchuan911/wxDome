@@ -130,7 +130,7 @@ const methods = {
                     if (res.code) {
                         //发起网络请求
                         methods.get({code: -1, value: res.code}, function (res1) {
-                            var dat = res1.data;
+                            let dat = res1.data;
                             if (dat.openid) {
                                 initUserInfo(dat)
                                 success(dat)
@@ -207,7 +207,7 @@ const methods = {
     getValueFaster(obj, key) {
         const keys = key.split(".");
         let dat = obj;
-        for (var idx = 0; idx < keys.length; idx++) {
+        for (let idx = 0; idx < keys.length; idx++) {
             if (idx != keys.length - 1) {
                 if (!dat) return null;
                 dat = dat[keys[idx]]
