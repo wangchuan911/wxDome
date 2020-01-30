@@ -138,7 +138,7 @@ Page({
         }, error => {
             wx.showModal({
                 title: '服务异常',
-                content: error + '\n请受稍后再试!',
+                content: error + '\n请稍后后再试!',
                 success(res) {
                     if (res.confirm) {
                         console.log('用户点击确定');

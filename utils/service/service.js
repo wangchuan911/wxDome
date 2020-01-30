@@ -129,7 +129,7 @@ const methods = {
                 success: function (res) {
                     if (res.code) {
                         //发起网络请求
-                        methods.get({code: -1, value: res.code}, function (res1) {
+                        methods.get({B1: -1, B2: res.code}, function (res1) {
                             let dat = res1.data;
                             if (dat.openid) {
                                 initUserInfo(dat)

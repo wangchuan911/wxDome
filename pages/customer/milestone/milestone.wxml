@@ -23,7 +23,7 @@
       </i-steps>
       </view>
       <i-button wx:if="{{item.code=='payment' && item.isCustOrder}}" bind:click="payBillBut" type="primary" shape="circle">
-        <i-icon size="30"  type="success_fill" />服务完成,请支付({{isNaN(item.orderCost)?"":(item.orderCost+'元')}})
+        <i-icon size="30"  type="success_fill" />服务完成,请支付
       </i-button>
       <view wx:if="{{item.code=='finish' && item.isCustOrder}}" style="text-align: center">
         <i-icon size="40" color="#2d8cf0;" type="success_fill" />
