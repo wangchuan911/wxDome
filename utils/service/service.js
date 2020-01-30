@@ -22,13 +22,17 @@ const setUserId = function (openId) {
 }
 
 const uploadFile = function (pictrues, data, complete) {
-    var successPic = [];
-    var failPic = [];
+    const successPic = [];
+    const failPic = [];
+    const params = {
+        A1: "picture",
+        A3: "UP",
+    }
 
     function upload(pics, idx, dat) {
         if (pics[idx]) {
             wx.uploadFile({
-                url: 'https://' + URLS.COMMON + "?A1=picture&A3=UP",
+                url: 'https://' + URLS.COMMON + createPathParams(params),//"?A1=picture&A3=UP",
                 filePath: pics[idx],
                 name: 'file',
                 formData: dat,
@@ -69,6 +73,13 @@ const clearUserInfo = function () {
     setUserId(userId)
     setRole(-1);
 }
+const createPathParams = function (data) {
+    let path = "";
+    for (let key in data) {
+        path += '&' + key + "=" + data[key];
+    }
+    return path.length == 0 ? path : "?" + path.substring(1);
+}
 const methods = {
     getUrl: function (name) {
         return URLS[name]
@@ -76,18 +87,19 @@ const methods = {
     post: function () {
         const datas = [];
         const func = [];
-        let invailArgs = false;
         for (let i = 0; i < arguments.length; i++) {
             if (typeof (arguments[i]) == "function") {
-                func.push(arguments[i])
-                invailArgs = true;
-            } else {
-                if (!invailArgs)
-                    datas.push(arguments[i])
+                func.push(arguments[i]);
+            } else if (func.length == 0) {
+                datas.push(arguments[i])
             }
         }
+        const params = {
+            A1: datas[0],
+            A2: datas[1],
+        }
         wx.request({
-            url: 'https://' + URLS.COMMON + "?A1=" + datas[0] + "&A2=" + datas[1], //仅为示例，并非真实的接口地址
+            url: 'https://' + URLS.COMMON + createPathParams(params), //仅为示例，并非真实的接口地址
             data: datas[2],
             method: "POST",
             header: {
