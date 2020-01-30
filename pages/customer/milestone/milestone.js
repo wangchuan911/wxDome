@@ -3,6 +3,7 @@ const $PubConst = require('../../../utils/pubConst.js')
 const $OrderService = require('../../../utils/service/orderService');
 const $Service = require('../../../utils/service/service');
 const $OperService = require('../../../utils/service/operationService');
+const $PayService = require('../../../utils/service/payService');
 Page({
 
     /**
@@ -253,18 +254,25 @@ Page({
             })
         });
     },
-    payBillBut: function () {
-        wx.requestPayment({
-            timeStamp: "" + new Date().getTime(),
-            nonceStr: '',
-            package: '',
-            signType: 'MD5',
-            paySign: '',
-            success(res) {
-                console.info("aa")
-            },
-            fail(res) {
-            }
+    payBillBut: function (e) {
+        const _this = this;
+        const order = this.data.orders[e.currentTarget.dataset.idx]
+        $PayService.pay({
+            orderId: order.orderId,
+            custId: order.custId
+        }, function (data) {
+
+        }, function (error) {
+            wx.showModal({
+                title: '支付失败',
+                content: error + '\n请稍后后再试!',
+                success(res) {
+                    if (res.confirm) {
+                        console.log('用户点击确定');
+                        _this.login();
+                    }
+                }
+            })
         })
     },
     preViewPicture: function (e) {

@@ -10,13 +10,13 @@ const OPRERATOPM = {
 }
 const SERVIE = "pay";
 
-function nonceStr() {
+function nonceStr(length) {
     const arr = [];
     const arr1 = [];
-    while (arr.length < 32) {
-        var index = Math.floor(Math.random() * 52);
-        var offset = (index < 26) ? 0x41 : 0x61
-        var code = index % 26 + offset;
+    while (arr.length < (length || 32)) {
+        const index = Math.floor(Math.random() * 52);
+        const offset = (index < 26) ? 0x41 : 0x61
+        const code = index % 26 + offset;
         arr1.push(code)
         arr.push(String.fromCharCode(code))
     }
@@ -28,7 +28,26 @@ function timeStamp(isSeccond) {
     const date = new Date().valueOf();
     return isSeccond ? Math.floor(date / 1000) : date;
 }
-const methods={
 
+const methods = {
+    pay: function (data, success, fail) {
+        const param = {
+            B1: -2,
+            B2: nonceStr(32) + data.orderId + '.' + timeStamp(true) + '.' + data.custId,
+        }
+        $Service.get(SERVIE, "pay", [param],
+            function (data) {
+                wx.requestPayment({
+                    timeStamp: param.timeStamp,
+                    nonceStr: param.nonceStr,
+                    package: '',
+                    signType: 'MD5',
+                    paySign: '',
+                    success: success,
+                    fail: fail
+                })
+            },
+            fail)
+    }
 }
 module.exports = methods
