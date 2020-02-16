@@ -4,6 +4,7 @@ const {$Toast} = require('../../../ui/iview/base/index');
 const qqmapsdk = require('../../../utils/thrid/qqmap-wx-jssdk.js');
 const $OrderService = require('../../../utils/service/orderService');
 const $TacheService = require('../../../utils/service/tacheService');
+const $UserService = require('../../../utils/service/userService');
 const $CarService = require('../../../utils/service/carService');
 const $Service = require('../../../utils/service/service');
 const $PubConst = require('../../../utils/pubConst');
@@ -109,6 +110,7 @@ Page({
         const _this = this;
         $Service.login(success => {
             const roloId = _this.getRole();
+            _this.areaRange();
             _this.data.state.freshView = roloId < 0;
             /*_this.setData({
                 ["openType"]: ((roloId == 0) ? "getPhoneNumber" : "getUserInfo")
@@ -163,10 +165,12 @@ Page({
                             ['submitData.value1']: res1.result.address,
                             ['submitData.value8']: res1.result.ad_info.adcode + $Utils.getDate(new Date(), ""),
                             ['submitData.value9']: res1.result.ad_info.adcode
-                        })
+                        });
+                        console.info(res1.result);
                         const user = $Service.getUserInfo();
                         _this.data.submitData.value8 += user.id.substr(user.id.length - 5);
-                        _this.setSpin();
+                        _this.areaRange()
+                        //_this.setSpin();
                     },
                     fail: function (res1) {
                         if (!_this.data.state.freshView) {
@@ -708,6 +712,37 @@ Page({
             roleMode: role
         })
         return role;
+    }
+    , areaRange() {
+        const _this = this;
+        const code = _this.data.submitData.value9;
+        const role = _this.data.roleMode;
+        if (!isNaN(code) && role >= 0 && _this.data.loading.spinVal > 0) {
+            if (role >= 1) {
+                _this.setSpin();
+                return;
+            }
+            $UserService.getWorkAreaRange({
+                userAttr: {
+                    regionCode: [code]
+                }
+            }, success => {
+                if (success.data.result.length > 0) {
+                    _this.setSpin();
+                } else {
+                    wx.showModal({
+                        title: '服务异常',
+                        content: '您所在区域尚不提供服务',
+                        success(res) {
+                            if (res.confirm) {
+                                console.log('用户点击确定');
+                            }
+                        }
+                    })
+                }
+            }, fail => {
+            })
+        }
     }
     , setSpin() {
         const _this = this;
