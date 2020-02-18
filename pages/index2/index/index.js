@@ -717,8 +717,9 @@ Page({
         const _this = this;
         const code = _this.data.submitData.value9;
         const role = _this.data.roleMode;
+        const orderCount = _this.data.order.orderCount;
         if (!isNaN(code) && role >= 0 && _this.data.loading.spinVal > 0) {
-            if (role >= 1) {
+            if (role >= 1 || orderCount > 0) {
                 _this.setSpin();
                 return;
             }

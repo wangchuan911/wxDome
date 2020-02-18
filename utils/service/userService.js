@@ -6,7 +6,8 @@ const OPRERATOPM = {
     MODIFY: 2,
     GET: 3,
     LIST: 4,
-    GET_WORKERS: 100
+    GET_WORKERS: 100,
+    AREA_RANGE: 101,
 }
 const SERVIE = "user";
 /**
@@ -66,6 +67,13 @@ const Methods = {
             error(res)
         })
     },
+    getWorkAreaRange(data, success, error) {
+        $Service.post(SERVIE, null, [OPRERATOPM.AREA_RANGE, data], function (res) {
+            success(res)
+        }, function (res) {
+            error(res)
+        })
+    }
 }
 
 
