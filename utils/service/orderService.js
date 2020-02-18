@@ -53,7 +53,7 @@ const Methods = {
             error(res)
         })
     }, getOrders: function (data, success, error) {
-        $Service.post(SERVIE,null,  [OPRERATOPM.LIST, {
+        $Service.post(SERVIE, null, [OPRERATOPM.LIST, {
             "carLicenseNumber": data.carLicenseNumber,
             "carAddress": data.carAddress,
             "createDate": data.createDate,
@@ -70,7 +70,7 @@ const Methods = {
             error(res)
         })
     }, getWorkBum: function (data, success, error) {
-        $Service.post(SERVIE,null,  [OPRERATOPM.GET_WORK_NUM, {
+        $Service.post(SERVIE, null, [OPRERATOPM.GET_WORK_NUM, {
             "custId": data.custId,
         }], function (res) {
             success(res)
@@ -88,7 +88,7 @@ const Methods = {
             error(res)
         })
     }, getOrder: function (data, success, error) {
-        $Service.post(SERVIE,null,  [OPRERATOPM.GET, {
+        $Service.post(SERVIE, null, [OPRERATOPM.GET, {
             "orderId": data.orderId,
             "custId": wx.getStorageSync("openId"),
         }], function (res) {
@@ -126,7 +126,7 @@ const Methods = {
                     names = [];
                     object["imgs" + pic.tacheId] = names;
                 }
-                names.push($Service.getUrl("PIC") + "/" + pic.name);
+                names.push("https://" + $Service.getUrl("PIC") + "/" + pic.name);
             }
         }
         const state = $PubConst.customer.step1.find(value => {
