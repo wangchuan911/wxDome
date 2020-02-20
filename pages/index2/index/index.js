@@ -9,6 +9,19 @@ const $CarService = require('../../../utils/service/carService');
 const $Service = require('../../../utils/service/service');
 const $PubConst = require('../../../utils/pubConst');
 const $Utils = require('../../../utils/util');
+
+const ERROR = function (code, msg) {
+    return {
+        code: code,
+        msg: msg
+    }
+}
+ERROR.LOCATION_FAIL = "LOCATION_FAIL";
+ERROR.LOGIN_FAIL = "LOGIN_FAIL";
+ERROR.USERINFO_FAIL = "USERINFO_FAIL";
+ERROR.OUT_SERVICE_RANGE = "OUT_SERVICE_RANGE";
+ERROR.NETWORK_ERROR = "NETWORK_ERROR";
+
 Page({
 
     /**
@@ -95,97 +108,146 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-        $Utils.UILock(this, 'loading.spin', true);
-        $Utils.UILock(this, 'loading.submitBut', true);
-
-        this.getUserInfo()
-        this.login();
-        this.initMap();
-        for (let idx in this.data.serviceType) {
-            const type = this.data.serviceType[idx];
+        const _this = this;
+        $Utils.UILock(_this, 'loading.spin', true);
+        $Utils.UILock(_this, 'loading.submitBut', true);
+        for (let idx in _this.data.serviceType) {
+            const type = _this.data.serviceType[idx];
             this.data.submitData.value6[type.id] = type.checked
         }
-    },
-    login: function () {
-        const _this = this;
-        $Service.login(success => {
-            const roloId = _this.getRole();
-            _this.areaRange();
-            _this.data.state.freshView = roloId < 0;
-            /*_this.setData({
-                ["openType"]: ((roloId == 0) ? "getPhoneNumber" : "getUserInfo")
-            })*/
-            $TacheService.getTaccheMap({roleMode: roloId})
-            const order = _this.data.order
-            if (success.work) {
-                const work = success.work;
-                order.allOrderCount = work.all_nums || 0;
-                order.orderCount = work.nums || 0;
-                _this.setData({
-                    ['progressShow.progress']: order.orderCount == 0 ? 1 : parseInt((order.orderCount / order.allOrderCount) * 100)
-                })
-            }
-            if (roloId > 0 || (((order.allOrderCount || 0) - (order.orderCount || 0)) > 0)) {
-                _this.setData({
-                    isBook: true,
-                    ["openType"]: null
-                });
-                $Utils.unlockUI(_this, 'loading.submitBut')
-                _this.initCircle();
-            }
-            const carNo = (success.cars || []).length > 0 ? success.cars[0].lisence : null
-            $CarService.setDefaultCarNo(carNo);
-            _this.userCheck(null, true)
+        Promise.all([this.getUserInfo(), this.login(), this.initMap()]).then(value => {
+            return _this.areaRange();
+        }).then(value => {
             _this.setSpin();
-        }, error => {
-            wx.showModal({
-                title: '服务异常',
-                content: error + '\n请稍后后再试!',
-                success(res) {
-                    if (res.confirm) {
-                        console.log('用户点击确定');
+        }).catch(reason => {
+            let showModal = false;
+            const errorMsg = {};
+            switch (reason.code) {
+                case ERROR.NETWORK_ERROR:
+                    showModal = true;
+                    errorMsg.title = '服务异常';
+                    errorMsg.content = (reason.msg || '') + '\n请稍后后再试!';
+                    errorMsg.okFunction = function () {
                         _this.login();
                     }
-                }
-            })
-        })
-    }, initMap: function () {
-        const _this = this;
-        wx.getLocation({
-            type: 'gcj02',
-            success(res) {
-                _this.setData({
-                    ['markers[0].latitude']: res.latitude,
-                    ['markers[0].longitude']: res.longitude,
-                })
-                qqmapsdk.reverseGeocoder({
-                    location: res,
-                    success: function (res1) {//成功后的回调
-                        _this.setData({
-                            ['submitData.value1']: res1.result.address,
-                            ['submitData.value8']: res1.result.ad_info.adcode + $Utils.getDate(new Date(), ""),
-                            ['submitData.value9']: res1.result.ad_info.adcode
-                        });
-                        console.info(res1.result);
-                        const user = $Service.getUserInfo();
-                        _this.data.submitData.value8 += user.id.substr(user.id.length - 5);
-                        _this.areaRange()
-                        //_this.setSpin();
-                    },
-                    fail: function (res1) {
-                        if (!_this.data.state.freshView) {
-                            _this.data.state.freshView = true;
-                            $Utils.getPositionAuth();
+                    break;
+                case ERROR.LOCATION_FAIL:
+                    _this.data.state.freshView = true;
+                    $Utils.getPositionAuth();
+                    break;
+                case ERROR.OUT_SERVICE_RANGE:
+                    showModal = true;
+                    errorMsg.title = '服务异常';
+                    errorMsg.content = '您所在区域尚不提供服务';
+                    break
+
+            }
+            if (showModal) {
+                wx.showModal({
+                    title: errorMsg.title,
+                    content: errorMsg.content,
+                    success(res) {
+                        if (res.confirm) {
+                            console.log('用户点击确定');
+                            if (errorMsg.okFunction) {
+                                errorMsg.okFunction();
+                            }
                         }
                     }
                 })
-                // const speed = res.speed
-                // const accuracy = res.accuracy
-            },
-            fail(res) {
-                _this.data.state.freshView = true;
-                $Utils.getPositionAuth();
             }
+        });
+    },
+    login: function () {
+        const _this = this;
+        return new Promise((resolve, reject) => {
+            $Service.login(success => {
+                console.info("login.login")
+                const roloId = _this.getRole();
+                _this.data.state.freshView = roloId < 0;
+                /*_this.setData({
+                    ["openType"]: ((roloId == 0) ? "getPhoneNumber" : "getUserInfo")
+                })*/
+                $TacheService.getTaccheMap({roleMode: roloId})
+                const order = _this.data.order
+                if (success.work) {
+                    const work = success.work;
+                    order.allOrderCount = work.all_nums || 0;
+                    order.orderCount = work.nums || 0;
+                    _this.setData({
+                        ['progressShow.progress']: order.orderCount == 0 ? 1 : parseInt((order.orderCount / order.allOrderCount) * 100)
+                    })
+                }
+                if (roloId > 0 || (((order.allOrderCount || 0) - (order.orderCount || 0)) > 0)) {
+                    _this.setData({
+                        isBook: true,
+                        ["openType"]: null
+                    });
+                    $Utils.unlockUI(_this, 'loading.submitBut')
+                    _this.initCircle();
+                }
+                const carNo = (success.cars || []).length > 0 ? success.cars[0].lisence : null
+                $CarService.setDefaultCarNo(carNo);
+                /*_this.userCheck(null, true)
+                console.info("login.spin")
+                _this.setSpin();*/
+                resolve()
+            }, error => {
+                /*wx.showModal({
+                    title: '服务异常',
+                    content: error + '\n请稍后后再试!',
+                    success(res) {
+                        if (res.confirm) {
+                            console.log('用户点击确定');
+                            _this.login();
+                        }
+                    }
+                })*/
+                reject(ERROR(ERROR.NETWORK_ERROR, error))
+            })
+        });
+    }, initMap: function () {
+        const _this = this;
+        return new Promise((resolve, reject) => {
+            wx.getLocation({
+                type: 'gcj02',
+                success(res) {
+                    _this.setData({
+                        ['markers[0].latitude']: res.latitude,
+                        ['markers[0].longitude']: res.longitude,
+                    })
+                    qqmapsdk.reverseGeocoder({
+                        location: res,
+                        success: function (res1) {//成功后的回调
+                            _this.setData({
+                                ['submitData.value1']: res1.result.address,
+                                ['submitData.value8']: res1.result.ad_info.adcode + $Utils.getDate(new Date(), ""),
+                                ['submitData.value9']: res1.result.ad_info.adcode
+                            });
+                            console.info(res1.result);
+                            const user = $Service.getUserInfo();
+                            _this.data.submitData.value8 += user.id.substr(user.id.length - 5);
+                            /*_this.areaRange()*/
+                            resolve()
+                            //_this.setSpin();
+                        },
+                        fail: function (res1) {
+                            /*if (!_this.data.state.freshView) {
+                                _this.data.state.freshView = true;
+                                $Utils.getPositionAuth();
+                            }*/
+                            reject(ERROR(ERROR.LOCATION_FAIL, res1))
+                        }
+                    })
+                    // const speed = res.speed
+                    // const accuracy = res.accuracy
+                },
+                fail(res) {
+                    /*_this.data.state.freshView = true;
+                    $Utils.getPositionAuth();*/
+                    reject(ERROR(ERROR.LOCATION_FAIL, res))
+                }
+            });
         })
     },
     /**
@@ -248,50 +310,51 @@ Page({
     },
     getUserInfo: function (e) {
         const _this = this;
-
-        function check() {
-            _this.userCheck(null, true)
-        }
-
-        if (((e || {}).detail || {}).userInfo) {
-            console.log(e)
-            app.globalData.userInfo = e.detail.userInfo
-            this.setData({
-                userInfo: e.detail.userInfo,
-                hasUserInfo: true
-            })
-            check();
-        } else {
-            if (app.globalData.userInfo) {
+        return new Promise((resolve, reject) => {
+            if (((e || {}).detail || {}).userInfo) {
+                console.log(e)
+                app.globalData.userInfo = e.detail.userInfo
                 this.setData({
-                    userInfo: app.globalData.userInfo,
+                    userInfo: e.detail.userInfo,
                     hasUserInfo: true
                 })
-                check();
-            } else if (this.data.canIUse) {
-                // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-                // 所以此处加入 callback 以防止这种情况
-                app.userInfoReadyCallback = function (res) {
-                    _this.setData({
-                        userInfo: res.userInfo,
+                resolve()
+            } else {
+                if (app.globalData.userInfo) {
+                    this.setData({
+                        userInfo: app.globalData.userInfo,
                         hasUserInfo: true
                     })
-                    check();
-                }
-            } else {
-                // 在没有 open-type=getUserInfo 版本的兼容处理
-                wx.getUserInfo({
-                    success: function (res) {
-                        app.globalData.userInfo = res.userInfo
+                    resolve();
+                } else if (this.data.canIUse) {
+                    // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
+                    // 所以此处加入 callback 以防止这种情况
+                    app.userInfoReadyCallback = function (res) {
                         _this.setData({
                             userInfo: res.userInfo,
                             hasUserInfo: true
                         })
-                        check();
                     }
-                })
+                    resolve();
+                } else {
+                    // 在没有 open-type=getUserInfo 版本的兼容处理
+                    wx.getUserInfo({
+                        success: function (res) {
+                            app.globalData.userInfo = res.userInfo
+                            _this.setData({
+                                userInfo: res.userInfo,
+                                hasUserInfo: true
+                            })
+                            resolve();
+                        },
+                        fail(res) {
+                            reject(ERROR(ERROR.USERINFO_FAIL, res))
+                        }
+                    })
+
+                }
             }
-        }
+        })
     },
     /**
      * 用户点击右上角分享
@@ -363,11 +426,14 @@ Page({
         return !fail;
     },
     bookBut: function (e) {
-        this.getUserInfo(e)
+        const _this = this;
+
+        this.getUserInfo(e).then(value => {
+            _this.userCheck(null, true)
+        });
         if (!this.userCheck(e)) return;
 
-        const _this = this
-        if ($Utils.isLock(this, 'loading.submitBut')) {
+        if ($Utils.isLock(_this, 'loading.submitBut')) {
             return
         }
 
@@ -439,7 +505,11 @@ Page({
         uplaod();
     },
     mileStoneBut: function (e) {
-        this.getUserInfo(e)
+        this.getUserInfo(e).then(value => {
+            if (!this.userCheck(e)) {
+                throw "mileStoneBut"
+            }
+        });
         if (!this.userCheck(e)) return;
         const lock = $Utils.lockUI(this, 'loading.submitBut');
         const _this = this
@@ -715,40 +785,49 @@ Page({
     }
     , areaRange() {
         const _this = this;
-        const code = _this.data.submitData.value9;
-        const role = _this.data.roleMode;
-        const orderCount = _this.data.order.orderCount;
-        if (!isNaN(code) && role >= 0 && _this.data.loading.spinVal > 0) {
-            if (role >= 1 || orderCount > 0) {
-                _this.setSpin();
-                return;
+        return new Promise((resolve, reject) => {
+            const code = _this.data.submitData.value9;
+            const role = _this.data.roleMode;
+            const orderCount = _this.data.order.orderCount;
+            console.info(code + "," + role + "," + orderCount)
+            if (!isNaN(code) && role >= 0) {
+                if (role >= 1 || orderCount > 0) {
+                    console.info("areaRange.spin")
+                    resolve()
+                }
+                $UserService.getWorkAreaRange({
+                    userAttr: {
+                        regionCode: [code]
+                    }
+                }, success => {
+                    if (success.data.result.length > 0) {
+                        console.info("areaRange.spin2")
+                        resolve()
+                    } else {
+                        /* wx.showModal({
+                             title: '服务异常',
+                             content: '您所在区域尚不提供服务',
+                             success(res) {
+                                 if (res.confirm) {
+                                     console.log('用户点击确定');
+                                 }
+                             }
+                         })*/
+                        reject(ERROR(ERROR.OUT_SERVICE_RANGE))
+                    }
+                }, fail => {
+                    reject(ERROR(ERROR.OUT_SERVICE_RANGE, fail));
+                })
+            } else {
+                reject(ERROR(ERROR.OUT_SERVICE_RANGE));
             }
-            $UserService.getWorkAreaRange({
-                userAttr: {
-                    regionCode: [code]
-                }
-            }, success => {
-                if (success.data.result.length > 0) {
-                    _this.setSpin();
-                } else {
-                    wx.showModal({
-                        title: '服务异常',
-                        content: '您所在区域尚不提供服务',
-                        success(res) {
-                            if (res.confirm) {
-                                console.log('用户点击确定');
-                            }
-                        }
-                    })
-                }
-            }, fail => {
-            })
-        }
+        })
     }
     , setSpin() {
         const _this = this;
-        if ((--_this.data.loading.spinVal) <= 0) {
+        /*if ((--_this.data.loading.spinVal) <= 0) {
             $Utils.unlockUI(this, "loading.spin")
-        }
+        }*/
+        $Utils.unlockUI(_this, "loading.spin")
     }
 })

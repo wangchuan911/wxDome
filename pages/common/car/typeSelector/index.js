@@ -25,8 +25,22 @@ Page({
             const show = (data == null);
             _this.setData({
                 ["show"]: show ? 1 : 2,
-                ["carTypes"]: show ? $CarConst.getList() : $CarConst.getList(data[0], data[1]),
             });
+            const carTypes = show ? $CarConst.getList() : $CarConst.getList(data[0], data[1]);
+            if ((carTypes || []).length == 0) {
+                $CarConst.cacheCarData({
+                    level: _this.data.show,
+                    indexs: data
+                }, success => {
+                    _this.setData({
+                        ["carTypes"]: show ? $CarConst.getList() : $CarConst.getList(data[0], data[1])
+                    });
+                })
+            } else {
+                _this.setData({
+                    ["carTypes"]: carTypes,
+                })
+            }
         })
         wx.getSystemInfo({
             success(res) {

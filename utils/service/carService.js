@@ -7,6 +7,7 @@ const OPRERATOPM = {
     MODIFY: 2,
     GET: 3,
     LIST: 4,
+    GET_MODAL: 100
 }
 const SERVIE = "car";
 /**
@@ -36,7 +37,7 @@ const Methods = {
         })
     },
     getCars: function (data, success, error) {
-        $Service.post(SERVIE,null, [OPRERATOPM.LIST, {
+        $Service.post(SERVIE, null, [OPRERATOPM.LIST, {
             userId: wx.getStorageSync("openId"),
             brand: data.brand,
             lisence: data.lisence,
@@ -49,7 +50,7 @@ const Methods = {
         })
     },
     setDefault: function (data, success, error) {
-        $Service.post(SERVIE,null, [OPRERATOPM.MODIFY, {
+        $Service.post(SERVIE, null, [OPRERATOPM.MODIFY, {
             userId: wx.getStorageSync("openId"),
             lisence: data.lisence,
         }], function (res) {
@@ -59,7 +60,7 @@ const Methods = {
         })
     },
     delCar: function (data, success, error) {
-        $Service.post(SERVIE,null, [OPRERATOPM.DELETE, {
+        $Service.post(SERVIE, null, [OPRERATOPM.DELETE, {
             userId: wx.getStorageSync("openId"),
             lisence: data.lisence,
         }], function (res) {
@@ -69,7 +70,17 @@ const Methods = {
         })
     },
     getDefaultCarNo: getDefaultCarNo,
-    setDefaultCarNo: setDefaultCarNo
+    setDefaultCarNo: setDefaultCarNo,
+    getModel: function (data, success, error) {
+        $Service.post(SERVIE, null, [OPRERATOPM.GET_MODAL, {
+            level: data.level,
+            carBrand: data.carBrand,
+        }], function (res) {
+            success(res)
+        }, function (res) {
+            error(res)
+        })
+    },
 }
 
 
