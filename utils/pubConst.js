@@ -45,7 +45,7 @@ module.exports = {
         }]
     },
     operationCodes: {
-        dispatch:{
+        dispatch: {
             name: "人员派遣"
         },
         reach: {
@@ -66,14 +66,14 @@ module.exports = {
         value: null,
         text: "车外",
         id: "washOut",
-        // cost:"20",
+        cost: "20",
         tacheId: 8
     }, {
         checked: false,
         value: null,
         text: "车内",
         id: "washIn",
-        // cost:"20",
+        cost: "20",
         tacheId: 9
     }],
     setValue: function (key, value) {
@@ -85,5 +85,19 @@ module.exports = {
             else
                 dat[keys[idx]] = value
         }
+    },
+    setCost: function (key, value) {
+        let target = null;
+        switch (key) {
+            case "priceInside":
+                target = "washIn";
+                break;
+            case "priceOutside":
+                target = "washOut";
+                break;
+            default:
+                return;
+        }
+        this.optionTaches.find(value => value.id == target).cost = value
     }
 }

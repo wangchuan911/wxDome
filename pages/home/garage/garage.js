@@ -68,7 +68,9 @@ Page({
                     carNo: data[i].lisence,
                     carColor: data[i].color,
                     carType: data[i].modal,
-                    defaultCar: data[i].defaultSelected
+                    defaultCar: data[i].defaultSelected,
+                    carModelId: data[i].carModelId,
+                    carInfo: data[i].carInfo
                 }
                 if (data[i].defaultSelected) {
                     cars.unshift(obj);
@@ -197,7 +199,7 @@ Page({
             msg = data.carBrand ? msg : "品牌信息不能为空";
             msg = data.carColor ? msg : "车牌颜色不能为空";
             msg = data.carType ? msg : "类型信息不能为空";
-            msg = (_this.data.page.carList.cars.length == 0 || data.phone) ? msg : "电话信息不能为空";
+            msg = (_this.data.page.carList.cars.length > 0 || data.phone) ? msg : "电话信息不能为空";
             return msg;
         }
 
@@ -209,7 +211,8 @@ Page({
                 carColor: this.data.page.recordInfo.color.value,
                 carType: this.data.page.recordInfo.type.value,
                 defaultCar: _this.data.page.carList.cars.length > 0 ? false : true,
-                phone: this.data.page.recordInfo.phone
+                phone: this.data.page.recordInfo.phone,
+                carModelId: this.data.page.recordInfo.carId
             };
             const check = confireCheck(data)
             if (check != null) {
@@ -228,6 +231,7 @@ Page({
                 modal: data.carType,
                 defaultSelected: data.defaultCar ? 1 : 0,
                 phone: data.phone,
+                carModelId: data.carModelId
             }, function (res) {
                 cars.push(data);
                 if (data.defaultCar) {

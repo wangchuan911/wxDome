@@ -30,6 +30,7 @@ const Methods = {
             modal: data.modal,
             defaultSelected: data.defaultSelected,
             phone: data.phone,
+            carModelId:data.carModelId
         }], function (res) {
             success(res)
         }, function (res) {
