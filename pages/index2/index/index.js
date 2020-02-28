@@ -194,10 +194,7 @@ Page({
                     car.no = carConfig.lisence;
                     $PubConst.setCost("priceInside", carConfig.carInfo["priceInside"]);
                     $PubConst.setCost("priceOutside", carConfig.carInfo["priceOutside"]);
-                    _this.setData({
-                        ["serviceType"]: $PubConst.optionTaches,
-                        ['value10']: $PubConst.optionTaches.filter(value => value.checked).map(value => value.cost).reduce((previousValue, currentValue) => previousValue += currentValue),
-                    })
+                    _this.initCost();
                 }
                 $CarService.setDefaultCarNo(car.no);
                 /*_this.userCheck(null, true)
@@ -218,6 +215,12 @@ Page({
                 reject(ERROR(ERROR.NETWORK_ERROR, error))
             })
         });
+    }, initCost: function () {
+        const _this = this;
+        _this.setData({
+            ["serviceType"]: $PubConst.optionTaches,
+            ['value10']: $PubConst.optionTaches.filter(value => value.checked).map(value => value.cost).reduce((previousValue, currentValue) => previousValue += currentValue),
+        })
     }, initMap: function () {
         const _this = this;
         return new Promise((resolve, reject) => {
@@ -272,6 +275,7 @@ Page({
             if (this.isBook) {
                 this.initCircle();
             }
+            this.initCost();
         }
     },
 
@@ -289,6 +293,7 @@ Page({
             }
             this.getRole();
             _this.userCheck(null, true)
+            this.initCost();
         }
 
     },
