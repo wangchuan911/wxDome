@@ -219,7 +219,7 @@ Page({
         const _this = this;
         _this.setData({
             ["serviceType"]: $PubConst.optionTaches,
-            ['value10']: $PubConst.optionTaches.filter(value => value.checked).map(value => value.cost).reduce((previousValue, currentValue) => previousValue += currentValue),
+            ['submitData.value10']: $PubConst.optionTaches.filter(value => value.checked).map(value => value.cost).reduce((previousValue, currentValue) => previousValue += currentValue),
         })
     }, initMap: function () {
         const _this = this;
@@ -396,8 +396,10 @@ Page({
         this.data.markers[0]
     },
     userCheck: function (e, notTip) {
-        const noLogin = this.getRole() < 0 || !app.globalData.userInfo;
+        const noLogin = this.getRole() < 0 ;
         const noCarNo = !$CarService.getDefaultCarNo();
+        console.info("noLogin"+noLogin)
+        console.info("noCarNo"+noCarNo)
         const fail = noLogin || noCarNo;
         if (fail) {
             const msgBody = {};
@@ -781,7 +783,7 @@ Page({
             ['serviceType[' + detail.name + '].checked']: detail.checked
         })
         this.setData({
-            ['value10']: _this.data.serviceType.filter(value => value.checked).map(value => value.cost).reduce((previousValue, currentValue) => previousValue += currentValue),
+            ['submitData.value10']: _this.data.serviceType.filter(value => value.checked).map(value => value.cost).reduce((previousValue, currentValue) => previousValue += currentValue),
         })
         //提交赋值
         this.data.submitData.value6[this.data.serviceType[detail.name].id] = detail.checked

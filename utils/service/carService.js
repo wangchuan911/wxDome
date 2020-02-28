@@ -18,6 +18,7 @@ const getDefaultCarNo = function () {
     return wx.getStorageSync(carLisenceKey)
 }
 const setDefaultCarNo = function (carNo) {
+    console.info("carNo"+carNo)
     wx.setStorageSync(carLisenceKey, carNo)
 }
 const Methods = {
