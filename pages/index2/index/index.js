@@ -93,7 +93,8 @@ Page({
             value6: {},
             value7: {},
             value8: '',
-            value9: '45'
+            value9: '45',
+            value10: 0
         },
         dateData: {
             preIndex: [0, 0, 0],
@@ -116,6 +117,7 @@ Page({
             this.data.submitData.value6[type.id] = type.checked
         }
         Promise.all([this.getUserInfo(), this.login(), this.initMap()]).then(value => {
+            _this.userCheck(null, true);
             return _this.areaRange();
         }).then(value => {
             _this.setSpin();
@@ -186,8 +188,18 @@ Page({
                     $Utils.unlockUI(_this, 'loading.submitBut')
                     _this.initCircle();
                 }
-                const carNo = (success.cars || []).length > 0 ? success.cars[0].lisence : null
-                $CarService.setDefaultCarNo(carNo);
+                const car = {};
+                if ((success.cars || []).length > 0) {
+                    const carConfig = success.cars[0];
+                    car.no = carConfig.lisence;
+                    $PubConst.setCost("priceInside", carConfig.carInfo["priceInside"]);
+                    $PubConst.setCost("priceOutside", carConfig.carInfo["priceOutside"]);
+                    _this.setData({
+                        ["serviceType"]: $PubConst.optionTaches,
+                        ['value10']: $PubConst.optionTaches.filter(value => value.checked).map(value => value.cost).reduce((previousValue, currentValue) => previousValue += currentValue),
+                    })
+                }
+                $CarService.setDefaultCarNo(car.no);
                 /*_this.userCheck(null, true)
                 console.info("login.spin")
                 _this.setSpin();*/
@@ -762,6 +774,9 @@ Page({
         }
         this.setData({
             ['serviceType[' + detail.name + '].checked']: detail.checked
+        })
+        this.setData({
+            ['value10']: _this.data.serviceType.filter(value => value.checked).map(value => value.cost).reduce((previousValue, currentValue) => previousValue += currentValue),
         })
         //提交赋值
         this.data.submitData.value6[this.data.serviceType[detail.name].id] = detail.checked
