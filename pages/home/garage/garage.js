@@ -4,6 +4,7 @@ const {$Message} = require('../../../ui/iview/base/index');
 const $CarService = require('../../../utils/service/carService')
 const $UserService = require('../../../utils/service/userService')
 const $Util = require('../../../utils/util');
+const $PubConst = require('../../../utils/pubConst');
 Page({
 
     /**
@@ -233,13 +234,16 @@ Page({
                 phone: data.phone,
                 carModelId: data.carModelId
             }, function (res) {
-                cars.push(data);
+                data.carInfo = res.data.result.carInfo;
                 if (data.defaultCar) {
                     $CarService.setDefaultCarNo(data.carNo)
+                    $PubConst.setCost("priceInside", data.carInfo["priceInside"]);
+                    $PubConst.setCost("priceOutside", data.carInfo["priceOutside"]);
                 }
                 if (data.phone) {
                     $UserService.setDefaultPhoneNum(data.phone)
                 }
+                cars.push(data);
                 _this.setData({
                     ['page.carList.cars']: cars,
                 })
@@ -322,6 +326,8 @@ Page({
                             newCars.unshift(cars[i]);
                             if (cars[i].defaultCar) {
                                 $CarService.setDefaultCarNo(cars[i].carNo)
+                                $PubConst.setCost("priceInside", cars[i].carInfo["priceInside"]);
+                                $PubConst.setCost("priceOutside", cars[i].carInfo["priceOutside"]);
                             }
                         } else {
                             cars[i].defaultCar = false;
