@@ -1,6 +1,6 @@
 const URLS = {
-    COMMON: "www.welisdoon.xyz/wxApp",
-    PIC: "https://www.welisdoon.xyz/pic"
+  COMMON: "hubidaauto.cn/wxApp",
+  PIC: "hubidaauto.cn/pic"
 }
 const OPRERATOPM = {
     ADD: 0,
