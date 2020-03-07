@@ -117,10 +117,10 @@ Page({
             this.data.submitData.value6[type.id] = type.checked
         }
         Promise.all([this.getUserInfo(), this.login(), this.initMap()]).then(value => {
+            _this.setSpin();
             _this.userCheck(null, true);
             return _this.areaRange();
         }).then(value => {
-            _this.setSpin();
         }).catch(reason => {
             let showModal = false;
             const errorMsg = {};
@@ -841,7 +841,7 @@ Page({
                     reject(ERROR(ERROR.OUT_SERVICE_RANGE, fail));
                 })
             } else {
-                reject(ERROR(ERROR.OUT_SERVICE_RANGE));
+                // reject(ERROR(ERROR.OUT_SERVICE_RANGE));
             }
         })
     }
