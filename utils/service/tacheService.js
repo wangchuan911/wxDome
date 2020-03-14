@@ -17,17 +17,34 @@ const SERVIE = "tache";
 /**
  * 建单
  * */
-var initTacheMap = function (taches) {
+const initTacheMap = function (taches) {
+    const node = function (tache) {
+        const subTache = function (tacheRelas) {
+            const ids = [];
+            (tacheRelas || []).forEach(tacheRela => {
+                (tacheRela.childTaches || []).forEach(tache => {
+                    ids.push(tache.tacheId);
+                    subTache(tache.childTaches)
+                });
+            });
+            for (let i = 0; i < tacheRelas; i++) {
+                tacheRelas.childTaches
+            }
+            return ids;
+        };
+        return {
+            id: tache.tacheId,
+            state: tache.seq,
+            name: tache.tacheName,
+            desc: "正在" + tache.tacheName,
+            code: tache.code,
+            subTaches:subTache(tache.tacheRelas||[])
+        }
+    }
     if (taches && taches.length > 0) {
         const t = []
         for (let i in taches) {
-            t.push({
-                id: taches[i].tacheId,
-                state: taches[i].seq,
-                name: taches[i].tacheName,
-                desc: "正在" + taches[i].tacheName,
-                code: taches[i].code
-            })
+            t.push(node(taches[i]))
         }
         $PubConst.setValue("customer.step1", t);
     }
