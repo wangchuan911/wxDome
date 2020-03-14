@@ -396,10 +396,10 @@ Page({
         this.data.markers[0]
     },
     userCheck: function (e, notTip) {
-        const noLogin = this.getRole() < 0 ;
+        const noLogin = this.getRole() < 0;
         const noCarNo = !$CarService.getDefaultCarNo();
-        console.info("noLogin"+noLogin)
-        console.info("noCarNo"+noCarNo)
+        console.info("noLogin" + noLogin)
+        console.info("noCarNo" + noCarNo)
         const fail = noLogin || noCarNo;
         if (fail) {
             const msgBody = {};
@@ -781,22 +781,31 @@ Page({
         }
         this.setData({
             ['serviceType[' + detail.name + '].checked']: detail.checked
-        })
-        this.setData({
+        });
+        if (this.data.serviceType[detail.name].checked) {
+            const code = this.data.serviceType[detail.name].id;
+            switch (code) {
+                case "washOut":
+                    console.info("washOut");
+                    break;
+                case "washIn":
+                    console.info("washIn");
+                    break;
+                default:
+            }
+
+            _this.data.serviceType.filter(value => {
+                return (value.id != code)
+            }).forEach(value => {
+                value.checked = false;
+            })
+        }
+        _this.setData({
+            ['serviceType']: _this.data.serviceType,
             ['submitData.value10']: _this.data.serviceType.filter(value => value.checked).map(value => value.cost).reduce((previousValue, currentValue) => previousValue += currentValue),
         })
         //提交赋值
         this.data.submitData.value6[this.data.serviceType[detail.name].id] = detail.checked
-        switch (this.data.serviceType[detail.name].id) {
-            case "washOut":
-                console.info("washOut");
-                break;
-            case "washIn":
-                console.info("washIn");
-                break;
-            default:
-
-        }
     }
     , getRole() {
         const role = $Service.getRole();

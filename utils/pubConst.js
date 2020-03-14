@@ -71,7 +71,7 @@ module.exports = {
     }, {
         checked: false,
         value: null,
-        text: "车内",
+        text: "车内外",
         id: "washIn",
         cost: "20",
         tacheId: 9
