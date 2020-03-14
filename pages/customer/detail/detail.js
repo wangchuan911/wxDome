@@ -334,7 +334,21 @@ Page({
         const tachePanelInfo = {noData: true};
         tachePanelInfo.id = step.id;
         tachePanelInfo.name = step.name;
-        tachePanelInfo.imgs = order["imgs" + step.id] || [];
+        tachePanelInfo.imgs =  function (order,step) {
+            const imgs=[];
+            const pushImgs = function (id) {
+                if ((order["imgs" + id] || []).length > 0) {
+                    imgs.push(...order["imgs" + id]);
+                }
+            }
+            pushImgs(step.id);
+            if((step.subTaches||[]).length>0){
+                step.subTaches.forEach(id => {
+                    pushImgs(id);
+                })
+            }
+            return imgs;
+        }(order,step);
         if (tachePanelInfo.imgs.length > 0) {
             tachePanelInfo.noData = false;
         }
