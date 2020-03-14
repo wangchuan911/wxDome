@@ -841,7 +841,7 @@ Page({
                     reject(ERROR(ERROR.OUT_SERVICE_RANGE, fail));
                 })
             } else {
-                // reject(ERROR(ERROR.OUT_SERVICE_RANGE));
+                reject(ERROR(ERROR.LOCATION_FAIL));
             }
         })
     }

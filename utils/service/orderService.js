@@ -123,11 +123,18 @@ const Methods = {
             let pic;
             for (let idx in data.pictureVOS) {
                 pic = data.pictureVOS[idx];
-                let names = object["imgs" + pic.tacheId]
-                if (!names) {
-                    names = [];
-                    object["imgs" + pic.tacheId] = names;
-                }
+                let picId = function () {
+                    const step = $PubConst.customer.step1.find(value => {
+                        if (pic.tacheId == value.id) {
+                            return true;
+                        } else {
+                            return value.subTaches.indexOf(pic.tacheId) >= 0;
+                        }
+                    });
+                    return (step || {}).id || pic.tacheId;
+                }() ;
+                let names = object["imgs" + picId] || [];
+                object["imgs" + picId] = names;
                 names.push("https://" + $Service.getUrl("PIC") + "/" + pic.name);
             }
         }
