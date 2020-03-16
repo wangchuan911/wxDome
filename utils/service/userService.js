@@ -15,10 +15,11 @@ const SERVIE = "user";
  * */
 const Methods = {
     newUserr: function (data, success, error) {
-        $Service.post(SERVIE, null, [OPRERATOPM.ADD, {
+        $Service.post(SERVIE, null, [OPRERATOPM.MODIFY, {
             id: $Service.getUserId(),
             name: data.name,
-            phone: data.phone
+            phone: data.phone,
+            role: 0,
         }], function (res) {
             success(res)
         }, function (res) {
