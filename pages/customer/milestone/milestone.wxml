@@ -3,7 +3,7 @@
 <i-panel title="服务进度">
   <i-card title='定单编码：{{item.orderCode}}' extra="{{item.carNo}}" wx:for="{{orders}}" wx:for-index="index" wx:for-item="item" wx:key="index">
     <view slot="content">
-      <view wx:if="{{item.state<100 && item.isCustOrder}}">
+      <view>
         <i-row>
           <i-col span="2" offset="22" bindtap="foldBut" data-idx="{{index}}">
             <i-icon type="unfold" size="25" wx:if="{{!item.fold}}"/>
