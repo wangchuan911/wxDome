@@ -268,7 +268,8 @@ Page({
             custId: order.custId
         }, function (data) {
             _this.setData({
-                ["orders[" + idx + "].code"]: 'finish'
+                ["orders[" + idx + "].code"]: 'finish',
+                ["orders[" + idx + "].state"]: '101',
             })
         }, function (error) {
             console.info(error)
