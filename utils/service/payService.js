@@ -31,18 +31,22 @@ function timeStamp(isSeccond) {
 
 const methods = {
     pay: function (data, success, fail) {
+        const dataObj = {
+            nonceStr: nonceStr(32),
+            timeStamp: timeStamp(true) + "",
+        }
         const param = {
             B1: -2,
-            B2: nonceStr(32) + data.orderId + '.' + timeStamp(true) + '.' + data.custId,
+            B2: dataObj.nonceStr + data.orderId + '.' + dataObj.timeStamp + '.' + data.custId,
         }
         $Service.get(param,
             function (data) {
                 wx.requestPayment({
-                    timeStamp: param.timeStamp,
-                    nonceStr: param.nonceStr,
-                    package: '',
+                    timeStamp: dataObj.timeStamp,
+                    nonceStr: dataObj.nonceStr,
+                    package: 'prepay_id=' + data.data.prePayId,
                     signType: 'MD5',
-                    paySign: '',
+                    paySign: data.data.sign,
                     success: success,
                     fail: fail
                 })

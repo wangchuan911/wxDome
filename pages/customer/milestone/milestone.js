@@ -263,13 +263,13 @@ Page({
         }, function (data) {
 
         }, function (error) {
+            console.info(error)
             wx.showModal({
                 title: '支付失败',
                 content: error + '\n请稍后后再试!',
                 success(res) {
                     if (res.confirm) {
                         console.log('用户点击确定');
-                        _this.login();
                     }
                 }
             })
