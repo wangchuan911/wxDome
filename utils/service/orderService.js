@@ -65,6 +65,7 @@ const Methods = {
             "passTache": data.passTache,
             "orderNote": data.orderNote,
             "regionCode": data.regionCode,
+            "orderState": data.orderState,
         }], function (res) {
             success(res)
         }, function (res) {
@@ -132,7 +133,7 @@ const Methods = {
                         }
                     });
                     return (step || {}).id || pic.tacheId;
-                }() ;
+                }();
                 let names = object["imgs" + picId] || [];
                 object["imgs" + picId] = names;
                 names.push("https://" + $Service.getUrl("PIC") + "/" + pic.name);

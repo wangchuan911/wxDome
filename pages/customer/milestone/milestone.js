@@ -126,10 +126,10 @@ Page({
         // eventChannel.emit('someEvent', { data: 'test' });
         // 监听acceptDataFromOpenerPage事件，获取上一页面通过eventChannel传送到当前页面的数据
         eventChannel.on('acceptDataFromOpenerPage', function (data) {
+            const param = {},
+                role = $Service.getRole();
             switch (data.mode) {
                 case 0:
-                    const role = $Service.getRole();
-                    const param = {};
                     switch (role) {
                         case 0:
                             param.custId = $Service.getUserId()
@@ -141,20 +141,25 @@ Page({
                             wx.navigateBack({})
                             return;
                     }
-                    $OrderService.getOrders(param, function (res) {
-                        let orders = res.data.result || [];
-                        for (let i = 0; i < orders.length; i++) {
-                            orders[i] = $OrderService.modelChange(orders[i])
-                            orders[i].isCustOrder = (role == 0)
-                            orders[i].isWorkOrder = (role == 1)
-                        }
-                        _this.setData({
-                            ['orders']: orders
-                        })
-                    })
                     break;
+                case 1:
+                    param.custId = $Service.getUserId();
+                    param.orderState = 2;
                 default:
+                    break
             }
+            if (Object.keys(param) == 0) return;
+            $OrderService.getOrders(param, function (res) {
+                let orders = res.data.result || [];
+                for (let i = 0; i < orders.length; i++) {
+                    orders[i] = $OrderService.modelChange(orders[i])
+                    orders[i].isCustOrder = (role == 0)
+                    orders[i].isWorkOrder = (role == 1)
+                }
+                _this.setData({
+                    ['orders']: orders
+                })
+            })
         });
 
         const steps = [];
@@ -255,13 +260,16 @@ Page({
         });
     },
     payBillBut: function (e) {
-        const _this = this;
-        const order = this.data.orders[e.currentTarget.dataset.idx]
+        const _this = this,
+            idx = e.currentTarget.dataset.idx,
+            order = this.data.orders[idx];
         $PayService.pay({
             orderId: order.orderId,
             custId: order.custId
         }, function (data) {
-
+            _this.setData({
+                ["orders[" + idx + "].code"]: 'finish'
+            })
         }, function (error) {
             console.info(error)
             wx.showModal({
