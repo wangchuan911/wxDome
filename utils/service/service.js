@@ -1,6 +1,6 @@
 const URLS = {
-  COMMON: "hubidaauto.cn/wxApp",
-  PIC: "hubidaauto.cn/pic"
+    COMMON: "hubidaauto.cn/wxApp",
+    PIC: "hubidaauto.cn/pic"
 }
 const OPRERATOPM = {
     ADD: 0,
@@ -218,6 +218,21 @@ const methods = {
     },
     getKey(keyWord) {
         return KEY[keyWord];
+    },
+    setPageState(page, value) {
+        const pages = wx.getStorageSync("pages") || {};
+        pages[page] = value;
+        wx.setStorageSync("pages", pages)
+    },
+    pullPageState(page) {
+        const pages = wx.getStorageSync("pages") || {};
+        const value = pages[page];
+        delete pages[page]
+        wx.setStorageSync("pages", pages);
+        return value
+    },
+    getPageState(page) {
+        return (wx.getStorageSync("pages") || {})[page];
     }
 }
 module.exports = methods

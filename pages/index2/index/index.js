@@ -17,6 +17,7 @@ const ERROR = function (code, msg) {
     }
 }
 ERROR.LOCATION_FAIL = "LOCATION_FAIL";
+ERROR.LOCATION_FAIL_REJECT = "LOCATION_FAIL_REJECT"
 ERROR.LOGIN_FAIL = "LOGIN_FAIL";
 ERROR.USERINFO_FAIL = "USERINFO_FAIL";
 ERROR.OUT_SERVICE_RANGE = "OUT_SERVICE_RANGE";
@@ -72,12 +73,12 @@ Page({
             value: null,
             text: "预约",
             id: "book"
-        }, {
+        }, /*{
             checked: false,
             value: null,
             text: "取车时间",
             id: "useTime"
-        }, {
+        },*/ {
             checked: false,
             value: null,
             text: "备注",
@@ -112,40 +113,53 @@ Page({
         const _this = this;
         $Utils.UILock(_this, 'loading.spin', true);
         $Utils.UILock(_this, 'loading.submitBut', true);
+        this.setData({
+            ["error"]: null
+        })
         for (let idx in _this.data.serviceType) {
             const type = _this.data.serviceType[idx];
             this.data.submitData.value6[type.id] = type.checked
         }
-        Promise.all([this.getUserInfo(), this.login(), this.initMap()]).then(value => {
-            _this.setSpin();
-            _this.userCheck(null, true);
-            return _this.areaRange();
-        }).then(value => {
-        }).catch(reason => {
+        const errorCallBack = (reason) => {
             let showModal = false;
-            const errorMsg = {};
+            const errorMsg = {
+                errorButName: "确定"
+            };
             switch (reason.code) {
                 case ERROR.NETWORK_ERROR:
                     showModal = true;
                     errorMsg.title = '服务异常';
                     errorMsg.content = (reason.msg || '') + '\n请稍后后再试!';
+                    break;
+                case ERROR.LOCATION_FAIL_REJECT:
+                    showModal = true;
+                    errorMsg.title = '服务异常';
+                    errorMsg.content = '位置获取失败';
                     errorMsg.okFunction = function () {
-                        _this.login();
+                        _this.data.state.freshView = true;
+                        $Utils.getPositionAuth().then(value => _this.onLoad()).catch(reason1 => {
+                            errorCallBack()
+                        });
                     }
                     break;
                 case ERROR.LOCATION_FAIL:
                     _this.data.state.freshView = true;
-                    $Utils.getPositionAuth();
+                    $Utils.getPositionAuth().then(value => _this.onLoad()).catch(reason1 => {
+                        errorCallBack()
+                    });
                     break;
                 case ERROR.OUT_SERVICE_RANGE:
                     showModal = true;
                     errorMsg.title = '服务异常';
                     errorMsg.content = '您所在区域尚不提供服务';
                     break
-
+                default:
+                    showModal = true;
+                    errorMsg.title = '服务异常';
+                    errorMsg.content = '获取信息失败，请重试';
             }
             if (showModal) {
-                wx.showModal({
+                /*wx.showModal({
                     title: errorMsg.title,
                     content: errorMsg.content,
                     success(res) {
@@ -156,9 +170,22 @@ Page({
                             }
                         }
                     }
+                })*/
+                _this.setData({
+                    ['error']: errorMsg
                 })
             }
-        });
+        };
+        this.initMap().then(value => {
+            Promise.all([_this.getUserInfo(), _this.login()])
+                .then(value => {
+                    if(!_this.userCheck(null, true));
+                    return _this.areaRange();
+                }).then(value => {
+                _this.setSpin();
+            }).catch(errorCallBack);
+        }).catch(errorCallBack)
+
     },
     login: function () {
         const _this = this;
@@ -820,11 +847,13 @@ Page({
             const code = _this.data.submitData.value9;
             const role = _this.data.roleMode;
             const orderCount = _this.data.order.orderCount;
-            console.info(code + "," + role + "," + orderCount)
-            if (!isNaN(code) && role >= 0) {
-                if (role >= 1 || orderCount > 0) {
+            const allOrderCount = _this.data.order.allOrderCount;
+            console.info(code + "," + role + "," + (allOrderCount - orderCount))
+            if (!isNaN(code)) {
+                if (role >= 1 || (allOrderCount || 0) - (orderCount || 0) > 0) {
                     console.info("areaRange.spin")
                     resolve()
+                    return;
                 }
                 $UserService.getWorkAreaRange({
                     userAttr: {
@@ -849,8 +878,6 @@ Page({
                 }, fail => {
                     reject(ERROR(ERROR.OUT_SERVICE_RANGE, fail));
                 })
-            } else {
-                reject(ERROR(ERROR.LOCATION_FAIL));
             }
         })
     }
