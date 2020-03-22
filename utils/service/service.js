@@ -133,9 +133,10 @@ const methods = {
             complete: func[2]
         })
     }, get: function () {
+        const args = arguments;
         wx.request({
             url: 'https://' + URLS.COMMON, //仅为示例，并非真实的接口地址
-            data: arguments[0],
+            data: args[0],
             method: "GET",
             header: {
                 'content-type': 'application/json' // 默认值
@@ -143,8 +144,8 @@ const methods = {
             success: function (value) {
                 const data = value.data
                 if (data.error || data.exception) {
-                    if (isFunction(arguments[2])) {
-                        arguments[2](value)
+                    if (isFunction(args[2])) {
+                        args[2](value)
                     } else {
                         wx.showToast({
                             title: '服务异常请重试！',
@@ -153,12 +154,12 @@ const methods = {
                             mask: true,
                         })
                     }
-                } else if (arguments[1]) {
-                    arguments[1](value);
+                } else if (args[1]) {
+                    args[1](value);
                 }
             },
-            fail: arguments[2],
-            complete: arguments[3]
+            fail: args[2],
+            complete: args[3]
         })
     }
     , login: function (success, error) {
@@ -168,7 +169,7 @@ const methods = {
                 success: function (res) {
                     if (res.code) {
                         //发起网络请求
-                        methods.get({B1: -1, B2: res.code}, function (res1) {
+                        methods.get({B1: -1, B2: res.code}, (res1) => {
                             let dat = res1.data;
                             if (dat.openid) {
                                 initUserInfo(dat)
@@ -176,6 +177,9 @@ const methods = {
                             } else {
                                 error("[" + dat.errcode + ']' + dat.errmsg);
                             }
+                        }, res1 => {
+                            error(res1)
+                            console.log('登录失败！' + res1)
                         })
                     } else {
                         error(res.errMsg)
