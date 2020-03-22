@@ -72,14 +72,14 @@ function getDatePicker(date, option) {
     const maxDays = (option || {}).maxDay || 1;
     const arr1 = [];
     const hours = date.getHours();
-    const minDay = hours > 18 || hours < 9 ? 1 : 0;
+    const minDay = hours > 18 ? 1 : 0;
     for (let day = minDay; day <= maxDays; day++) {
         date.setDate(date.getDate() + day);
         var date1 = (date.getMonth() + 1) + "月" + (date.getDate()) + '日';
         arr1.push(date1);
     }
     const arr2 = [];
-    for (let i = minDay > 0 ? 9 : hours; i <= 18; i++) {
+    for (let i = (minDay > 0 || hours < 9) ? 9 : hours; i <= 18; i++) {
         i = (i < 10) ? '0' + i : i;
         arr2.push(i + "时");
     }
