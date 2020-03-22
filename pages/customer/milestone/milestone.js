@@ -92,7 +92,8 @@ Page({
             },
             {
                 id: "worker",
-                name: "服务员"
+                name: "服务员",
+                initVal: "待定"
             },
         ],
         steps: $PubConst.customer.step1
@@ -317,7 +318,15 @@ Page({
         })
     },
     callBut: function (e) {
-        if (e.currentTarget.dataset.phone) {
+        let phone
+        if ((phone = e.currentTarget.dataset.phone)) {
+            if (phone == -1) {
+                wx.showToast({
+                    title: '派遣人员中',
+                    duration: 2000
+                });
+                return;
+            }
             wx.makePhoneCall({
                 phoneNumber: e.currentTarget.dataset.phone //仅为示例，并非真实的电话号码
             })

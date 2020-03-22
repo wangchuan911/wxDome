@@ -34,7 +34,7 @@
         <i-col span="5" offset="1">
           <i-tag i-class="i-tags" checkable="{{true}}" checked="{{true}}" name="col.id">{{col.name}}</i-tag>
         </i-col>
-        <i-col span="16" offset="1" style=" word-break:break-all;">{{item[col.id]}}</i-col>
+        <i-col span="16" offset="1" style=" word-break:break-all;">{{item[col.id]||col.initVal||''}}</i-col>
       </i-row>
         <!--<i-row wx:if="{{item.isCustOrder && item.imgs && item.imgs.length>0}}">
         <i-col span="5" offset="1">
@@ -57,7 +57,7 @@
                 <i-icon style="display: block" size="28" color="#80848f" type="customerservice" />
               <p>联系客服</p>
             </div>
-            <div class="helper-div" wx:if="{{item.state!=101}}" bindtap="callBut" data-idx="{{index}}" data-phone="{{item.workerPhone}}">
+            <div class="helper-div" wx:if="{{item.state!=101}}" bindtap="callBut" data-idx="{{index}}" data-phone="{{item.workerPhone||-1}}" >
                 <i-icon style="display: block" size="28" color="#80848f" type="interactive" />
               <p>呼叫小伙</p>
             </div>
