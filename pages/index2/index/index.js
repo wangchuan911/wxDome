@@ -179,7 +179,7 @@ Page({
         this.initMap().then(value => {
             Promise.all([_this.getUserInfo(), _this.login()])
                 .then(value => {
-                    if(!_this.userCheck(null, true));
+                    _this.userCheck(null, true)
                     return _this.areaRange();
                 }).then(value => {
                 _this.setSpin();

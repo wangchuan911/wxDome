@@ -72,7 +72,7 @@ function getDatePicker(date, option) {
     const maxDays = (option || {}).maxDay || 1;
     const arr1 = [];
     const hours = date.getHours();
-    const minDay = hours > 18 ? 1 : 0;
+    const minDay = hours > 18 || hours < 9 ? 1 : 0;
     for (let day = minDay; day <= maxDays; day++) {
         date.setDate(date.getDate() + day);
         var date1 = (date.getMonth() + 1) + "月" + (date.getDate()) + '日';
@@ -152,6 +152,7 @@ function setOneData(_this, name, value) {
         [name]: value
     })
 }
+
 module.exports = {
     formatTime: formatTime,
     getDate: getDate,
