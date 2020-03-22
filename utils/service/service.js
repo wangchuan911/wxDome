@@ -80,6 +80,9 @@ const createPathParams = function (data) {
     }
     return path.length == 0 ? path : "?" + path.substring(1);
 }
+const isFunction = function (fn) {
+    return (typeof (fn) == 'function');
+}
 const methods = {
     getUrl: function (name) {
         return URLS[name]
@@ -87,9 +90,11 @@ const methods = {
     post: function () {
         const datas = [];
         const func = [];
+        let functionStart = false;
         for (let i = 0; i < arguments.length; i++) {
-            if (typeof (arguments[i]) == "function") {
+            if (typeof (arguments[i]) == "function" || functionStart) {
                 func.push(arguments[i]);
+                functionStart = true;
             } else if (func.length == 0) {
                 datas.push(arguments[i])
             }
@@ -105,8 +110,26 @@ const methods = {
             header: {
                 'content-type': 'application/json' // 默认值
             },
-            success: func[0],
-            fail: func[1],
+            success: function (value) {
+                const data = value.data
+                if (data.error || data.exception) {
+                    if (isFunction(func[1])) {
+                        func[1](value)
+                    } else {
+                        wx.showToast({
+                            title: '服务异常请重试！',
+                            icon: 'none',
+                            duration: 2000,
+                            mask: true,
+                        })
+                    }
+                } else if (func[0]) {
+                    func[0](value);
+                }
+            },
+            fail: function (res) {
+                func[1](res)
+            },
             complete: func[2]
         })
     }, get: function () {
@@ -117,7 +140,23 @@ const methods = {
             header: {
                 'content-type': 'application/json' // 默认值
             },
-            success: arguments[1],
+            success: function (value) {
+                const data = value.data
+                if (data.error || data.exception) {
+                    if (isFunction(arguments[2])) {
+                        arguments[2](value)
+                    } else {
+                        wx.showToast({
+                            title: '服务异常请重试！',
+                            icon: 'none',
+                            duration: 2000,
+                            mask: true,
+                        })
+                    }
+                } else if (arguments[1]) {
+                    arguments[1](value);
+                }
+            },
             fail: arguments[2],
             complete: arguments[3]
         })
