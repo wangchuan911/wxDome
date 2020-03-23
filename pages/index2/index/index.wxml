@@ -101,12 +101,20 @@
                           type="primary" shape="circle" size="small">
                     请完善信息
                 </i-button>
-                <i-button wx:elif="{{roleMode<=0 && !isBook}}" loading="{{UI_LOCK_STATE['loading.submitBut']}}"
-                          bind:getphonenumber="bookBut"
-                          open-type="{{openType}}"
-                          type="primary" shape="circle" size="small">
-                    立即下单{{submitData.value10>0?"（"+submitData.value10+"￥)":""}}
-                </i-button>
+                <view wx:elif="{{roleMode<=0 && !isBook}}">
+                    <i-row>
+                        <i-col span="4" style="text-align: center;">
+                            <radio class="radio" ></radio>
+                        </i-col>
+                        <i-col span="18">我已阅读并同意《爱车智联服务协议》条款内容</i-col>
+                    </i-row>
+                    <i-button loading="{{UI_LOCK_STATE['loading.submitBut']}}"
+                              bind:getphonenumber="bookBut"
+                              open-type="{{openType}}"
+                              type="primary" shape="circle" size="small">
+                        立即下单{{submitData.value10>0?"（"+submitData.value10+"￥)":""}}
+                    </i-button>
+                </view>
                 <i-button wx:else loading="{{UI_LOCK_STATE['loading.submitBut']}}"
                           bindgetuserinfo="mileStoneBut"
                           open-type="getUserInfo"

@@ -156,3 +156,8 @@ page {
   right: 0px;
 
 }
+.show-center{
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}

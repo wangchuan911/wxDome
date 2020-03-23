@@ -474,10 +474,10 @@ Page({
     bookBut: function (e) {
         const _this = this;
 
-        this.getUserInfo(e).then(value => {
+        /*this.getUserInfo(e).then(value => {
             _this.userCheck(null, true)
         });
-        if (!this.userCheck(e)) return;
+        if (!this.userCheck(e)) return;*/
 
         if ($Utils.isLock(_this, 'loading.submitBut')) {
             return
@@ -551,12 +551,12 @@ Page({
         uplaod();
     },
     mileStoneBut: function (e) {
-        this.getUserInfo(e).then(value => {
+        /*this.getUserInfo(e).then(value => {
             if (!this.userCheck(e)) {
                 throw "mileStoneBut"
             }
         });
-        if (!this.userCheck(e)) return;
+        if (!this.userCheck(e)) return;*/
         const lock = $Utils.lockUI(this, 'loading.submitBut');
         const _this = this
         wx.navigateTo({
