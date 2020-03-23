@@ -22,7 +22,7 @@
         <i-cell title="车辆信息" data-page="/pages/home/garage/garage" data-role="0" bind:click="goPage">
             <i-icon slot="icon" size='24' type="activity"/>
         </i-cell>
-        <i-cell title="服务状态" data-page="/pages/customer/milestone/milestone" data-datType="json" data-data='{"mode":1}' bind:click="goPage">
+        <i-cell title="我的定单" data-page="/pages/customer/milestone/milestone" data-datType="json" data-data='{"mode":1}' bind:click="goPage">
             <i-icon slot="icon" size='24' type="success"/>
         </i-cell>
         <!-- <i-cell title="{{switchButChecked?'服务人员':'顾客'}}">
