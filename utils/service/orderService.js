@@ -15,7 +15,7 @@ const SERVIE = "order";
  * 建单
  * */
 const Methods = {
-    newOrder: function (submitData, success, error) {
+    newOrder: function (submitData, extra, success, error) {
         $Service.post(SERVIE, null, [OPRERATOPM.ADD, {
             "carLicenseNumber": wx.getStorageSync("carLicence"),
             "carAddress": submitData.value1,
@@ -48,6 +48,8 @@ const Methods = {
             "regionCode": submitData.value9,
             "pictureIds": submitData.value2.pictureIds,
             "cost": submitData.value10,
+            "phoneEncryptedData": extra.phoneEncryptedData,
+            "phoneEncryptedIv": extra.phoneEncryptedIv,
         }], function (res) {
             success(res)
         }, function (res) {

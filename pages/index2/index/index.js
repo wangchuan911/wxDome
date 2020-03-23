@@ -125,6 +125,7 @@ Page({
             const errorMsg = {
                 errorButName: "确定"
             };
+            console.info(reason.code)
             switch (reason.code) {
                 case ERROR.NETWORK_ERROR:
                     showModal = true;
@@ -153,6 +154,52 @@ Page({
                     errorMsg.title = '服务异常';
                     errorMsg.content = '您所在区域尚不提供服务';
                     break
+                case ERROR.USERINFO_FAIL:
+                    showModal = true;
+                    errorMsg.type = "success";
+                    errorMsg.content = "微信授权登陆";
+                    errorMsg.openType = "getUserInfo";
+                    errorMsg.errorButName = "微信授权"
+                    errorMsg.okFunction = e => {
+                        console.info(e);
+                        app.globalData.userInfo = e.detail.userInfo
+                        _this.setData({
+                            userInfo: e.detail.userInfo,
+                            hasUserInfo: true
+                        });
+                        $UserService.checkAndCreateUser(e.detail.userInfo).then(value => {
+                            _this.getRole();
+                            switch (value.code) {
+                                case "NEW_USER":
+                                    wx.showModal({
+                                        title: '完善信息？',
+                                        content: "是否去完善信息",
+                                        success(res) {
+                                            if (res.confirm) {
+                                                _this.data.state.freshView = true;
+                                                console.log('用户点击确定');
+                                                wx.navigateTo({
+                                                    url: "/pages/home/garage/garage"
+                                                })
+                                            } else {
+                                                _this.onLoad(e)
+                                            }
+                                        }
+                                    })
+                                    break
+                                default:
+                                    _this.onLoad(e);
+
+                            }
+                        }).catch(reason => {
+                            wx.showToast({
+                                title: '登陆失败',
+                                image: '/',
+                                duration: 2000
+                            })
+                        })
+                    }
+                    break;
                 default:
                     showModal = true;
                     errorMsg.title = '服务异常';
@@ -176,14 +223,18 @@ Page({
                 })
             }
         };
+        //先定位
         this.initMap().then(value => {
-            Promise.all([_this.getUserInfo(), _this.login()])
-                .then(value => {
-                    _this.userCheck(null, true)
-                    return _this.areaRange();
-                }).then(value => {
-                _this.setSpin();
-            }).catch(errorCallBack);
+            //在登陆
+            return _this.login();
+        }).then(value => {
+            //最后获取信息
+            return _this.getUserInfo();
+        }).then(value => {
+            _this.userCheck(null, true)
+            return _this.areaRange();
+        }).then(value => {
+            _this.setSpin();
         }).catch(errorCallBack)
 
     },
@@ -352,14 +403,14 @@ Page({
     onReachBottom: function () {
 
     },
-    getUserInfo: function (e) {
+    getUserInfo: function (detail = {}) {
         const _this = this;
         return new Promise((resolve, reject) => {
-            if (((e || {}).detail || {}).userInfo) {
+            if (detail.userInfo) {
                 console.log(e)
-                app.globalData.userInfo = e.detail.userInfo
+                app.globalData.userInfo = detail.userInfo
                 this.setData({
-                    userInfo: e.detail.userInfo,
+                    userInfo: detail.userInfo,
                     hasUserInfo: true
                 })
                 resolve()
@@ -370,20 +421,11 @@ Page({
                         hasUserInfo: true
                     })
                     resolve();
-                } else if (this.data.canIUse) {
-                    // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-                    // 所以此处加入 callback 以防止这种情况
-                    app.userInfoReadyCallback = function (res) {
-                        _this.setData({
-                            userInfo: res.userInfo,
-                            hasUserInfo: true
-                        })
-                    }
-                    resolve();
                 } else {
                     // 在没有 open-type=getUserInfo 版本的兼容处理
                     wx.getUserInfo({
                         success: function (res) {
+                            console.info(res);
                             app.globalData.userInfo = res.userInfo
                             _this.setData({
                                 userInfo: res.userInfo,
@@ -392,6 +434,7 @@ Page({
                             resolve();
                         },
                         fail(res) {
+                            console.info(res);
                             reject(ERROR(ERROR.USERINFO_FAIL, res))
                         }
                     })
@@ -473,7 +516,13 @@ Page({
     },
     bookBut: function (e) {
         const _this = this;
-
+        console.info(e)
+        let phoneEncryptedData = null,
+            phoneEncryptedIv = null
+        if (e.type == 'getphonenumber' && (e.detail || {errMsg: ""}).errMsg.indexOf(":ok") >= 0) {
+            phoneEncryptedData = e.detail.encryptedData;
+            phoneEncryptedIv = e.detail.iv;
+        }
         /*this.getUserInfo(e).then(value => {
             _this.userCheck(null, true)
         });
@@ -528,7 +577,10 @@ Page({
         function newOrder(data) {
             const form = _this.data.submitData;
             form.value2.pictureIds = $Service.getSuccessPictureIds(data.pic);
-            $OrderService.newOrder(form, function (res) {
+            $OrderService.newOrder(form, {
+                phoneEncryptedData: phoneEncryptedData,
+                phoneEncryptedIv: phoneEncryptedIv
+            }, function (res) {
                 console.info(res)
                 if (res.data.result) {
                     const orderCounts = res.data.result;
@@ -887,5 +939,12 @@ Page({
             $Utils.unlockUI(this, "loading.spin")
         }*/
         $Utils.unlockUI(_this, "loading.spin")
+    },
+    errorOkFunction(e) {
+        if (this.data.error && this.data.error.okFunction) {
+            this.data.error.okFunction(e);
+        } else {
+            this.onLoad(e)
+        }
     }
 })

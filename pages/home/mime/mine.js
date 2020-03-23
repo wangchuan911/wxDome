@@ -134,7 +134,7 @@ Page({
             userInfo: e.detail.userInfo,
             hasUserInfo: true
         });
-        if (this.getRole() < 0) {
+        /*if (this.getRole() < 0) {
             $UserService.newUserr({
                 name: e.detail.userInfo.nickName
             }, res => {
@@ -159,7 +159,32 @@ Page({
                     duration: 2000
                 })
             })
-        }
+        }*/
+        $UserService.checkAndCreateUser(e.detail.userInfo).then(value => {
+            this.getRole();
+            switch (value.code) {
+                case "NEW_USER":
+                    wx.showModal({
+                        title: '完善信息？',
+                        content: "是否去完善信息",
+                        success(res) {
+                            if (res.confirm) {
+                                console.log('用户点击确定');
+                                wx.navigateTo({
+                                    url: "/pages/home/garage/garage"
+                                })
+                            }
+                        }
+                    })
+                    break
+            }
+        }).catch(reason => {
+            wx.showToast({
+                title: '登陆失败',
+                image: '/',
+                duration: 2000
+            })
+        })
     }, getRole() {
         const _this = this;
         const role = $Service.getRole();

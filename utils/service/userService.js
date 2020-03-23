@@ -74,6 +74,22 @@ const Methods = {
         }, function (res) {
             error(res)
         })
+    },
+    checkAndCreateUser(userInfo) {
+        return new Promise((resolve, reject) => {
+            if ($Service.getRole() < 0) {
+                this.newUserr({
+                    name: userInfo.nickName
+                }, res => {
+                    $Service.setRole(0);
+                    resolve({code: "NEW_USER"})
+                }, res => {
+                    reject()
+                })
+            } else {
+                resolve({})
+            }
+        })
     }
 }
 
