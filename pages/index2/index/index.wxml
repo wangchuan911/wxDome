@@ -110,7 +110,7 @@
                         <i-col span="4" style="text-align: center;">
                             <radio class="radio"></radio>
                         </i-col>
-                        <i-col span="18">我已阅读并同意《爱车智联服务协议》条款内容</i-col>
+                        <i-col span="18">我已阅读并同意<span ontap="toWeb" data-url="https://mp.weixin.qq.com/s/YrlES72IqDZPXTKdXD5_xw">《爱车智联服务协议》条款内容</span>></i-col>
                     </i-row>
                     <i-button loading="{{UI_LOCK_STATE['loading.submitBut']}}"
                               bind:getphonenumber="bookBut"
@@ -131,7 +131,7 @@
     <view wx:else class="i-class i-card">
         <view style="text-align: center;margin: 20px 0">{{error.content}}</view>
         <i-button bind:click="{{error.openType?'':'errorOkFunction'}}"
-                  dat-code="{{error.code}}"
+                  data-code="{{error.code}}"
                   open-type="{{error.openType}}"
                   type="{{error.type?error.type:'primary'}}" shape="circle" size="small"
                   bindgetuserinfo="errorOkFunction">{{error.errorButName}}

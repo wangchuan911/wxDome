@@ -946,5 +946,13 @@ Page({
         } else {
             this.onLoad(e)
         }
+    },
+    toWeb(e) {
+        wx.navigateTo({
+            url: "/pages/index2/web/web",
+            success: function (res) {
+                res.eventChannel.emit('acceptDataFromOpenerPage', {url: e.target.dataset.url})
+            },
+        })
     }
 })
