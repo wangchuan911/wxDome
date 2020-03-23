@@ -276,6 +276,14 @@ const methods = {
     },
     getPageState(page) {
         return (wx.getStorageSync("pages") || {})[page];
+    },
+    toWebPage(data) {
+        wx.navigateTo({
+            url: "/pages/index2/web/web",
+            success: function (res) {
+                res.eventChannel.emit('acceptDataFromOpenerPage', data)
+            },
+        })
     }
 }
 module.exports = methods
