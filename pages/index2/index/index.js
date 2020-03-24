@@ -32,6 +32,7 @@ Page({
         state: {
             freshView: false,
             userCheckFail: true,
+            accept: false
         },
         loading: {
             spinVal: 2
@@ -516,6 +517,13 @@ Page({
     },
     bookBut: function (e) {
         const _this = this;
+        if(!this.data.state.accept){
+            wx.showToast({
+                title: '请阅读并同意许可',
+                duration: 2000
+            });
+            return;
+        }
         console.info(e)
         let phoneEncryptedData = null,
             phoneEncryptedIv = null
@@ -949,5 +957,13 @@ Page({
     },
     toWeb(e) {
         $Service.toWebPage({url: e.target.dataset.url});
+    },
+    acceptServceBut(e) {
+        console.info(e)
+        const flag = !this.data.state.accept;
+        this.setData({
+            ['state.accept']: flag
+        })
+
     }
 })
