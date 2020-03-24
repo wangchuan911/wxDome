@@ -9,18 +9,23 @@ Page({
      */
     data: {
         roleMode: -1,
+        maxRoleMode: -1,
         role: [{
             id: -1,
             name: '路人（未注册）',
+            hidden:true,
         }, {
             id: 0,
             name: '顾客',
+            hidden:true,
         }, {
             id: 1,
-            name: '工作人员'
+            name: '工作人员',
+            hidden:true,
         }, {
             id: 2,
-            name: '监管'
+            name: '监管',
+            hidden:true,
         }],
         current: 0
     },
@@ -188,11 +193,17 @@ Page({
     }, getRole() {
         const _this = this;
         const role = $Service.getRole();
+        const maxRole = $Service.getMaxRole();
+        const roles = _this.data.role;
+        roles.forEach(value => {
+            value.hidden = (value.id > maxRole);
+        })
         this.setData({
             roleMode: role,
+            maxRoleMode: maxRole,
             current: function () {
                 let name = 0;
-                _this.data.role.find((value) => {
+                roles.find((value) => {
                     if (value.id == role) {
                         name = value.name;
                         return true;
@@ -200,7 +211,8 @@ Page({
                     return false;
                 })
                 return name;
-            }()
+            }(),
+            role: roles
         })
         return role;
     },

@@ -60,9 +60,16 @@ const uploadFile = function (pictrues, data, complete) {
 const setRole = function (role) {
     return wx.setStorageSync("roleMode", role);
 }
+const setMaxRole = function (role) {
+    return wx.setStorageSync("maxRoleMode", role);
+}
+const getMaxRole = function (role) {
+    return wx.getStorageSync("maxRoleMode");
+}
 const initUserInfo = function (dat) {
     setUserId(dat.openid)
     setRole(isNaN(dat.user.role) ? -1 : dat.user.role);
+    setMaxRole(isNaN(dat.user.maxRole) ? -1 : dat.user.maxRole)
     wx.setStorageSync(KEY.PHONE, dat.user.phone)
     wx.setStorageSync(KEY.USER_ATTR, dat.user.userAttr || {});
 }
@@ -72,6 +79,7 @@ const clearUserInfo = function () {
     wx.clearStorageSync();
     setUserId(userId)
     setRole(-1);
+    setMaxRole(-1);
 }
 const createPathParams = function (data) {
     let path = "";
@@ -225,6 +233,7 @@ const methods = {
     setRole: function (role) {
         return setRole(role);
     },
+    getMaxRole: getMaxRole,
     upload: function (pictrue, formData, complate) {
         if (pictrue instanceof Array) {
             uploadFile(pictrue, formData, complate)

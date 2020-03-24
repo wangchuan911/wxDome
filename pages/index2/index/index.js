@@ -315,7 +315,7 @@ Page({
                         success: function (res1) {//成功后的回调
                             _this.setData({
                                 ['submitData.value1']: res1.result.address,
-                                ['submitData.value8']: res1.result.ad_info.adcode + $Utils.getDate(new Date(), ""),
+                                ['submitData.value8']: res1.result.ad_info.adcode + /*$Utils.getDate(new Date(), "")*/"" + (new Date().valueOf() / 1000),
                                 ['submitData.value9']: res1.result.ad_info.adcode
                             });
                             console.info(res1.result);
@@ -517,7 +517,7 @@ Page({
     },
     bookBut: function (e) {
         const _this = this;
-        if(!this.data.state.accept){
+        if (!this.data.state.accept) {
             wx.showToast({
                 title: '请阅读并同意许可',
                 duration: 2000
