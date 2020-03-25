@@ -110,7 +110,12 @@
                         <i-col span="4" style="text-align: center;">
                             <radio class="radio" checked="{{state.accept}}" bindtap="acceptServceBut" ></radio>
                         </i-col>
-                        <i-col span="18">我已阅读并同意<span style="color: cornflowerblue" ontap="toWeb" data-url="https://mp.weixin.qq.com/s/YrlES72IqDZPXTKdXD5_xw">《爱车智联服务协议》</span>条款内容</i-col>
+                        <i-col span="18">
+                            我已阅读并同意
+                            <span style="color: cornflowerblue" ontap="toWeb" data-url="https://mp.weixin.qq.com/s/YrlES72IqDZPXTKdXD5_xw">《爱车智联服务协议》</span>
+                            <span style="color: cornflowerblue" ontap="toWeb" data-url="https://mp.weixin.qq.com/s/b_yxd1GtE2j14ZKfQjnW3Q">《爱车智联服务内容》</span>
+                            条款内容
+                        </i-col>
                     </i-row>
                     <i-button loading="{{UI_LOCK_STATE['loading.submitBut']}}"
                               bind:getphonenumber="bookBut"
