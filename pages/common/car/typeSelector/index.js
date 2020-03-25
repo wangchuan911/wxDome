@@ -13,7 +13,8 @@ Page({
         index: [0, 0],
         carTypes: [],
         heigth: 300,
-        indexs: null
+        indexs: null,
+        oldMode: false
     },
 
     /**
@@ -128,11 +129,11 @@ Page({
             url: '/pages/common/car/typeSelector/index',
             events: {
                 // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
-                ['acceptDataFromOpenedPageLv' + indexs.length]: function (res) {
+                ['acceptDataFromOpenedPageLv' + indexs.length]: _this.data.oldMode ? function (res) {
                     console.info(res.data.indexs);
-                    const value = [].concat(indexs).concat(res.data.indexs);
-                    const carType1 = _this.data.carTypes[value[0]].items[value[1]];
-                    const carType2 = carType1.list[value[2]].list[value[3]]
+                    const value = res.data.indexs;
+                    const carType1 = $CarConst.getList(value[0])[value[1]];
+                    const carType2 = $CarConst.getList(value[0], value[1], value[2], value[3])
                     eventChannel.emit('acceptDataFromOpenedPage', {
                         data: {
                             indexs: value,
@@ -140,8 +141,11 @@ Page({
                             id: carType2.value
                         }
                     });
-                    wx.navigateBack({delta: 2});
-                },
+                    wx.navigateBack({delta: indexs.length});
+                } : function (res) {
+                    const len = indexs.length - 1;
+                    eventChannel.emit('acceptDataFromOpenedPage' + ((len == 1) ? "" : ("Lv" + len)), res)
+                }
             },
             success: function (res) {
                 // 通过eventChannel向被打开页面传送数据
@@ -164,11 +168,46 @@ Page({
     selectCarTypeBut(e) {
         console.info(e);
         const _this = this
-        const eventChannel = this.getOpenerEventChannel()
-        eventChannel.emit('acceptDataFromOpenedPageLv' + _this.data.indexs.length, {
-            data: {
-                indexs: [e.currentTarget.dataset.index1, e.currentTarget.dataset.index2],
+        const eventChannel = this.getOpenerEventChannel();
+        const callBack = (level, indexs) => {
+            eventChannel.emit('acceptDataFromOpenedPageLv' + level, {
+                data: {
+                    indexs: indexs,
+                }
+            });
+        };
+        const indexs = [].concat(_this.data.indexs).concat([e.currentTarget.dataset.index1]);
+        if (_this.data.oldMode) {
+            callBack(_this.data.indexs.length, indexs.concat([e.currentTarget.dataset.index2]));
+        } else {
+            if (indexs.length == 4) {
+                callBack(_this.data.indexs.length, indexs);
+            } else {
+                wx.navigateTo({
+                    url: '/pages/common/car/typeSelector/index',
+                    events: {
+                        // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
+                        ['acceptDataFromOpenedPageLv' + indexs.length]: function (res) {
+                            console.info(res.data.indexs);
+                            const value = res.data.indexs;
+                            const carType1 = $CarConst.getList(value[0])[value[1]];
+                            const carType2 = $CarConst.getList(value[0], value[1], value[2], value[3])
+                            eventChannel.emit('acceptDataFromOpenedPageLv' + (indexs.length - 1), {
+                                data: {
+                                    indexs: value,
+                                    name: carType1.name + " " + carType2.text,
+                                    id: carType2.value
+                                }
+                            });
+                            wx.navigateBack({delta: indexs.length});
+                        },
+                    },
+                    success: function (res) {
+                        // 通过eventChannel向被打开页面传送数据
+                        res.eventChannel.emit('acceptDataFromOpenerPage', indexs)
+                    }
+                })
             }
-        });
+        }
     }
 })
