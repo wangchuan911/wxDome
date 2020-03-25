@@ -12,7 +12,8 @@ Page({
         show: 0,
         index: [0, 0],
         carTypes: [],
-        heigth: 300
+        heigth: 300,
+        indexs: null
     },
 
     /**
@@ -21,19 +22,21 @@ Page({
     onLoad: function (options) {
         const _this = this;
         const eventChannel = this.getOpenerEventChannel();
-        eventChannel.on('acceptDataFromOpenerPage', function (data) {
-            const show = (data == null);
+        eventChannel.on('acceptDataFromOpenerPage', (data) => {
+            _this.data.indexs = data;
+            const show = (data == null) ? 1 : _this.data.indexs.length;
             _this.setData({
-                ["show"]: show ? 1 : 2,
+                ["show"]: show,
             });
-            const carTypes = show ? $CarConst.getList() : $CarConst.getList(data[0], data[1]);
+            const getCarType = (show, indexs) => show == 1 ? $CarConst.getList() : show == 2 ? $CarConst.getList(indexs[0], indexs[1]) : $CarConst.getList(indexs[0], indexs[1], indexs[2]);
+            const carTypes = getCarType(show, _this.data.indexs);
             if ((carTypes || []).length == 0) {
                 $CarConst.cacheCarData({
                     level: _this.data.show,
                     indexs: data
                 }, success => {
                     _this.setData({
-                        ["carTypes"]: show ? $CarConst.getList() : $CarConst.getList(data[0], data[1])
+                        ["carTypes"]: getCarType(show, _this.data.indexs)
                     });
                 })
             } else {
@@ -125,7 +128,7 @@ Page({
             url: '/pages/common/car/typeSelector/index',
             events: {
                 // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
-                acceptDataFromOpenedPageLv2: function (res) {
+                ['acceptDataFromOpenedPageLv' + indexs.length]: function (res) {
                     console.info(res.data.indexs);
                     const value = [].concat(indexs).concat(res.data.indexs);
                     const carType1 = _this.data.carTypes[value[0]].items[value[1]];
@@ -144,9 +147,10 @@ Page({
                 // 通过eventChannel向被打开页面传送数据
                 res.eventChannel.emit('acceptDataFromOpenerPage', indexs)
             }
-        })/*
-        $Utils.setOneData(this, "show", true);
-        $Utils.setOneData(this, "indexs", [e.currentTarget.dataset.index1, e.currentTarget.dataset.index2]);*/
+        })
+        /*
+                $Utils.setOneData(this, "show", true);
+                $Utils.setOneData(this, "indexs", [e.currentTarget.dataset.index1, e.currentTarget.dataset.index2]);*/
     },
     onChange(event) {
         console.log(event.detail, 'click right menu callback data')
@@ -161,7 +165,7 @@ Page({
         console.info(e);
         const _this = this
         const eventChannel = this.getOpenerEventChannel()
-        eventChannel.emit('acceptDataFromOpenedPageLv2', {
+        eventChannel.emit('acceptDataFromOpenedPageLv' + _this.data.indexs.length, {
             data: {
                 indexs: [e.currentTarget.dataset.index1, e.currentTarget.dataset.index2],
             }
