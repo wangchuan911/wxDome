@@ -892,7 +892,9 @@ Page({
             ['submitData.value10']: _this.data.serviceType.filter(value => value.checked).map(value => value.cost).reduce((previousValue, currentValue) => previousValue += currentValue),
         })
         //提交赋值
-        this.data.submitData.value6[this.data.serviceType[detail.name].id] = detail.checked
+        this.data.serviceType.forEach(value=>{
+            this.data.submitData.value6[value.id] = value.checked
+        })
     }
     , getRole() {
         const role = $Service.getRole();

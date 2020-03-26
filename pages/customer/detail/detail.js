@@ -227,21 +227,23 @@ Page({
     reloadOrder: function (orderId) {
         const eventChannel = this.getOpenerEventChannel()
         $OrderService.getOrder({
-            orderId: orderId
-        }, order => {
-            order = $OrderService.modelChange(order.data.result);
-            eventChannel.emit('acceptDataFromOpenedPage', {
-                data: {
-                    order: order
-                }
-            });
-            $OperService.getOrderOperation({
-                orderId: order.orderId
-            }, operationNew => {
-                operationNew = operationNew.data.result;
-                this.initalOrder({order: order, operation: operationNew})
-            });
-        })
+                orderId: orderId
+            }, order => {
+                order = $OrderService.modelChange(order.data.result);
+                eventChannel.emit('acceptDataFromOpenedPage', {
+                    data: {
+                        order: order
+                    }
+                });
+                $OperService.getOrderOperation({
+                        orderId: order.orderId
+                    }, operationNew => {
+                        operationNew = operationNew.data.result;
+                        this.initalOrder({order: order, operation: operationNew})
+                    }, error => console.info(error)
+                    , complete => console.info(complete));
+            }, error => console.info(error)
+            , complete => console.info(complete))
     },
     initalOrder: function (data) {
         const _this = this

@@ -109,15 +109,11 @@ const Methods = {
         }, function (res) {
             error(res)
         })
-    }, getOrder: function (data, success, error) {
+    }, getOrder: function (data, success, error, complete) {
         $Service.post(SERVIE, null, [OPRERATOPM.GET, {
             "orderId": data.orderId,
             "custId": wx.getStorageSync("openId"),
-        }], function (res) {
-            success(res)
-        }, function (res) {
-            error(res)
-        })
+        }], success, error, complete)
     }, modelChange: function (data) {//模型转换
         const object = {
             orderId: data.orderId,
