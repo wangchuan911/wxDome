@@ -18,8 +18,8 @@
             </i-cell-group>
         </i-index-item>
     </i-index>
-    <block wx:if="{{show>=2}}">
-        <i-sticky wx:if="{{oldMode}}" scrollTop="{{scrollTop}}">
+    <block wx:if="{{show==2}}">
+        <i-sticky wx:if="{{mode==1}}" scrollTop="{{scrollTop}}">
             <i-sticky-item is-link
                            wx:for="{{ carTypes}}"
                            wx:for-index="index1"
@@ -38,18 +38,35 @@
                           bindtap="selectCarTypeBut">
                         {{item2.text}}
                     </view>
+                    <!--<i-cell-group>
+                        <i-cell title="{{item2.text}}" is-link
+                                wx:for="{{ item1.list }}"
+                                wx:for-index="index2"
+                                wx:key="{{index2}}"
+                                wx:for-item="item2"></i-cell>
+                    </i-cell-group>-->
                 </view>
             </i-sticky-item>
         </i-sticky>
-        <view wx:else>
-            <i-cell title="{{item1.text}}" is-link
-                    wx:for="{{ carTypes }}"
-                    wx:for-index="index1"
-                    wx:key="index1"
-                    wx:for-item="item1"
-                    bindtap="selectCarTypeBut"
-                    data-index1="{{index1}}">
-            </i-cell>
-        </view>
+        <i-collapse name="name0" wx:else accordion>
+            <i-collapse-item title="{{item1.text}}"
+                             wx:for="{{ carTypes}}"
+                             wx:for-index="index1"
+                             wx:key="index1"
+                             wx:for-item="item1"
+                             name="name{{index1}}">
+                <view slot="content">
+                    <view wx:for="{{ item1.list }}"
+                          wx:for-index="index2"
+                          wx:key="index2"
+                          wx:for-item="item2"
+                          class="i-cell i-cell-text"
+                          data-index1="{{index1}}" data-index2="{{index2}}"
+                          bindtap="selectCarTypeBut">
+                        {{item2.text}}
+                    </view>
+                </view>
+            </i-collapse-item>
+        </i-collapse>
     </block>
 </view>
