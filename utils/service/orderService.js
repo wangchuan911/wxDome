@@ -4,6 +4,7 @@ const $PubConst = require('../pubConst');
 
 
 const OPRERATOPM = {
+    DELETE:1,
     ADD: 0,
     GET: 3,
     LIST: 4,
@@ -162,7 +163,16 @@ const Methods = {
         object.state = state.state;
         object.code = state.code;
         return object
-    }
+  }, closeOrders: function (data, success, error) {
+    $Service.post(SERVIE, null, [OPRERATOPM.DELETE, {
+      "custId": $Service.getUserId(),
+      "orderId": data.orderId
+    }], function (res) {
+      success(res)
+    }, function (res) {
+      error(res)
+    })
+  }
 
 }
 
