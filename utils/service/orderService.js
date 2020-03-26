@@ -136,6 +136,7 @@ const Methods = {
             custPhone: data.custPhone,
             custId: data.custId,
             cost: data.cost,
+            orderNote: data.orderNote
         }
         if (data.pictureVOS || [] > 0) {
             let pic;
