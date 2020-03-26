@@ -274,6 +274,7 @@ Page({
             })
         }, function (error) {
             console.info(error)
+            /*
             wx.showModal({
                 title: '支付失败',
                 content: error + '\n请稍后后再试!',
@@ -283,6 +284,7 @@ Page({
                     }
                 }
             })
+            */
         })
     },
     preViewPicture: function (e) {
