@@ -10,21 +10,21 @@ const SERVIE = "operation";
  * 建单
  * */
 const Methods = {
-    getOrderOperation: function (data, success, error) {
+    getOrderOperation: function (data, success, error, complete) {
         $Service.post(SERVIE, null, [OPRERATOPM.LIST, {
             "orderId": data.orderId,
             "oprMan": wx.getStorageSync("openId"),
             "active": true,
-        }], success, error)
+        }], success, error, complete)
     },
-    toBeContinue: function (data, success, error) {
+    toBeContinue: function (data, success, error, complete) {
         $Service.post(SERVIE, "toBeContinue", [{
             "orderId": data.orderId,
             "userId": wx.getStorageSync("openId"),
             "tacheId": data.tacheId,
             "doNext": data.doNext,
             "info": data.info,
-        }], success, error)
+        }], success, error, complete)
     },
 
 }

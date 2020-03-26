@@ -160,6 +160,12 @@ Page({
     tackPicure: function (data) {
         data.info = data.info || {};
         const _this = this;
+        wx.hideLoading();
+        wx.showLoading({
+            title: '上传图片中',
+            mask: true
+        })
+
         $Service.upload(_this.data.sendQuene, {test: "test"}, complete => {
             if ((complete.fail || []).length > 0) {
                 let quene = [];
@@ -178,17 +184,26 @@ Page({
                             data.info.pictureIds = $Service.getSuccessPictureIds(complete.success);
                             _this.toBeContinue(data);
                         }
+                    },
+                    complete(res) {
+                        wx.hideLoading()
                     }
                 })
                 return
             } else {
+                wx.hideLoading();
                 data.info.pictureIds = $Service.getSuccessPictureIds(complete.success);
                 _this.toBeContinue(data);
             }
         });
     },
     toBeContinue: function (data) {
-        const _this = this
+        wx.hideLoading();
+        wx.showLoading({
+            title: '流程处理中',
+            mask: true
+        })
+        const _this = this;
         $OperService.toBeContinue(data, operation => {
             operation = operation.data.result
             switch (operation.tacheId) {
@@ -206,7 +221,7 @@ Page({
         }, function () {
 
         }, function () {
-
+            wx.hideLoading();
         })
     },
     reloadOrder: function (orderId) {
