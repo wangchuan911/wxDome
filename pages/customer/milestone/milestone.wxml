@@ -11,7 +11,7 @@
           </i-col>
         </i-row>
       <i-steps   direction="vertical">
-        <i-step wx:if="{{step.state<=item.state && (item.fold||((step.state)>(item.state-3)))}}" status="{{(step.state==item.state)?'process':'finish'}}" icon="{{(step.state==item.state)?'task':'right'}}" i-class="step-vertical" wx:for="{{steps}}" wx:for-index="step-idx" wx:for-item="step" wx:key="step-idx">
+        <i-step wx:if="{{step.state<=item.state && (item.fold||((step.state)>(item.state-3)))}}" status="{{(step.state==item.state)?'process':'finish'}}" icon="{{(step.state==item.state)?'task':'right'}}" i-class="step-vertical" wx:for="{{steps}}" wx:for-index="stepIdx" wx:for-item="step" wx:key="stepIdx">
           <view slot="title">
             {{step.name}}
           </view>
@@ -30,7 +30,7 @@
         已支付，服务结束
       </view>
       <i-divider height="16" wx:if="{{item.isCustOrder}}"></i-divider>
-      <i-row wx:for="{{cols}}" wx:for-index="col-index" wx:for-item="col" wx:key="col-index">
+      <i-row wx:for="{{cols}}" wx:for-index="colIndex" wx:for-item="col" wx:key="colIndex">
         <i-col span="5" offset="1">
           <i-tag i-class="i-tags" checkable="{{true}}" checked="{{true}}" name="col.id">{{col.name}}</i-tag>
         </i-col>

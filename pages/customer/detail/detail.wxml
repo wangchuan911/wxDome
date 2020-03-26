@@ -28,7 +28,7 @@
         </i-cell>
         <i-cell title="备注图片" i-class="cust-cell">
             <i-row i-class="">
-                <i-col wx:for="{{order.imgs1}}" wx:for-index="index" wx:for-item="url" span="4">
+                <i-col wx:for="{{order.imgs1}}" wx:for-index="index" wx:key="index" wx:for-item="url" span="4">
                     <image src="{{url}}" style="width: 50px; height: 50px" bindtap="preViewPicture"
                            data-idx="{{index}}" data-key="order.imgs1"></image>
                 </i-col>
@@ -38,7 +38,7 @@
 </i-panel>
 <i-panel title="环节信息({{tachePanelInfo.name}})" wx:if="{{tachePanelInfo.id}}">
     <i-row i-class="i-row-css" wx:if="tachePanelInfo.imgs.length>0">
-        <i-col wx:for="{{tachePanelInfo.imgs}}" wx:for-index="index" wx:for-item="url" span="4">
+        <i-col wx:for="{{tachePanelInfo.imgs}}" wx:for-index="index" wx:key="index" wx:for-item="url" span="4">
             <image src="{{url}}" style="width: 50px; height: 50px" bindtap="preViewPicture"
                    data-idx="{{index}}" data-key="tachePanelInfo.imgs"></image>
         </i-col>
@@ -59,7 +59,7 @@
     <scroll-view scroll-x="true" bindscroll="scroll" style="width: 100%" scroll-left="{{scroll.left}}">
         <view id="scollView" style="width: {{(steps.length/3)*100}}%">
             <i-steps current="{{current}}">
-                <i-step wx:for="{{steps}}" wx:for-index="index" wx:for-item="step" bindtap="{{current>index?'historyBut':''}}" data-idx="{{index}}">
+                <i-step wx:for="{{steps}}" wx:for-index="index" wx:key="index" wx:for-item="step" bindtap="{{current>index?'historyBut':''}}" data-idx="{{index}}">
                     <view slot="title">
                         {{(current>index?"已":'')+step.name}}
                     </view>
@@ -71,6 +71,6 @@
         </view>
     </scroll-view>
 </i-panel>
-<i-button wx:for="{{operation.oprBut}}" wx:for-index="index" wx:for-item="opr" data-idx="{{index}}" bindclick="deal" type="primary" shape="circle" size="small">
+<i-button wx:for="{{operation.oprBut}}" wx:for-index="index" wx:key="index" wx:for-item="opr" data-idx="{{index}}" bindclick="deal" type="primary" shape="circle" size="small">
     {{opr.butText}}
 </i-button>
