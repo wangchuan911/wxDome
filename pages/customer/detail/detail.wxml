@@ -26,6 +26,11 @@
                 <p style="display: block">至{{order.endTime}}</p>
             </view>
         </i-cell>
+          <i-cell title="备注描述" i-class="cust-cell">
+            <view slot="footer">
+                <p style="display: block">{{order.orderNote?order.orderNote:''}}</p>
+            </view>
+        </i-cell>
         <i-cell title="备注图片" i-class="cust-cell">
             <i-row i-class="">
                 <i-col wx:for="{{order.imgs1}}" wx:for-index="index" wx:key="index" wx:for-item="url" span="4">
