@@ -31,7 +31,7 @@ const Methods = {
                 /*if (submitData.value6.washOut) passTache += ",1"
                 if (submitData.value6.washIn) passTache += ",2"*/
 
-                for (var index in submitData.value6) {
+                /*for (var index in submitData.value6) {
                     if (!submitData.value6[index]) {
                         const val = $PubConst.optionTaches.find(value => value.id == index);
                         if (val.tacheId) {
@@ -39,7 +39,25 @@ const Methods = {
                         }
                     }
                 }
-                return passTache.substr(1);
+                return passTache.substr(1);*/
+                const selectTaches = Object.keys(submitData.value6)
+                    .filter(value => submitData.value6[value])
+                    .map(value => $PubConst
+                        .optionTaches
+                        .find(value1 => value1.id == value)
+                        .tacheId
+                        .join(","))
+                    .join(",")
+                    .split(",")
+                const aLLSelectTaches = $PubConst.optionTaches
+                    .map(value => value.tacheId.join(","))
+                    .join(",")
+                    .split(",");
+                console.info(selectTaches)
+                console.info(aLLSelectTaches)
+                passTache = aLLSelectTaches.filter(all => selectTaches.indexOf(all) < 0).join(",");
+                console.info(passTache)
+                return passTache;
             }(),
             "orderNote": (submitData.value2 || {}).value1,
             "posX": submitData.value7.latitude,

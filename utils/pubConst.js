@@ -67,14 +67,14 @@ module.exports = {
         text: "车外",
         id: "washOut",
         cost: "20",
-        tacheId: 8
+        tacheId: [8]
     }, {
         checked: false,
         value: null,
         text: "车内外",
         id: "washIn",
         cost: "20",
-        tacheId: 9
+        tacheId: [9, 8]
     }],
     setValue: function (key, value) {
         const keys = key.split(".");
