@@ -53,6 +53,10 @@
 <!--      </i-row>-->
       <!--<i-divider height="20"></i-divider>-->
           <div style="text-align:center;display: flex;justify-content: flex-end;" wx:if="{{!item.isWorkOrder}}">
+              <div class="helper-div" wx:if="{{item.stateId==2}}" bindtap="closeOrder" data-idx="{{index}}" >
+                <i-icon style="display: block" size="28" color="#80848f" type="close" />
+              <p>取消订单</p>
+            </div>
             <div class="helper-div" bindtap="callBut" data-idx="{{index}}" data-help="true">
                 <i-icon style="display: block" size="28" color="#80848f" type="customerservice" />
               <p>联系客服</p>

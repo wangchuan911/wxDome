@@ -333,6 +333,26 @@ Page({
         } else if (e.currentTarget.dataset.help) {
             console.info("help")
         }
-    }
+    },
+  closeOrder:function(e){
+    const _this = this;
+    wx.showModal({
+      title: '是否确定取消定单',
+      confirmText:'确定',
+      cancelText:'关闭',
+      success(res) {
+        if (res.confirm) {
+          console.log('用户点击确定');
+          const order = _this.data.orders[e.currentTarget.dataset.idx];
+          $OrderService.closeOrders(order, (res) => {
+            _this.data.orders.splice(e.currentTarget.dataset.idx, 1);
+            _this.setData({
+              ['orders']: _this.data.orders
+            })
+          })
+        }
+      }
+    })
+  }
 
 })
