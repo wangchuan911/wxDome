@@ -274,17 +274,18 @@ Page({
             })
         }, function (error) {
             console.info(error)
-            
-            wx.showModal({
+          if (error!= null && error.data!=null
+              &&error.data.error!=null){
+              wx.showModal({
                 title: '支付失败',
                 content: '\n请稍后再试!',
                 success(res) {
-                    if (res.confirm) {
-                        console.log('用户点击确定');
-                    }
+                  if (res.confirm) {
+                    console.log('用户点击确定');
+                  }
                 }
-            })
-            
+              })
+            }
         })
     },
     preViewPicture: function (e) {
