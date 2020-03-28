@@ -374,6 +374,9 @@ Page({
             _this.userCheck(null, true)
             this.initCost();
         }
+        if ($Service.pullPageState("index.freshOrder",)) {
+            this.getWorkBum()
+        }
 
     },
 
@@ -892,7 +895,7 @@ Page({
             ['submitData.value10']: _this.data.serviceType.filter(value => value.checked).map(value => value.cost).reduce((previousValue, currentValue) => previousValue += currentValue),
         })
         //提交赋值
-        this.data.serviceType.forEach(value=>{
+        this.data.serviceType.forEach(value => {
             this.data.submitData.value6[value.id] = value.checked
         })
     }
@@ -967,5 +970,41 @@ Page({
             ['state.accept']: flag
         })
 
+    },
+    getWorkBum() {
+        const _this = this;
+
+        function fresh(data) {
+            const work = data.data.result;
+            const order = _this.data.order;
+            const roloId = $Service.getRole();
+            if (work) {
+                order.allOrderCount = work.all_nums || 0;
+                order.orderCount = work.nums || 0;
+                _this.setData({
+                    ['progressShow.progress']: order.orderCount == 0 ? 1 : parseInt((order.orderCount / order.allOrderCount) * 100)
+                })
+            }
+            const isBook = ((((order.allOrderCount || 0) - (order.orderCount || 0)) > 0)) || roloId > 0;
+            const openType = isBook ? null : "getPhoneNumber";
+            _this.setData({
+                isBook: isBook,
+                ["openType"]: openType
+            });
+            _this.clearInterval();
+
+        }
+
+        switch ($Service.getRole()) {
+            case 0:
+                $TacheService.getWorkBum(null, fresh);
+                break;
+            case 1:
+            case 2:
+                $OrderService.getWorkBum(null, fresh);
+                break
+            default:
+                break
+        }
     }
 })

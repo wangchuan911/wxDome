@@ -259,6 +259,7 @@ Page({
                 }
             })
         });
+        $Service.setPageState("index.freshOrder", true);
     },
     payBillBut: function (e) {
         const _this = this,
@@ -272,20 +273,22 @@ Page({
                 ["orders[" + idx + "].code"]: 'finish',
                 ["orders[" + idx + "].state"]: '101',
             })
+            $Service.setPageState("index.freshOrder", true);
         }, function (error) {
             console.info(error)
-          if (error!= null && error.data!=null
-              &&error.data.error!=null){
-              wx.showModal({
-                title: '支付失败',
-                content: '\n请稍后再试!',
-                success(res) {
-                  if (res.confirm) {
-                    console.log('用户点击确定');
-                  }
-                }
-              })
+            if (error != null && error.data != null
+                && error.data.error != null) {
+                wx.showModal({
+                    title: '支付失败',
+                    content: '\n请稍后再试!',
+                    success(res) {
+                        if (res.confirm) {
+                            console.log('用户点击确定');
+                        }
+                    }
+                })
             }
+            $Service.setPageState("index.freshOrder", true);
         })
     },
     preViewPicture: function (e) {
@@ -337,25 +340,26 @@ Page({
             console.info("help")
         }
     },
-  closeOrder:function(e){
-    const _this = this;
-    wx.showModal({
-      title: '是否确定取消定单',
-      confirmText:'确定',
-      cancelText:'关闭',
-      success(res) {
-        if (res.confirm) {
-          console.log('用户点击确定');
-          const order = _this.data.orders[e.currentTarget.dataset.idx];
-          $OrderService.closeOrders(order, (res) => {
-            _this.data.orders.splice(e.currentTarget.dataset.idx, 1);
-            _this.setData({
-              ['orders']: _this.data.orders
-            })
-          })
-        }
-      }
-    })
-  }
+    closeOrder: function (e) {
+        const _this = this;
+        wx.showModal({
+            title: '是否确定取消定单',
+            confirmText: '确定',
+            cancelText: '关闭',
+            success(res) {
+                if (res.confirm) {
+                    console.log('用户点击确定');
+                    const order = _this.data.orders[e.currentTarget.dataset.idx];
+                    $OrderService.closeOrders(order, (res) => {
+                        _this.data.orders.splice(e.currentTarget.dataset.idx, 1);
+                        _this.setData({
+                            ['orders']: _this.data.orders
+                        })
+                        $Service.setPageState("index.freshOrder", true);
+                    })
+                }
+            }
+        })
+    }
 
 })

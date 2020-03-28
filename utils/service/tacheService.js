@@ -38,7 +38,7 @@ const initTacheMap = function (taches) {
             name: tache.tacheName,
             desc: "正在" + tache.tacheName,
             code: tache.code,
-            subTaches:subTache(tache.tacheRelas||[])
+            subTaches: subTache(tache.tacheRelas || [])
         }
     }
     if (taches && taches.length > 0) {
@@ -78,7 +78,7 @@ const Methods = {
         }, error)
     }, getWorkBum: function (data, success, error) {
         $Service.post(SERVIE, null, [OPRERATOPM.GET_WORK_NUM, {
-            "userId": data.userId,
+            "userId": $Service.getUserId(),
         }], success, error)
     },
     getLocalTaccheMap: function () {

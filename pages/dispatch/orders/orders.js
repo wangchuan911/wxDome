@@ -181,7 +181,8 @@ Page({
                     data: order
                 })
             }
-        })
+        });
+        $Service.setPageState("index.freshOrder", true);
     },
     handleChange({
                      detail

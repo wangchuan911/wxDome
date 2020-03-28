@@ -4,7 +4,7 @@ const $PubConst = require('../pubConst');
 
 
 const OPRERATOPM = {
-    DELETE:1,
+    DELETE: 1,
     ADD: 0,
     GET: 3,
     LIST: 4,
@@ -93,8 +93,13 @@ const Methods = {
             error(res)
         })
     }, getWorkBum: function (data, success, error) {
+        const key = $Service.getRole() == 1 ? "orderAppointPerson" : $Service.getRole() == 2 ? "orderControlPerson" : null;
+        if (key == null) {
+            error()
+            return;
+        }
         $Service.post(SERVIE, null, [OPRERATOPM.GET_WORK_NUM, {
-            "custId": data.custId,
+            [key]: data.custId,
         }], function (res) {
             success(res)
         }, function (res) {
@@ -103,7 +108,7 @@ const Methods = {
     }, selectWorker: function (data, success, error) {
         $Service.post(SERVIE, null, [OPRERATOPM.APPIONT_WORKER, {
             "orderId": data.orderId,
-            "orderControlPerson": wx.getStorageSync("openId"),
+            "orderControlPerson": $Service.getUserId(),
             "orderAppointPerson": data.orderControlPerson,
         }], function (res) {
             success(res)
@@ -113,7 +118,7 @@ const Methods = {
     }, getOrder: function (data, success, error, complete) {
         $Service.post(SERVIE, null, [OPRERATOPM.GET, {
             "orderId": data.orderId,
-            "custId": wx.getStorageSync("openId"),
+            "custId": $Service.getUserId()
         }], success, error, complete)
     }, modelChange: function (data) {//模型转换
         const object = {
@@ -164,16 +169,16 @@ const Methods = {
         object.state = state.state;
         object.code = state.code;
         return object
-  }, closeOrders: function (data, success, error) {
-    $Service.post(SERVIE, null, [OPRERATOPM.DELETE, {
-      "custId": $Service.getUserId(),
-      "orderId": data.orderId
-    }], function (res) {
-      success(res)
-    }, function (res) {
-      error(res)
-    })
-  }
+    }, closeOrders: function (data, success, error) {
+        $Service.post(SERVIE, null, [OPRERATOPM.DELETE, {
+            "custId": $Service.getUserId(),
+            "orderId": data.orderId
+        }], function (res) {
+            success(res)
+        }, function (res) {
+            error(res)
+        })
+    }
 
 }
 
