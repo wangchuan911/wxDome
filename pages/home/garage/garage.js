@@ -29,7 +29,7 @@ Page({
                 type: {
                     index: 0,
                     array: [
-                        "轿车", "皮卡", "SUV"
+                      "轿车", "SUV", "全尺SUV",'商务'
                     ]
                 }
             },
