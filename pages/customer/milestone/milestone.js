@@ -337,7 +337,10 @@ Page({
                 phoneNumber: e.currentTarget.dataset.phone //仅为示例，并非真实的电话号码
             })
         } else if (e.currentTarget.dataset.help) {
-            console.info("help")
+            console.info("help");
+            wx.makePhoneCall({
+                phoneNumber: '18878703988' //展示先默认
+            })
         }
     },
     closeOrder: function (e) {
