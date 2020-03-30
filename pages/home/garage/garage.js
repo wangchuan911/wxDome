@@ -196,11 +196,11 @@ Page({
 
         function confireCheck(data) {
             var msg = null;
-            msg = data.carNo ? msg : "车牌信息不能为空";
-            msg = data.carBrand ? msg : "品牌信息不能为空";
-            msg = data.carColor ? msg : "车牌颜色不能为空";
-            msg = data.carType ? msg : "类型信息不能为空";
-            msg = (_this.data.page.carList.cars.length > 0 || data.phone) ? msg : "电话信息不能为空";
+            msg = data.carNo ? msg : "车牌号不能为空";
+            msg = data.carBrand ? msg : "车品牌不能为空";
+            msg = data.carColor ? msg : "车颜色不能为空";
+            msg = data.carType ? msg : "车类型不能为空";
+            msg = (_this.data.page.carList.cars.length > 0 || data.phone) ? msg : "电话不能为空";
             return msg;
         }
 
