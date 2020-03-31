@@ -64,12 +64,12 @@ Page({
     },
     /*
     * 下拉刷新
-    * */
+    * 
     onPullDownRefresh() {
         if (this.data.order.orderId) {
             this.reloadOrder(this.data.order.orderId)
         }
-    },
+    },*/
     /**
      * 生命周期函数--监听页面显示
      */
@@ -95,7 +95,10 @@ Page({
      * 页面相关事件处理函数--监听用户下拉动作
      */
     onPullDownRefresh: function () {
-
+        if (this.data.order.orderId) {
+            this.reloadOrder(this.data.order.orderId);
+            wx.stopPullDownRefresh();  //停止下拉刷新
+        }
     },
 
     /**
