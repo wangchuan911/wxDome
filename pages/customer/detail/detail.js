@@ -62,7 +62,14 @@ Page({
     onReady: function () {
 
     },
-
+    /*
+    * 下拉刷新
+    * */
+    onPullDownRefresh() {
+        if (this.data.order.orderId) {
+            this.reloadOrder(this.data.order.orderId)
+        }
+    },
     /**
      * 生命周期函数--监听页面显示
      */
