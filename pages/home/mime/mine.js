@@ -228,6 +228,7 @@ Page({
             wx.makePhoneCall({
                 phoneNumber: '18878703988' //展示先默认
             })
+            return;
         }
         if (e.currentTarget.dataset.role > this.getRole()) {
             wx.showToast({
