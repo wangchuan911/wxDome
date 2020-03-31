@@ -19,7 +19,7 @@
     "pages/index2/web/web"
   ],
   "window": {
-    "backgroundTextStyle": "light",
+    "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "爱车智联",
     "navigationBarTextStyle": "black",
