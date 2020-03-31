@@ -218,12 +218,16 @@ Page({
     },
     goPage: function (e) {
         if (!e.currentTarget.dataset.page) {
+            /*
             wx.showToast({
                 title: "功能即将上线！",
                 icon: 'none',
                 duration: 2000
             })
-            return;
+            return;*/
+            wx.makePhoneCall({
+                phoneNumber: '18878703988' //展示先默认
+            })
         }
         if (e.currentTarget.dataset.role > this.getRole()) {
             wx.showToast({
