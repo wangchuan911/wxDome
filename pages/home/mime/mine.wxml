@@ -16,7 +16,7 @@
 </i-row>
 <view>
     <i-cell-group>
-        <i-cell title="联系客服" bind:click="goPage">
+        <i-cell title="联系客服" bind:click="goPage" data-page="/callHelper">
             <i-icon size='24' slot="icon" type="customerservice"/>
         </i-cell>
         <i-cell title="车辆信息" data-page="/pages/home/garage/garage" data-role="0" bind:click="goPage">

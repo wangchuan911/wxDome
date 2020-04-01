@@ -99,7 +99,7 @@ const Methods = {
             return;
         }
         $Service.post(SERVIE, null, [OPRERATOPM.GET_WORK_NUM, {
-            [key]: data.custId,
+            [key]: $Service.getUserId(),
         }], function (res) {
             success(res)
         }, function (res) {
@@ -129,8 +129,8 @@ const Methods = {
             vip: data.custLevel ? data.custLevel : "",
             preDate: data.orderArrangeDate ? $Utils.formatTime(new Date(data.orderArrangeDate)) : "",
             carNo: data.carLicenseNumber,
-            carType: data.carVO.brand || '',
-            carColor: data.carVO.color || '',
+            carType: (data.carVO || {}).brand || '',
+            carColor: (data.carVO || {}).color || '',
             latitude: data.posX,
             longitude: data.posY,
             isDeal: data.orderAppointPerson != null,

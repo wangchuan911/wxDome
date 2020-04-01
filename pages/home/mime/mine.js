@@ -13,19 +13,19 @@ Page({
         role: [{
             id: -1,
             name: '路人（未注册）',
-            hidden:true,
+            hidden: true,
         }, {
             id: 0,
             name: '顾客',
-            hidden:true,
+            hidden: true,
         }, {
             id: 1,
             name: '工作人员',
-            hidden:true,
+            hidden: true,
         }, {
             id: 2,
             name: '监管',
-            hidden:true,
+            hidden: true,
         }],
         current: 0
     },
@@ -217,19 +217,6 @@ Page({
         return role;
     },
     goPage: function (e) {
-        if (!e.currentTarget.dataset.page) {
-            /*
-            wx.showToast({
-                title: "功能即将上线！",
-                icon: 'none',
-                duration: 2000
-            })
-            return;*/
-            wx.makePhoneCall({
-                phoneNumber: '18878703988' //展示先默认
-            })
-            return;
-        }
         if (e.currentTarget.dataset.role > this.getRole()) {
             wx.showToast({
                 title: e.currentTarget.dataset.role == 0 ? "请先登陆！" : "权限不足请联系管理员",
@@ -238,38 +225,47 @@ Page({
             })
             return;
         }
-        wx.navigateTo({
-            url: e.currentTarget.dataset.page,
-            events: {
-                // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
-                acceptDataFromOpenedPage: function (res) {
-                    console.info(res);
-                },
-            },
-            success: function (res) {
-                // 通过eventChannel向被打开页面传送数据
-                res.eventChannel.emit('acceptDataFromOpenerPage', function (datTtoe, data) {
-                    console.info(data);
-                    try {
-                        switch (datTtoe.toUpperCase()) {
-                            case "JSON":
-                                return JSON.parse(data);
-                            default:
-                                return data;
-                        }
-                    } catch (e) {
-                        return data;
-                    }
-                }((e.currentTarget.dataset.dattype || ''), e.currentTarget.dataset.data))
-            },
-            fail: res => {
-                wx.showToast({
-                    title: "功能即将上线！",
-                    icon: 'none',
-                    duration: 2000
+        switch (e.currentTarget.dataset.page) {
+            case "/callHelper":
+                wx.makePhoneCall({
+                    phoneNumber: '18878703988' //展示先默认
                 })
-            }
-        })
+                return;
+            default:
+                wx.navigateTo({
+                    url: e.currentTarget.dataset.page,
+                    events: {
+                        // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
+                        acceptDataFromOpenedPage: function (res) {
+                            console.info(res);
+                        },
+                    },
+                    success: function (res) {
+                        // 通过eventChannel向被打开页面传送数据
+                        res.eventChannel.emit('acceptDataFromOpenerPage', function (datTtoe, data) {
+                            console.info(data);
+                            try {
+                                switch (datTtoe.toUpperCase()) {
+                                    case "JSON":
+                                        return JSON.parse(data);
+                                    default:
+                                        return data;
+                                }
+                            } catch (e) {
+                                return data;
+                            }
+                        }((e.currentTarget.dataset.dattype || ''), e.currentTarget.dataset.data))
+                    },
+                    fail: res => {
+                        wx.showToast({
+                            title: "功能即将上线！",
+                            icon: 'none',
+                            duration: 2000
+                        })
+                    }
+                });
+                return;
+        }
     },
     roleChangeBut: function ({detail = {}}) {
         const role = this.data.role.find(value => value.name == detail.value) || {};
