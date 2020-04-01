@@ -64,12 +64,13 @@ Page({
     },
     /*
     * 下拉刷新
-    * 
+    * */
     onPullDownRefresh() {
         if (this.data.order.orderId) {
-            this.reloadOrder(this.data.order.orderId)
+            this.reloadOrder(this.data.order.orderId);
+            wx.stopPullDownRefresh();
         }
-    },*/
+    },
     /**
      * 生命周期函数--监听页面显示
      */
