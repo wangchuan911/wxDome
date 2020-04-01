@@ -10,5 +10,6 @@
     "i-icon": "/ui/iview/icon/index",
     "i-cell": "/ui/iview/cell/index",
     "i-tag": "/ui/iview/tag/index"
-  }
+  },
+  "enablePullDownRefresh": true
 }

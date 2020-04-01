@@ -533,6 +533,8 @@ Page({
         if (e.type == 'getphonenumber' && (e.detail || {errMsg: ""}).errMsg.indexOf(":ok") >= 0) {
             phoneEncryptedData = e.detail.encryptedData;
             phoneEncryptedIv = e.detail.iv;
+        } else {
+            return;
         }
         /*this.getUserInfo(e).then(value => {
             _this.userCheck(null, true)
