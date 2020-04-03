@@ -8,6 +8,7 @@
     "i-tag": "/ui/iview/tag/index",
     "circle": "/component/circle/circle",
     "i-spin": "/ui/iview/spin/index",
-    "i-toast": "/ui/iview/toast/index"
+    "i-toast": "/ui/iview/toast/index",
+    "i-alert": "/ui/iview/alert/index"
   }
 }
