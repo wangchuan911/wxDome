@@ -639,6 +639,15 @@ Page({
                 lock.unlock()
             }
         })
+        wx.requestSubscribeMessage({
+            tmplIds:['dhwXaDcMXYtbIYWaQ4RvRS68DkW66GxqzPBjZ_v2koY'],
+            success:res=>{
+                console.info(res)
+            },
+            fail:res=>{
+                console.info(res)
+            }
+        })
     },
     mine: function (e) {
         // this.getUserInfo();
