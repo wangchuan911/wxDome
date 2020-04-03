@@ -32,7 +32,7 @@
         </i-cell>
         <i-cell title="工单负责人" bindclick="selectDealManBut" is-link>
             <view slot="footer">
-                {{order.worker!=null?order.worker:""}}
+                {{order.worker||""}}
             </view>
         </i-cell>
     </i-cell-group>
