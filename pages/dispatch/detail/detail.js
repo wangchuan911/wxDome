@@ -12,7 +12,8 @@ Page({
             code: null,
             codeName: null,
             tacheId: null
-        }
+        },
+        worker: null
     },
 
     /**
@@ -44,10 +45,12 @@ Page({
                     codeName = oper.tacheVO.tacheName
                     tacheId = oper.tacheVO.tacheId
                 } else {
-                    const state = $PubConst.operationCodes[order.code]
-                    code = order.code;
-                    tacheId = order.stateId;
-                    codeName = state.name;
+                    const state = $PubConst.operationCodes[order.code];
+                    if (state) {
+                        code = order.code;
+                        tacheId = order.stateId;
+                        codeName = state.name;
+                    }
                 }
                 _this.setData({
                     ['operation.code']: code,
@@ -109,6 +112,7 @@ Page({
     selectDealManBut: function (e) {
         const _this = this
         let order = this.data.order
+        if (order.isDeal) return;
         wx.navigateTo({
             url: '/pages/dispatch/workers/workers',
             events: {
@@ -117,7 +121,8 @@ Page({
                     console.log(data.data.worker);
                     order.worker = data.data.worker.name;
                     _this.setData({
-                        order: order
+                        ['order']: order,
+                        ['worker']: data.data.worker
                     })
                 },
                 // someEvent: function (data) {
@@ -138,13 +143,10 @@ Page({
         const data = {
             orderId: this.data.order.orderId,
             tacheId: this.data.operation.tacheId,
-            info: {
-                setWorker: _this.data.order.worker.id
-            }
         }
         switch (this.data.operation.code) {
             case "dispatch": {
-                if (!this.data.order.worker) {
+                if (!this.data.worker) {
                     wx.showToast({
                         title: '请选择负责人',
                         image: '/',
@@ -152,7 +154,9 @@ Page({
                     })
                     return
                 }
-                const _this = this
+                data.info = {
+                    setWorker: _this.data.worker.id
+                }
                 const eventChannel = this.getOpenerEventChannel()
                 $OperService.toBeContinue(data, res => {
                     eventChannel.emit('acceptDataFromOpenedPage', {
