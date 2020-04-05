@@ -21,7 +21,8 @@ module.exports = {
                 name: "车辆服务中",
                 desc: "正在为您的车辆提供服务"
             }
-        ]
+        ],
+        templates: {},
     },
     worker: {
         step1: [{

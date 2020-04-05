@@ -17,19 +17,30 @@ const SERVIE = "tache";
 /**
  * 建单
  * */
-const initTacheMap = function (taches) {
-    const node = function (tache) {
+const findSubTache = (tacheRelas, findObj) => {
+    (tacheRelas || []).forEach(tacheRela => {
+        (tacheRela.childTaches || []).forEach(tache => {
+            findObj(tache)
+        });
+    });
+}
+const initTacheMap = (taches) => {
+    const node = (tache) => {
         const subTache = function (tacheRelas) {
             const ids = [];
-            (tacheRelas || []).forEach(tacheRela => {
+            /*(tacheRelas || []).forEach(tacheRela => {
                 (tacheRela.childTaches || []).forEach(tache => {
                     ids.push(tache.tacheId);
                     subTache(tache.childTaches)
                 });
-            });
-            for (let i = 0; i < tacheRelas; i++) {
+            });*/
+            findSubTache(tacheRelas, tache => {
+                ids.push(tache.tacheId);
+                subTache(tache.tacheRelas || []);
+            })
+            /*for (let i = 0; i < tacheRelas; i++) {
                 tacheRelas.childTaches
-            }
+            }*/
             return ids;
         };
         return {
@@ -49,6 +60,27 @@ const initTacheMap = function (taches) {
         $PubConst.setValue("customer.step1", t);
     }
 }
+const initTemplates = taches => {
+    const map = {}
+    const findPush = (tache) => {
+        (tache.pushConfigs || []).forEach(config => {
+            if (config.roleId == null) return;
+            const arr = map[config.roleId] || [];
+            if (arr.indexOf(config.templateId) >= 0) return;
+            map[config.roleId] = arr;
+            map[config.roleId].push(config.templateId)
+        })
+    };
+    taches.forEach(tache => {
+        findPush(tache);
+        findSubTache(tache.tacheRelas || [], tache => {
+            findPush(tache);
+        })
+    });
+    if (map && Object.keys(map).length > 0) {
+        $PubConst.setValue("customer.templates", map);
+    }
+}
 const Methods = {
     STATE: STATE,
     getTaccheMap: function (data, success, error) {
@@ -59,7 +91,8 @@ const Methods = {
             if ((today.getDate() - dataDay.getDate()) < 1
                 || (today.getMonth() - dataDay.getMonth()) < 1
                 || (today.getFullYear() - dataDay.getFullYear()) < 1) {
-                initTacheMap(dat.data)
+                initTacheMap(dat.data);
+                initTemplates(dat.data);
                 if (success)
                     success(dat.data)
                 return
@@ -72,7 +105,8 @@ const Methods = {
                 date: new Date().valueOf(),
                 data: res.data.result
             })
-            initTacheMap(res.data.result)
+            initTacheMap(res.data.result);
+            initTemplates(res.data.result);
             if (success)
                 success(res.data.result)
         }, error)

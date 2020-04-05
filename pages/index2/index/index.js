@@ -640,11 +640,11 @@ Page({
             }
         })
         wx.requestSubscribeMessage({
-            tmplIds:['dhwXaDcMXYtbIYWaQ4RvRS68DkW66GxqzPBjZ_v2koY'],
-            success:res=>{
+            tmplIds: $PubConst.customer.templates[_this.getRole()],
+            success: res => {
                 console.info(res)
             },
-            fail:res=>{
+            fail: res => {
                 console.info(res)
             }
         })
