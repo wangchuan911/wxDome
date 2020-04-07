@@ -142,7 +142,14 @@ const Methods = {
             custId: data.custId,
             cost: data.cost,
             orderNote: data.orderNote,
-            serverType: ((res) => ($PubConst.optionTaches.find(t => t.tacheId.filter(v => res.indexOf(v) <= 0).length == t.tacheId.length) || {}).text)(data.passTacche ? data.passTacche.split(',') : []) || ""
+            serverType: ((res) => {
+                return Array.from(new Set($PubConst.optionTaches
+                    .map(value => value.tacheId.join(","))
+                    .join(",")
+                    .split(",")))
+                    .filter(value => res.indexOf(value) < 0)
+                    .map(value => $PubConst.customer.stepMap[value].tacheName).join(",");
+            })(data.passTache ? data.passTache.split(',') : []) || ""
         }
         if (data.pictureVOS || [] > 0) {
             let pic;

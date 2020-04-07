@@ -25,6 +25,7 @@ const findSubTache = (tacheRelas, findObj) => {
     });
 }
 const initTacheMap = (taches) => {
+    const tacheMap2 = {}
     const node = (tache) => {
         const subTache = function (tacheRelas) {
             const ids = [];
@@ -36,6 +37,7 @@ const initTacheMap = (taches) => {
             });*/
             findSubTache(tacheRelas, tache => {
                 ids.push(tache.tacheId);
+                tacheMap2[tache.tacheId] = tache;
                 subTache(tache.tacheRelas || []);
             })
             /*for (let i = 0; i < tacheRelas; i++) {
@@ -56,8 +58,10 @@ const initTacheMap = (taches) => {
         const t = []
         for (let i in taches) {
             t.push(node(taches[i]))
+            tacheMap2[taches[i].tacheId] = taches[i];
         }
         $PubConst.setValue("customer.step1", t);
+        $PubConst.setValue("customer.stepMap", tacheMap2);
     }
 }
 const initTemplates = taches => {

@@ -84,5 +84,5 @@
 </i-panel>
 <i-button wx:for="{{operation.oprBut}}" wx:for-index="index" wx:key="index" wx:for-item="opr" data-idx="{{index}}"
           bindclick="deal" type="primary" shape="circle" size="small">
-    {{opr.butText}}
+    {{opr.butText}}完成
 </i-button>

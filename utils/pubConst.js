@@ -23,6 +23,7 @@ module.exports = {
             }
         ],
         templates: {},
+        stepMap: {}
     },
     worker: {
         step1: [{
