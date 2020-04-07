@@ -638,9 +638,10 @@ Page({
             complete(res) {
                 lock.unlock()
             }
-        })
+        });
+        console.info($PubConst.customer.templates[_this.getRole()])
         wx.requestSubscribeMessage({
-            tmplIds: $PubConst.customer.templates[_this.getRole()],
+            tmplIds: Array.from(new Set($PubConst.customer.templates[_this.getRole()])),
             success: res => {
                 console.info(res)
             },
