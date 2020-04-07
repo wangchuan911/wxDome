@@ -141,7 +141,8 @@ const Methods = {
             custPhone: data.custPhone,
             custId: data.custId,
             cost: data.cost,
-            orderNote: data.orderNote
+            orderNote: data.orderNote,
+            serverType: ((res) => ($PubConst.optionTaches.find(t => t.tacheId.filter(v => res.indexOf(v) <= 0).length == t.tacheId.length) || {}).text)(data.passTacche ? data.passTacche.split(',') : []) || ""
         }
         if (data.pictureVOS || [] > 0) {
             let pic;

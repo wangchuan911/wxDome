@@ -26,7 +26,12 @@
                 <p style="display: block">至{{order.endTime}}</p>
             </view>
         </i-cell>
-          <i-cell title="备注描述" i-class="cust-cell">
+        <i-cell title="服务内容" i-class="cust-cell">
+            <view slot="footer">
+                <p style="display: block">{{order.serverType}}</p>
+            </view>
+        </i-cell>
+        <i-cell title="备注描述" i-class="cust-cell">
             <view slot="footer">
                 <p style="display: block">{{order.orderNote?order.orderNote:''}}</p>
             </view>
@@ -64,7 +69,8 @@
     <scroll-view scroll-x="true" bindscroll="scroll" style="width: 100%" scroll-left="{{scroll.left}}">
         <view id="scollView" style="width: {{(steps.length/3)*100}}%">
             <i-steps current="{{current}}">
-                <i-step wx:for="{{steps}}" wx:for-index="index" wx:key="index" wx:for-item="step" bindtap="{{current>index?'historyBut':''}}" data-idx="{{index}}">
+                <i-step wx:for="{{steps}}" wx:for-index="index" wx:key="index" wx:for-item="step"
+                        bindtap="{{current>index?'historyBut':''}}" data-idx="{{index}}">
                     <view slot="title">
                         {{(current>index?"已":'')+step.name}}
                     </view>
@@ -76,6 +82,7 @@
         </view>
     </scroll-view>
 </i-panel>
-<i-button wx:for="{{operation.oprBut}}" wx:for-index="index" wx:key="index" wx:for-item="opr" data-idx="{{index}}" bindclick="deal" type="primary" shape="circle" size="small">
+<i-button wx:for="{{operation.oprBut}}" wx:for-index="index" wx:key="index" wx:for-item="opr" data-idx="{{index}}"
+          bindclick="deal" type="primary" shape="circle" size="small">
     {{opr.butText}}
 </i-button>
