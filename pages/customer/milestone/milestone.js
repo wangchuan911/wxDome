@@ -95,6 +95,10 @@ Page({
                 name: "服务员",
                 initVal: "待定"
             },
+            {
+                id: "serverType",
+                name: "服务类型",
+            },
         ],
         steps: $PubConst.customer.step1
     },
