@@ -19,6 +19,8 @@ const Methods = {
             id: $Service.getUserId(),
             name: data.name,
             phone: data.phone,
+            useriv: data.iv,
+            userEncryptedData: data.encryptedData,
             role: 0,
         }], function (res) {
             success(res)
@@ -79,7 +81,9 @@ const Methods = {
         return new Promise((resolve, reject) => {
             if ($Service.getRole() < 0) {
                 this.newUserr({
-                    name: userInfo.nickName
+                    name: userInfo.name,
+                    iv: userInfo.iv,
+                    encryptedData: userInfo.encryptedData
                 }, res => {
                     $Service.setRole(0);
                     resolve({code: "NEW_USER"})

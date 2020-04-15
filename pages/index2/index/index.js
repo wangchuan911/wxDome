@@ -168,7 +168,12 @@ Page({
                             userInfo: e.detail.userInfo,
                             hasUserInfo: true
                         });
-                        $UserService.checkAndCreateUser(e.detail.userInfo).then(value => {
+                        console.info(e.detail)
+                        $UserService.checkAndCreateUser({
+                            name: e.detail.userInfo.nickName,
+                            iv: e.detail.iv,
+                            encryptedData: e.detail.encryptedData
+                        }).then(value => {
                             _this.getRole();
                             switch (value.code) {
                                 case "NEW_USER":
