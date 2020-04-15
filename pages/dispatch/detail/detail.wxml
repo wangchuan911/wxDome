@@ -25,6 +25,16 @@
                 {{order.preDate}}
             </view>
         </i-cell>
+        <i-cell title="服务内容">
+            <view slot="footer">
+               {{order.serverType}}
+            </view>
+        </i-cell>
+        <i-cell title="客户电话">
+            <view slot="footer">
+               {{order.custPhone}}
+            </view>
+        </i-cell>
         <i-cell title="提车时间">
             <view slot="footer">
                 {{order.endTime}}
