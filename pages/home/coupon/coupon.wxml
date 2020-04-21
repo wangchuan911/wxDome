@@ -1,0 +1,23 @@
+<!--pages/home/coupon/coupon.wxml-->
+<i-panel title="服务进度">
+    <i-row>
+        <i-col span="20" offset="2" i-class="coupons-contont">
+            <i-row i-class="base-coupons">
+                <i-col span="8" i-class="">
+                    <view class="coupons-text-left">
+                        100￥
+                    </view>
+                </i-col>
+                <i-col span="16">
+                    <view class="coupons-text-right elm-center">
+                        <view style="display:block;width:95%;height:90%">
+                            <p class='elm-center' style="height:70%;font: 20px arial, sans-serif;">新用户首单减免</p>
+                            <p class='elm-center' style="font-size:12px;float:right;">2018.11.23至</p>
+                            <p class='elm-center' style="font-size:12px;float:right;">2018.11.23前有效</p>
+                        </view>
+                    </view>
+                </i-col>
+            </i-row>
+        </i-col>
+    </i-row>
+</i-panel>

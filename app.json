@@ -16,7 +16,8 @@
     "pages/home/garage/garage",
     "pages/customer/operation/feedback/feedback",
     "pages/common/car/typeSelector/index",
-    "pages/index2/web/web"
+    "pages/index2/web/web",
+    "pages/home/coupon/coupon"
   ],
   "window": {
     "backgroundTextStyle": "dark",
