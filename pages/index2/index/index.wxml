@@ -70,8 +70,8 @@
                                     </i-tag>
                                 </i-col>
                             </i-row>
-                            <i-row>
-                                <block wx:for="{{tags}}" wx:key="index" wx:for-index="index">
+                            <block wx:for="{{tags}}" wx:key="index" wx:for-index="index">
+                                <i-row>
                                     <picker wx:if="{{item.id=='book'&&item.checked}}" mode="multiSelector" id="value3"
                                             bindcolumnchange="bindMultiPickerColumnChange" value="{{dateData.preIndex}}"
                                             range="{{dateData.preArray}}" bindchange="changeTime" hidden="hidden">
@@ -118,8 +118,8 @@
                                             {{coupon.content}}-{{coupon.off}}{{coupon.subfix}}
                                         </i-col>
                                     </block>
-                                </block>
-                            </i-row>
+                                </i-row>
+                            </block>
                         </view>
                     </view>
                     <i-button wx:if="{{state.userCheckFail?true:false}}"
