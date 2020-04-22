@@ -71,41 +71,43 @@
                                 </i-col>
                             </i-row>
                             <i-row>
-                                <picker wx:if="{{tags[0].checked}}" mode="multiSelector" id="value3"
-                                        bindcolumnchange="bindMultiPickerColumnChange" value="{{dateData.preIndex}}"
-                                        range="{{dateData.preArray}}" bindchange="changeTime" hidden="hidden">
-                                    <i-input class="picker" value="{{ submitData.value3 }}" title="预约时间"
-                                             placeholder="预约时间9点至20点"
-                                             disabled="disabled"/>
-                                </picker>
-                                <picker wx:if="{{tags[1].checked}}" mode="multiSelector" id="value4"
-                                        bindcolumnchange="bindMultiPickerColumnChange" value="{{dateData.finIndex}}"
-                                        range="{{dateData.finArray}}" bindchange="changeTime" hidden="hidden">
-                                    <i-input class="picker" value="{{ submitData.value4 }}" title="用车时间"
-                                             placeholder="最少预留1小时"
-                                             disabled="disabled"/>
-                                </picker>
-                                <i-col span="7" i-class="col-class" wx:if="{{tags[2].checked}}">
-                                    <i-input value="" title="备注" autofocus disabled="disabled" placeholder=""/>
-                                </i-col>
-                                <i-col span="17" i-class="col-class i-extra" wx:if="{{tags[2].checked}}">
-                                    <i-tag i-class="i-tags i-tags-circle" color="blue" checkable="{{true}}"
-                                           type="border"
-                                           checked="{{true}}" style="margin-right:5px"
-                                           wx:if="{{submitData.value2.value2.length>0}}" bindtap="extraBut">
-                                        图片
-                                    </i-tag>
-                                    <i-tag i-class="i-tags i-tags-circle" color="blue" checkable="{{true}}"
-                                           type="border"
-                                           checked="{{true}}" style="margin-right:5px"
-                                           wx:if="{{submitData.value2.value1.length>0}}"
-                                           bindtap="extraBut">
-                                        文字
-                                    </i-tag>
-                                    <!--                <i-tag  i-class="i-tags"  color="blue" checkable="{{true}}" type="border" checked="{{true}}" style="margin-right:5px" >-->
-                                    <!--                    视频-->
-                                    <!--                </i-tag>-->
-                                </i-col>
+                                <block wx:for="{{tags}}" wx:key="index" wx:for-index="index">
+                                    <picker wx:if="{{item.id=='book'&&item.checked}}" mode="multiSelector" id="value3"
+                                            bindcolumnchange="bindMultiPickerColumnChange" value="{{dateData.preIndex}}"
+                                            range="{{dateData.preArray}}" bindchange="changeTime" hidden="hidden">
+                                        <i-input class="picker" value="{{ submitData.value3 }}" title="预约时间"
+                                                 placeholder="预约时间9点至20点"
+                                                 disabled="disabled"/>
+                                    </picker>
+                                    <picker wx:if="{{item.id=='useTime'&&item.checked}}" mode="multiSelector" id="value4"
+                                            bindcolumnchange="bindMultiPickerColumnChange" value="{{dateData.finIndex}}"
+                                            range="{{dateData.finArray}}" bindchange="changeTime" hidden="hidden">
+                                        <i-input class="picker" value="{{ submitData.value4 }}" title="用车时间"
+                                                 placeholder="最少预留1小时"
+                                                 disabled="disabled"/>
+                                    </picker>
+                                    <i-col span="7" i-class="col-class" wx:if="{{item.id=='extraInfo'&&item.checked}}">
+                                        <i-input value="" title="备注" autofocus disabled="disabled" placeholder=""/>
+                                    </i-col>
+                                    <i-col span="17" i-class="col-class i-extra" wx:if="{{item.id=='extraInfo'&&item.checked}}">
+                                        <i-tag i-class="i-tags i-tags-circle" color="blue" checkable="{{true}}"
+                                               type="border"
+                                               checked="{{true}}" style="margin-right:5px"
+                                               wx:if="{{submitData.value2.value2.length>0}}" bindtap="extraBut">
+                                            图片
+                                        </i-tag>
+                                        <i-tag i-class="i-tags i-tags-circle" color="blue" checkable="{{true}}"
+                                               type="border"
+                                               checked="{{true}}" style="margin-right:5px"
+                                               wx:if="{{submitData.value2.value1.length>0}}"
+                                               bindtap="extraBut">
+                                            文字
+                                        </i-tag>
+                                        <!--                <i-tag  i-class="i-tags"  color="blue" checkable="{{true}}" type="border" checked="{{true}}" style="margin-right:5px" >-->
+                                        <!--                    视频-->
+                                        <!--                </i-tag>-->
+                                    </i-col>
+                                </block>
                             </i-row>
                         </view>
                     </view>
