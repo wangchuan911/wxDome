@@ -9,6 +9,7 @@ const $CarService = require('../../../utils/service/carService');
 const $Service = require('../../../utils/service/service');
 const $PubConst = require('../../../utils/pubConst');
 const $Utils = require('../../../utils/util');
+const $CouponService = require('../../../utils/service/couponService')
 
 const ERROR = function (code, msg) {
     return {
@@ -72,6 +73,12 @@ Page({
         tags: [{
             checked: false,
             value: null,
+            text: "优惠",
+            id: "coupon",
+            hidden: true,
+        }, {
+            checked: false,
+            value: null,
             text: "预约",
             id: "book"
         }, /*{
@@ -104,7 +111,8 @@ Page({
             finIndex: [0, 0, 0],
             finArray: $Utils.getDatePicker(new Date()),
         },
-        roleMode: -1
+        roleMode: -1,
+        coupon: null
     },
 
     /**
@@ -278,6 +286,30 @@ Page({
                     car.no = carConfig.lisence;
                     $PubConst.setCost("priceInside", carConfig.carInfo["priceInside"]);
                     $PubConst.setCost("priceOutside", carConfig.carInfo["priceOutside"]);
+                    if (roloId == 0 && (success.user.coupons || []).length > 0) {
+                        let idx = -1;
+                        const coupon = success.user.coupons.find(coupon => coupon.lv == 1);
+                        _this.data.tags.forEach((value, index) => {
+                                if (value.id == 'coupon') {
+                                    idx = index;
+                                    _this.setData({
+                                        ["tags[" + idx + "].hidden"]: false
+                                    });
+                                    if (coupon != null) {
+                                        _this.setData({
+                                            ["tags[" + idx + "].checked"]: true,
+                                        });
+                                    }
+                                }
+                            }
+                        );
+                        if (idx >= 0 && coupon != null) {
+                            _this.setData({
+                                ['coupon']: $CouponService.modalChange(coupon)
+                            })
+                        }
+                    }
+                    console.info(_this.data.coupon)
                     _this.initCost();
                 }
                 $CarService.setDefaultCarNo(car.no);
@@ -303,7 +335,7 @@ Page({
         const _this = this;
         _this.setData({
             ["serviceType"]: $PubConst.optionTaches,
-            ['submitData.value10']: $PubConst.optionTaches.filter(value => value.checked).map(value => value.cost).reduce((previousValue, currentValue) => previousValue += currentValue),
+            ['submitData.value10']: $CouponService.realCost($PubConst.optionTaches.filter(value => value.checked).map(value => value.cost).reduce((previousValue, currentValue) => previousValue += currentValue), _this.data.coupon),
         })
     }, initMap: function () {
         const _this = this;
@@ -909,7 +941,7 @@ Page({
         }
         _this.setData({
             ['serviceType']: _this.data.serviceType,
-            ['submitData.value10']: _this.data.serviceType.filter(value => value.checked).map(value => value.cost).reduce((previousValue, currentValue) => previousValue += currentValue),
+            ['submitData.value10']: $CouponService.realCost(_this.data.serviceType.filter(value => value.checked).map(value => value.cost).reduce((previousValue, currentValue) => previousValue += currentValue), _this.data.coupon),
         })
         //提交赋值
         this.data.serviceType.forEach(value => {
