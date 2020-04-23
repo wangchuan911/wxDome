@@ -1,0 +1,23 @@
+{
+  "name": "hubidaauto",
+  "version": "0.0.1",
+  "description": "car wash service",
+  "main": "app.js",
+  "dependencies": {
+    "wxml-to-canvas": "^1.1.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wangchuan911/wxDome.git"
+  },
+  "author": "welisdoom",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wangchuan911/wxDome/issues"
+  },
+  "homepage": "https://github.com/wangchuan911/wxDome#readme"
+}

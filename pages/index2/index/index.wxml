@@ -10,7 +10,7 @@
     <!--<view style="position: relative;width:100%;display:block;left: 10px;bottom: 10px;width: 30px;height: 30px;background-color: white;border-radius: 100px;">
         <image class="icon-wh" src="../../../ui/img/geolocation.png"/>
     </view>-->
-    <i-alert show-icon closable wx:if="{{error==null && roleMode<=0 && !isBook}}">
+    <i-alert show-icon closable wx:if="{{error==null && roleMode==0 && !isBook}}">
         修改位置或在备注中添加位置信息，能让我们更快找到您的车辆
     </i-alert>
     <view class="i-class i-card">

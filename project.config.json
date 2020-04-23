@@ -7,11 +7,12 @@
 		"urlCheck": false,
 		"es6": true,
 		"enhance": true,
-		"postcss": true,
-		"minified": true,
+		"postcss": false,
+		"minified": false,
 		"newFeature": true,
 		"coverView": true,
-		"autoAudits": true,
+		"nodeModules": true,
+		"autoAudits": false,
 		"checkInvalidKey": true,
 		"checkSiteMap": true,
 		"uploadWithSourceMap": true,
@@ -19,10 +20,11 @@
 			"ignore": [],
 			"disablePlugins": [],
 			"outputPath": ""
-		}
+		},
+		"bundle": false
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.10.3",
+	"libVersion": "2.11.0",
 	"appid": "wx366b88b818ee0b33",
 	"projectname": "demo1",
 	"debugOptions": {
