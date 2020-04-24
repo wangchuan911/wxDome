@@ -1,13 +1,13 @@
 <!--pages/customer/operation/feedback/feedback.wxml-->
 <form bindsubmit="submitBut">
     <view style="height: 80%">
-        <i-panel title="请填写工作结果并拍照上传"></i-panel>
+        <i-panel title="[环节:{{title}}]请填写工作结果并拍照上传"></i-panel>
         <i-panel title="车辆图片或其他">
             <view style="padding: 15px;">
                 <i-row i-class="i-row-css">
                     <i-col wx:for="{{imgs}}" wx:for-index="index" wx:for-item="url" span="4">
                         <image src="{{url}}" style="width: 50px; height: 50px" bindtap="preViewPicture"
-                               data-idx="{{index}}"></image>
+                               data-idx="index"></image>
                     </i-col>
                     <i-col span="4">
                         <i-icon type="add" size="50" bindtap="addPicture"/>
@@ -22,5 +22,8 @@
             </view>
         </i-panel>
     </view>
+    <!--<button bindtap="renderToCanvas">渲染到canvas</button>-->
+    <wxml-to-canvas id="textArea" style="position: absolute;right: 100%;"></wxml-to-canvas>
+    <!--<image src="{{src}}" style="width: {{width}}px; height: {{height}}px"></image>-->
     <button class="i-btn i-btn-primary i-btn-circle" form-type="submit"> 提交</button>
 </form>

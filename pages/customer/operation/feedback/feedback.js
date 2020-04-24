@@ -1,4 +1,5 @@
 // pages/customer/operation/feedback/feedback.js
+const $Utils = require('../../../../utils/util');
 Page({
 
     /**
@@ -22,7 +23,8 @@ Page({
                 imgs: data.imgs || [],
                 text: data.text || ''
             })
-        })
+        });
+        this.widget = this.selectComponent('#textArea')
     },
 
     /**
@@ -99,13 +101,41 @@ Page({
     submitBut: function (e) {
         console.info(e.detail)
         const _this = this
-        const eventChannel = this.getOpenerEventChannel()
-        eventChannel.emit('acceptDataFromOpenedPage', {
-            data: {
-                text: e.detail.value.text,
-                imgs: this.data.imgs
-            }
-        });
-        wx.navigateBack({})
-    }
+        const callBack = (text, imgs) => {
+            eventChannel.emit('acceptDataFromOpenedPage', {
+                data: {text, imgs}
+            });
+            wx.navigateBack({})
+        }
+        const eventChannel = this.getOpenerEventChannel();
+        if ((e.detail.value.text || '').length > 0) {
+            this.widget.renderToCanvas($Utils.text2Canvas('环节:' + this.data.title, "内容:" + e.detail.value.text)).then((res) => {
+                console.log('container', res.layoutBox)
+                this.widget.canvasToTempFilePath().then(res => {
+                    this.data.imgs.push(res.tempFilePath);
+                    callBack(e.detail.value.text, this.data.imgs);
+                });
+            })
+        } else {
+            callBack(e.detail.value.text, this.data.imgs);
+        }
+    },
+    /*renderToCanvas() {
+        const p1 = this.widget.renderToCanvas($Utils.text2Canvas('环节:'+this.data.title,"内容：xxxxxx"))
+        p1.then((res) => {
+            console.log('container', res.layoutBox)
+            this.container = res;
+            this.extraImage()
+        })
+    },
+    extraImage() {
+        const p2 = this.widget.canvasToTempFilePath()
+        p2.then(res => {
+            this.setData({
+                src: res.tempFilePath,
+                width: this.container.layoutBox.width,
+                height: this.container.layoutBox.height
+            })
+        })
+    }*/
 })

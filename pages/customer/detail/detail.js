@@ -186,6 +186,9 @@ Page({
                             console.log('用户点击确定')
                             data.info.pictureIds = $Service.getSuccessPictureIds(complete.success);
                             _this.toBeContinue(data);
+                            _this.setData({
+                                sendQuene: []
+                            });
                         }
                     },
                     complete(res) {
@@ -197,6 +200,9 @@ Page({
                 wx.hideLoading();
                 data.info.pictureIds = $Service.getSuccessPictureIds(complete.success);
                 _this.toBeContinue(data);
+                _this.setData({
+                    sendQuene: []
+                });
             }
         });
     },

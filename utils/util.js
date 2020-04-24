@@ -153,6 +153,30 @@ function setOneData(_this, name, value) {
     })
 }
 
+const text2Canvas = (title, text, option) => {
+    const wxml = `<view class="container" >
+        <text class="title">{{title}}</text>
+        <text class="text">{{text}}</text>
+        </view>`.replace('{{title}}', title || '无标题').replace('{{text}}', text || '无内容')
+    const width = 300;
+    const style = {
+        container: {
+            width: width,
+            height: 200,
+            backgroundColor: '#ccc'
+        },
+        text: {
+            width: width,
+            height: 100,
+        },
+        title: {
+            width: width,
+            height: 24
+        }
+    }
+    return {wxml, style}
+}
+
 module.exports = {
     formatTime: formatTime,
     getDate: getDate,
@@ -164,5 +188,6 @@ module.exports = {
     unlockUI: unlockUI,
     isLock: isLock,
     setOneData: setOneData,
-    getDatePickerHour: getDatePickerHour
+    getDatePickerHour: getDatePickerHour,
+    text2Canvas: text2Canvas
 }
