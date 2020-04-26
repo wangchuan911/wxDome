@@ -32,7 +32,7 @@
                     </view>
                     <view wx:else>
                         <i-row i-class="show-left">
-                            <i-tag wx:for="{{tags}}" wx:key="index" i-class="i-tags i-tags-circle" name="{{index}}"
+                            <i-tag wx:for="{{tags}}" wx:if="{{!item.hidden}}" wx:key="index" i-class="i-tags i-tags-circle" name="{{index}}"
                                    color="blue" checkable="{{true}}" type="border" checked="{{item.checked}}"
                                    bindchange="tagChangeBut" style="margin-right:{{(index==(tags.length-1))?20:5}}px">
                                 {{item.text}}
@@ -115,7 +115,7 @@
                                             <i-input value="" title="优惠" autofocus disabled="disabled" placeholder=""/>
                                         </i-col>
                                         <i-col span="17" i-class="col-class i-extra">
-                                            {{coupon.content}}-{{coupon.off}}{{coupon.subfix}}
+                                            {{selectedCoupon.content}}-{{selectedCoupon.off}}{{selectedCoupon.subfix}}
                                         </i-col>
                                     </block>
                                 </i-row>

@@ -69,6 +69,7 @@ const Methods = {
             "cost": submitData.value10,
             "phoneEncryptedData": extra.phoneEncryptedData,
             "phoneEncryptedIv": extra.phoneEncryptedIv,
+            "couponId": extra.couponId,
         }], function (res) {
             success(res)
         }, function (res) {

@@ -1,6 +1,7 @@
 const Methods = {
     modalChange(couponVO) {
         const newCouponVO = {
+            id: couponVO.id,
             content: couponVO.content,
             type: couponVO.type
         }

@@ -112,7 +112,8 @@ Page({
             finArray: $Utils.getDatePicker(new Date()),
         },
         roleMode: -1,
-        coupon: null
+        selectedCoupon: null,
+        coupons: []
     },
 
     /**
@@ -286,31 +287,28 @@ Page({
                     car.no = carConfig.lisence;
                     $PubConst.setCost("priceInside", carConfig.carInfo["priceInside"]);
                     $PubConst.setCost("priceOutside", carConfig.carInfo["priceOutside"]);
-                    if (roloId == 0 && (success.user.coupons || []).length > 0) {
-                        let idx = -1;
-                        const coupon = success.user.coupons.find(coupon => coupon.lv == 1);
-                        _this.data.tags.forEach((value, index) => {
-                                if (value.id == 'coupon') {
-                                    idx = index;
-                                    _this.setData({
-                                        ["tags[" + idx + "].hidden"]: false
-                                    });
-                                    if (coupon != null) {
-                                        _this.setData({
-                                            ["tags[" + idx + "].checked"]: true,
-                                        });
-                                    }
-                                }
+                    _this.couponInit(success.user.coupons);
+                    /*if (roloId == 0 && (success.user.coupons || []).length > 0) {
+                        let idx;
+                        _this.data.coupons = success.user.coupons;
+                        const coupon = _this.data.coupons.find(coupon => coupon.lv == 1);
+                        for (idx in _this.data.tags) {
+                            if (_this.data.tags[idx].id == 'coupon') {
+                                _this.setData({
+                                    ["tags[" + idx + "].hidden"]: false,
+                                    ["tags[" + idx + "].checked"]: coupon != null
+                                });
+                                break
                             }
-                        );
+                        }
                         if (idx >= 0 && coupon != null) {
                             _this.setData({
-                                ['coupon']: $CouponService.modalChange(coupon)
+                                ['selectedCoupon']: $CouponService.modalChange(coupon)
                             })
                         }
                     }
                     console.info(_this.data.coupon)
-                    _this.initCost();
+                    _this.initCost();*/
                 }
                 $CarService.setDefaultCarNo(car.no);
                 /*_this.userCheck(null, true)
@@ -335,7 +333,7 @@ Page({
         const _this = this;
         _this.setData({
             ["serviceType"]: $PubConst.optionTaches,
-            ['submitData.value10']: $CouponService.realCost($PubConst.optionTaches.filter(value => value.checked).map(value => value.cost).reduce((previousValue, currentValue) => previousValue += currentValue), _this.data.coupon),
+            ['submitData.value10']: $CouponService.realCost($PubConst.optionTaches.filter(value => value.checked).map(value => value.cost).reduce((previousValue, currentValue) => previousValue += currentValue), _this.data.selectedCoupon),
         })
     }, initMap: function () {
         const _this = this;
@@ -628,8 +626,9 @@ Page({
             const form = _this.data.submitData;
             form.value2.pictureIds = $Service.getSuccessPictureIds(data.pic);
             $OrderService.newOrder(form, {
-                phoneEncryptedData: phoneEncryptedData,
-                phoneEncryptedIv: phoneEncryptedIv
+                phoneEncryptedData,
+                phoneEncryptedIv,
+                couponId: _this.data.selectedCoupon.id
             }, function (res) {
                 console.info(res)
                 if (res.data.result) {
@@ -639,6 +638,7 @@ Page({
                         ['progressShow.progress']: orderCounts.all_nums > 0 ? parseInt(((orderCounts.nums || 0) / orderCounts.all_nums) * 100) : 1,
                     });
                     lock.unlock();
+                    _this.couponInit(_this.data.coupons.filter(value => value.id != _this.data.selectedCoupon.id));
                 } else {
                     _this.setData({
                         isBook: false,
@@ -646,7 +646,10 @@ Page({
                     lock.unlock();
                 }
             }, function (res) {
-
+                _this.setData({
+                    isBook: false,
+                });
+                lock.unlock();
             })
         }
 
@@ -941,7 +944,7 @@ Page({
         }
         _this.setData({
             ['serviceType']: _this.data.serviceType,
-            ['submitData.value10']: $CouponService.realCost(_this.data.serviceType.filter(value => value.checked).map(value => value.cost).reduce((previousValue, currentValue) => previousValue += currentValue), _this.data.coupon),
+            ['submitData.value10']: $CouponService.realCost(_this.data.serviceType.filter(value => value.checked).map(value => value.cost).reduce((previousValue, currentValue) => previousValue += currentValue), _this.data.selectedCoupon),
         })
         //提交赋值
         this.data.serviceType.forEach(value => {
@@ -950,9 +953,10 @@ Page({
     }
     , getRole() {
         const role = $Service.getRole();
-        this.setData({
-            roleMode: role
-        })
+        if (role != this.data.roleMode)
+            this.setData({
+                roleMode: role
+            })
         return role;
     }
     , areaRange() {
@@ -1055,5 +1059,24 @@ Page({
             default:
                 break
         }
+    },
+    couponInit(coupons) {
+        let idx;
+        this.data.coupons = coupons || [];
+        const coupon = this.data.coupons.find(coupon => coupon.lv == 1);
+        for (idx in this.data.tags) {
+            if (this.data.tags[idx].id == 'coupon') {
+                this.setData({
+                    ["tags[" + idx + "].hidden"]: false,
+                    ["tags[" + idx + "].checked"]: coupon != null
+                });
+                break
+            }
+        }
+        this.setData({
+            ['selectedCoupon']: (idx >= 0 && coupon != null) ? $CouponService.modalChange(coupon) : null
+        })
+        console.info(this.data.selectedCoupon)
+        this.initCost();
     }
 })
