@@ -278,13 +278,13 @@ Page({
                 ["orders[" + idx + "].state"]: '101',
             })
             $Service.setPageState("index.freshOrder", true);
-        }, function (error) {
+        }, (error) => {
             console.info(error)
             if (error != null && error.data != null
                 && error.data.error != null) {
                 wx.showModal({
                     title: '支付失败',
-                    content: '\n请稍后再试!',
+                    content: '\n请稍后再试!:{{value}}'.replace("{{value}}", error.data.error),
                     success(res) {
                         if (res.confirm) {
                             console.log('用户点击确定');

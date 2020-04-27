@@ -35,7 +35,7 @@ Page({
      */
     onShow: function () {
         const _this = this;
-        $UserService.getWorkers(function (res) {
+        $UserService.getWorkers({orderId: _this.data.order.orderId}, function (res) {
             _this.setData({
                 ['workers']: res.data.result
             })

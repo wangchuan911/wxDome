@@ -628,7 +628,7 @@ Page({
             $OrderService.newOrder(form, {
                 phoneEncryptedData,
                 phoneEncryptedIv,
-                couponId: _this.data.selectedCoupon.id
+                couponId: (_this.data.selectedCoupon || {}).id
             }, function (res) {
                 console.info(res)
                 if (res.data.result) {

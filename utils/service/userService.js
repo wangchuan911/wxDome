@@ -37,9 +37,9 @@ const Methods = {
             error(res)
         })
     },
-    getWorkers: function (success, error) {
+    getWorkers: function (data, success, error) {
         $Service.post(SERVIE, null, [OPRERATOPM.GET_WORKERS, {
-            id: $Service.getUserId(),
+            orderId: data.orderId,
         }], function (res) {
             success(res)
         }, function (res) {
