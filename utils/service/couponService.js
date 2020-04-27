@@ -1,3 +1,14 @@
+const $Service = require('./service');
+const SERVIE = "coupon";
+const OPRERATOPM = {
+    ADD: 0,
+    DELETE: 1,
+    MODIFY: 2,
+    GET: 3,
+    LIST: 4,
+    GET_MODAL: 100
+}
+
 const Methods = {
     modalChange(couponVO) {
         const newCouponVO = {
@@ -29,6 +40,11 @@ const Methods = {
             }
         }
         return cost;
+    },
+    getCoupons(success, error) {
+        $Service.post(SERVIE, null, [OPRERATOPM.LIST, {
+            userId: $Service.getUserId(),
+        }], success, error)
     }
 }
 module.exports = Methods;

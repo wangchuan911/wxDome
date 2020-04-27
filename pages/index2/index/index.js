@@ -410,7 +410,11 @@ Page({
             this.initCost();
         }
         if ($Service.pullPageState("index.freshOrder",)) {
-            this.getWorkBum()
+            this.getWorkBum();
+            $CouponService.getCoupons(success=>{
+                this.couponInit(success.date.result)
+            })
+
         }
 
     },
