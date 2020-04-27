@@ -40,6 +40,7 @@ const Methods = {
     getWorkers: function (data, success, error) {
         $Service.post(SERVIE, null, [OPRERATOPM.GET_WORKERS, {
             orderId: data.orderId,
+            orderControlPerson:$Service.getUserId()
         }], function (res) {
             success(res)
         }, function (res) {

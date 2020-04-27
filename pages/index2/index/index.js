@@ -412,7 +412,7 @@ Page({
         if ($Service.pullPageState("index.freshOrder",)) {
             this.getWorkBum();
             $CouponService.getCoupons(success=>{
-                this.couponInit(success.date.result)
+                this.couponInit(success.data.result)
             })
 
         }
@@ -648,13 +648,21 @@ Page({
                         isBook: false,
                     });
                     lock.unlock();
+
                 }
             }, function (res) {
                 _this.setData({
                     isBook: false,
                 });
                 lock.unlock();
-            })
+            });
+            function fail() {
+                wx.showToast({
+                    title: '请选择负责人',
+                    image: '/',
+                    duration: 2000
+                })
+            }
         }
 
         uplaod();
