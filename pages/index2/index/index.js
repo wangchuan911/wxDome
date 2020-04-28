@@ -1,21 +1,19 @@
 // pages/index2/index.js
-const app = getApp()
-const {$Toast} = require('../../../ui/iview/base/index');
-const qqmapsdk = require('../../../utils/thrid/qqmap-wx-jssdk.js');
-const $OrderService = require('../../../utils/service/orderService');
-const $TacheService = require('../../../utils/service/tacheService');
-const $UserService = require('../../../utils/service/userService');
-const $CarService = require('../../../utils/service/carService');
-const $Service = require('../../../utils/service/service');
-const $PubConst = require('../../../utils/pubConst');
-const $Utils = require('../../../utils/util');
-const $CouponService = require('../../../utils/service/couponService')
+const app = getApp(),
+    {$Toast} = require('../../../ui/iview/base/index'),
+    qqmapsdk = require('../../../utils/thrid/qqmap-wx-jssdk.js'),
+    $OrderService = require('../../../utils/service/orderService'),
+    $TacheService = require('../../../utils/service/tacheService'),
+    $UserService = require('../../../utils/service/userService'),
+    $CarService = require('../../../utils/service/carService'),
+    $Service = require('../../../utils/service/service'),
+    $PubConst = require('../../../utils/pubConst'),
+    $Utils = require('../../../utils/util'),
+    $CouponService = require('../../../utils/service/couponService')
+;
 
 const ERROR = function (code, msg) {
-    return {
-        code: code,
-        msg: msg
-    }
+    return {code, msg}
 }
 ERROR.LOCATION_FAIL = "LOCATION_FAIL";
 ERROR.LOCATION_FAIL_REJECT = "LOCATION_FAIL_REJECT"
@@ -149,14 +147,14 @@ Page({
                     errorMsg.okFunction = function () {
                         _this.data.state.freshView = true;
                         $Utils.getPositionAuth().then(value => _this.onLoad()).catch(reason1 => {
-                            errorCallBack()
+                            errorCallBack(ERROR(ERROR.LOCATION_FAIL_REJECT))
                         });
                     }
                     break;
                 case ERROR.LOCATION_FAIL:
                     _this.data.state.freshView = true;
                     $Utils.getPositionAuth().then(value => _this.onLoad()).catch(reason1 => {
-                        errorCallBack()
+                        errorCallBack(ERROR(ERROR.LOCATION_FAIL_REJECT))
                     });
                     break;
                 case ERROR.OUT_SERVICE_RANGE:
@@ -288,44 +286,10 @@ Page({
                     $PubConst.setCost("priceInside", carConfig.carInfo["priceInside"]);
                     $PubConst.setCost("priceOutside", carConfig.carInfo["priceOutside"]);
                     _this.couponInit(success.user.coupons);
-                    /*if (roloId == 0 && (success.user.coupons || []).length > 0) {
-                        let idx;
-                        _this.data.coupons = success.user.coupons;
-                        const coupon = _this.data.coupons.find(coupon => coupon.lv == 1);
-                        for (idx in _this.data.tags) {
-                            if (_this.data.tags[idx].id == 'coupon') {
-                                _this.setData({
-                                    ["tags[" + idx + "].hidden"]: false,
-                                    ["tags[" + idx + "].checked"]: coupon != null
-                                });
-                                break
-                            }
-                        }
-                        if (idx >= 0 && coupon != null) {
-                            _this.setData({
-                                ['selectedCoupon']: $CouponService.modalChange(coupon)
-                            })
-                        }
-                    }
-                    console.info(_this.data.coupon)
-                    _this.initCost();*/
                 }
                 $CarService.setDefaultCarNo(car.no);
-                /*_this.userCheck(null, true)
-                console.info("login.spin")
-                _this.setSpin();*/
                 resolve()
             }, error => {
-                /*wx.showModal({
-                    title: '服务异常',
-                    content: error + '\n请稍后后再试!',
-                    success(res) {
-                        if (res.confirm) {
-                            console.log('用户点击确定');
-                            _this.login();
-                        }
-                    }
-                })*/
                 reject(ERROR(ERROR.NETWORK_ERROR, error))
             })
         });
@@ -411,7 +375,7 @@ Page({
         }
         if ($Service.pullPageState("index.freshOrder",)) {
             this.getWorkBum();
-            $CouponService.getCoupons(success=>{
+            $CouponService.getCoupons(success => {
                 this.couponInit(success.data.result)
             })
 
@@ -506,7 +470,6 @@ Page({
     },
     markMapBut(e) {
         console.info(e)
-        this.data.markers[0]
     },
     userCheck: function (e, notTip) {
         const noLogin = this.getRole() < 0;
@@ -523,18 +486,6 @@ Page({
             } else if (noCarNo) {
                 msgBody.msg = '请完善车辆信息';
                 msgBody.jumpToPage = "/pages/home/garage/garage"
-                /*wx.showModal({
-                    title: msgBody.title,
-                    content: msgBody.content,
-                    success(res) {
-                        if (res.confirm) {
-                            console.log('用户点击确定');
-                            wx.navigateTo({
-                                url: "/pages/home/garage/garage"
-                            })
-                        }
-                    }
-                })*/
             }
             if (!notTip) {
                 wx.showToast({
@@ -575,10 +526,6 @@ Page({
         } else {
             return;
         }
-        /*this.getUserInfo(e).then(value => {
-            _this.userCheck(null, true)
-        });
-        if (!this.userCheck(e)) return;*/
 
         if ($Utils.isLock(_this, 'loading.submitBut')) {
             return
@@ -656,6 +603,7 @@ Page({
                 });
                 lock.unlock();
             });
+
             function fail() {
                 wx.showToast({
                     title: '请选择负责人',
@@ -668,12 +616,6 @@ Page({
         uplaod();
     },
     mileStoneBut: function (e) {
-        /*this.getUserInfo(e).then(value => {
-            if (!this.userCheck(e)) {
-                throw "mileStoneBut"
-            }
-        });
-        if (!this.userCheck(e)) return;*/
         const lock = $Utils.lockUI(this, 'loading.submitBut');
         const _this = this
         wx.navigateTo({
@@ -703,7 +645,6 @@ Page({
         })
     },
     mine: function (e) {
-        // this.getUserInfo();
         wx.navigateTo({
             url: '/pages/home/mime/mine',
             /*events: {
