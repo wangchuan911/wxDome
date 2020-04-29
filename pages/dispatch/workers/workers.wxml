@@ -1,10 +1,20 @@
 <!--pages/dispatch/workers/workers.wxml-->
 <i-cell-group>
-  <i-cell title="{{worker.name}}" data-idx="{{index}}" is-link wx:for="{{workers}}" wx:for-index="index" wx:for-item="worker" wx:key="{{index}}" bindtap="dispatchBut">
-    <view slot='footer'>
-      <i-tag class="i-tags" name="distance" type='border'>
-        距离目的地{{order.distance?order.distance:0}}公里
-      </i-tag>
-    </view>
-  </i-cell>
+    <i-cell title="{{worker.name}}" data-idx="{{index}}" is-link wx:for="{{workers}}" wx:for-index="index"
+            wx:for-item="worker" wx:key="{{index}}" bindtap="dispatchBut">
+        <view slot='footer'>
+            <i-tag wx:if="{{worker.orders}}" class="i-tags" name="working" type='border'>
+                当前有{{worker.orders}}张单子
+            </i-tag>
+            <i-tag wx:else class="i-tags" name="free" type='border'>
+                空闲
+            </i-tag>
+            <i-tag wx:if="{{worker.distance!=null}}" class="i-tags" name="distance" type='border'>
+                距离{{worker.distance}}公里
+            </i-tag>
+            <i-tag wx:else class="i-tags" name="noDistance" type='border'>
+                获取距离失败
+            </i-tag>
+        </view>
+    </i-cell>
 </i-cell-group>

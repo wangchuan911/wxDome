@@ -1,5 +1,6 @@
 // pages/dispatch/workers/workers.js
-const $UserService = require('../../../utils/service/userService');
+const $UserService = require('../../../utils/service/userService'),
+    qqmapsdk = require('../../../utils/thrid/qqmap-wx-jssdk.js');
 Page({
 
     /**
@@ -38,6 +39,50 @@ Page({
         $UserService.getWorkers({orderId: _this.data.order.orderId}, function (res) {
             _this.setData({
                 ['workers']: res.data.result
+            })
+            const from = _this.data.order.latitude + ',' + _this.data.order.longitude;
+            (res.data.result || []).forEach((worker, index) => {
+                if (!worker.workerStatus) return
+
+                _this.setData({
+                    ['workers[' + index + '].orders']: worker.workerStatus.orders
+                })
+                /*const to = worker.workerStatus.posX + ',' + worker.workerStatus.posY
+                qqmapsdk.calculateDistance({
+                    mode: "straight",
+                    from,
+                    to,
+                    success: (res) => {
+                        _this.setData({
+                            ['workers[' + index + '].distance']: (res.elements[0] || {}).distance
+                        })
+                    }
+                })*/
+
+            });
+            const noPos = worker => (worker.workerStatus || {}).posX && (worker.workerStatus || {}).posY;
+            const to = (res.data.result || [])
+                .filter(noPos)
+                .map(worker => worker.workerStatus.posX + ',' + worker.workerStatus.posY)
+                .join(";");
+            qqmapsdk.calculateDistance({
+                mode: "straight",
+                from,
+                to,
+                success: (res) => {
+                    console.info(res.result.elements);
+                    res.result.elements.forEach((element) => {
+                        _this.data.workers.forEach((worker, index) => {
+                            if (!noPos(worker) || worker.distance
+                                || (element.to.lat != worker.workerStatus.posX
+                                    && element.to.lng != worker.workerStatus.posY)) return;
+                            _this.setData({
+                                ['workers[' + index + '].distance']: element.distance/1000
+                            })
+                        })
+                    });
+
+                }
             })
         })
     },
