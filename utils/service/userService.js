@@ -8,6 +8,7 @@ const OPRERATOPM = {
     LIST: 4,
     GET_WORKERS: 100,
     AREA_RANGE: 101,
+    LOCAL: 1
 }
 const SERVIE = "user";
 /**
@@ -97,7 +98,7 @@ const Methods = {
         })
     },
     workerPositionUpdate() {
-        if ($Service.getUserId() != 1) return
+        if ($Service.getRole() != 1) return;
         wx.startLocationUpdateBackground({
             success: (res) => {
                 wx.offLocationChange(res => {
@@ -113,9 +114,21 @@ const Methods = {
                         wx.offLocationChange();
                         console.info(res)
                         isOn = false;
+                        $Service.post("userOperRecord", null, [OPRERATOPM.LOCAL, {
+                            id: $Service.getUserId(),
+                            workerStatus: {
+                                posX: res.latitude,
+                                posY: res.longitude,
+                            },
+                        }], (res) => {
+
+                        }, (res) => {
+
+                        })
                     });
                 };
-                setInterval(fn, 10 * 60 * 1000)
+                setInterval(fn, 10 * 60 * 1000);
+                fn();
             },
             fail: (res) => {
                 console.info(res)

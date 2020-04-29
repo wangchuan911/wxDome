@@ -279,6 +279,8 @@ Page({
                     $Utils.unlockUI(_this, 'loading.submitBut')
                     _this.initCircle();
                 }
+                //施工人员位置获取
+                $UserService.workerPositionUpdate()
                 const car = {};
                 if ((success.cars || []).length > 0) {
                     const carConfig = success.cars[0];
