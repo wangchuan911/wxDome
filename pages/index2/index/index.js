@@ -144,17 +144,17 @@ Page({
                     showModal = true;
                     errorMsg.title = '服务异常';
                     errorMsg.content = '位置获取失败';
-                    errorMsg.okFunction = function () {
+                    errorMsg.okFunction = (e) => {
                         _this.data.state.freshView = true;
                         $Utils.getPositionAuth().then(value => _this.onLoad()).catch(reason1 => {
-                            errorCallBack(ERROR(ERROR.LOCATION_FAIL_REJECT))
+                            errorCallBack(ERROR(ERROR.LOCATION_FAIL_REJECT, reason1))
                         });
                     }
                     break;
                 case ERROR.LOCATION_FAIL:
                     _this.data.state.freshView = true;
                     $Utils.getPositionAuth().then(value => _this.onLoad()).catch(reason1 => {
-                        errorCallBack(ERROR(ERROR.LOCATION_FAIL_REJECT))
+                        errorCallBack(ERROR(ERROR.LOCATION_FAIL_REJECT, reason1))
                     });
                     break;
                 case ERROR.OUT_SERVICE_RANGE:
@@ -297,7 +297,7 @@ Page({
         const _this = this;
         _this.setData({
             ["serviceType"]: $PubConst.optionTaches,
-            ['submitData.value10']: $CouponService.realCost($PubConst.optionTaches.filter(value => value.checked).map(value => value.cost).reduce((previousValue, currentValue) => previousValue += currentValue), _this.data.selectedCoupon),
+            ['submitData.value10']: $CouponService.realCost($Utils.costCompute($PubConst.optionTaches), _this.data.selectedCoupon),
         })
     }, initMap: function () {
         const _this = this;
@@ -897,7 +897,7 @@ Page({
         }
         _this.setData({
             ['serviceType']: _this.data.serviceType,
-            ['submitData.value10']: $CouponService.realCost(_this.data.serviceType.filter(value => value.checked).map(value => value.cost).reduce((previousValue, currentValue) => previousValue += currentValue), _this.data.selectedCoupon),
+            ['submitData.value10']: $CouponService.realCost($Utils.costCompute(_this.data.serviceType), _this.data.selectedCoupon),
         })
         //提交赋值
         this.data.serviceType.forEach(value => {

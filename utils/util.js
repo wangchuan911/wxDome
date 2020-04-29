@@ -176,18 +176,23 @@ const text2Canvas = (title, text, option) => {
     }
     return {wxml, style}
 }
-
+const costCompute = (serverTempate) => {
+    if ((serverTempate || []).length == 0)
+        return '服务无效';
+    return serverTempate.filter(value => value.checked).map(value => value.cost).reduce((previousValue, currentValue) => previousValue += currentValue)
+}
 module.exports = {
-    formatTime: formatTime,
-    getDate: getDate,
-    getPositionAuth: getPositionAuth,
-    getDatePicker: getDatePicker,
-    getPickerDate: getPickerDate,
-    UILock: UILock,
-    lockUI: lockUI,
-    unlockUI: unlockUI,
-    isLock: isLock,
-    setOneData: setOneData,
-    getDatePickerHour: getDatePickerHour,
-    text2Canvas: text2Canvas
+    formatTime,
+    getDate,
+    getPositionAuth,
+    getDatePicker,
+    getPickerDate,
+    UILock,
+    lockUI,
+    unlockUI,
+    isLock,
+    setOneData,
+    getDatePickerHour,
+    text2Canvas,
+    costCompute
 }

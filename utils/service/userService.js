@@ -40,7 +40,7 @@ const Methods = {
     getWorkers: function (data, success, error) {
         $Service.post(SERVIE, null, [OPRERATOPM.GET_WORKERS, {
             orderId: data.orderId,
-            orderControlPerson:$Service.getUserId()
+            orderControlPerson: $Service.getUserId()
         }], function (res) {
             success(res)
         }, function (res) {
@@ -95,6 +95,32 @@ const Methods = {
                 resolve({})
             }
         })
+    },
+    workerPositionUpdate() {
+        if ($Service.getUserId() != 1) return
+        wx.startLocationUpdateBackground({
+            success: (res) => {
+                wx.offLocationChange(res => {
+                    console.info(res);
+                });
+                let isOn = false;
+                const fn = res => {
+                    if (isOn) return;
+                    isOn = true;
+                    console.info(res);
+                    wx.offLocationChange();
+                    wx.onLocationChange(res => {
+                        wx.offLocationChange();
+                        console.info(res)
+                        isOn = false;
+                    });
+                };
+                setInterval(fn, 10 * 60 * 1000)
+            },
+            fail: (res) => {
+                console.info(res)
+            },
+        });
     }
 }
 

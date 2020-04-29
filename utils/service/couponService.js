@@ -29,6 +29,7 @@ const Methods = {
         return newCouponVO
     },
     realCost(cost, newCouponVO) {
+        if (isNaN(cost)) return cost;
         if (newCouponVO != null) {
             switch (newCouponVO.type) {
                 case 1:
