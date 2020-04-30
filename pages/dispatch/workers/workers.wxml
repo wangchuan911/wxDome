@@ -3,18 +3,24 @@
     <i-cell title="{{worker.name}}" data-idx="{{index}}" is-link wx:for="{{workers}}" wx:for-index="index"
             wx:for-item="worker" wx:key="{{index}}" bindtap="dispatchBut">
         <view slot='footer'>
-            <i-tag wx:if="{{worker.orders}}" class="i-tags" name="working" type='border'>
-                当前有{{worker.orders}}张单子
+            <i-tag wx:if="{{worker.orders}}" class="i-tags" name="working" type='border' color="red">
+                <span style="font-size: 30px">{{worker.orders}}</span>张未完成
             </i-tag>
-            <i-tag wx:else class="i-tags" name="free" type='border'>
+            <i-tag wx:else class="i-tags" name="free" type='border' color="green">
                 空闲
             </i-tag>
-            <i-tag wx:if="{{worker.distance!=null}}" class="i-tags" name="distance" type='border'>
-                距离{{worker.distance}}公里
+            <block wx:if="{{worker.distance!=null}}">
+                <i-tag class="i-tags" name="distance" type='border' color="blue">
+                    距离{{worker.distance}}公里
+                </i-tag>
+                <i-tag class="i-tags" name="distance" type='border'>
+                    {{worker.lastPosTime.long}}{{worker.lastPosTime.suffix}}前
+                </i-tag>
+            </block>
+            <i-tag wx:else class="i-tags" name="noDistance" type='border' color="red">
+                定位失败
             </i-tag>
-            <i-tag wx:else class="i-tags" name="noDistance" type='border'>
-                获取距离失败
-            </i-tag>
+
         </view>
     </i-cell>
 </i-cell-group>

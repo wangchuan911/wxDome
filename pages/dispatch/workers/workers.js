@@ -36,6 +36,22 @@ Page({
      */
     onShow: function () {
         const _this = this;
+        const getTimeLong = (mileSeccend) => {
+            const arr = [[1000, '秒'], [60, '分'], [60, '时'], [24, '天']]
+            let long = (new Date().valueOf() - mileSeccend);
+            let suffix;
+            for (let i = 0; i < arr.length; i++) {
+                if (long > arr[i][0]) {
+                    long /= arr[i][0];
+                    suffix = arr[i][1];
+                    continue;
+                }
+                break;
+            }
+            long = parseInt(long);
+            return {long, suffix}
+        }
+
         $UserService.getWorkers({orderId: _this.data.order.orderId}, function (res) {
             _this.setData({
                 ['workers']: res.data.result
@@ -43,9 +59,10 @@ Page({
             const from = _this.data.order.latitude + ',' + _this.data.order.longitude;
             (res.data.result || []).forEach((worker, index) => {
                 if (!worker.workerStatus) return
-
+                const key = 'workers[' + index + ']';
                 _this.setData({
-                    ['workers[' + index + '].orders']: worker.workerStatus.orders
+                    [key + '.orders']: worker.workerStatus.orders,
+                    [key + '.lastPosTime']: getTimeLong(worker.workerStatus.lastPosDate)
                 })
                 /*const to = worker.workerStatus.posX + ',' + worker.workerStatus.posY
                 qqmapsdk.calculateDistance({
@@ -77,13 +94,13 @@ Page({
                                 || (element.to.lat != worker.workerStatus.posX
                                     && element.to.lng != worker.workerStatus.posY)) return;
                             _this.setData({
-                                ['workers[' + index + '].distance']: element.distance/1000
+                                ['workers[' + index + '].distance']: (element.distance / 1000).toFixed(2)
                             })
                         })
                     });
 
                 }
-            })
+            });
         })
     },
 
