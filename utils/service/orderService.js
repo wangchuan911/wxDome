@@ -151,8 +151,8 @@ const Methods = {
                     .filter(value => res.indexOf(value) < 0)
                     .map(value => $PubConst.customer.stepMap[value].tacheName).join(",");
             })(data.passTache ? data.passTache.split(',') : []) || ""
-        }
-        if (data.pictureVOS || [] > 0) {
+        };
+        /*if (data.pictureVOS || [] > 0) {
             let pic;
             for (let idx in data.pictureVOS) {
                 pic = data.pictureVOS[idx];
@@ -170,10 +170,21 @@ const Methods = {
                 object["imgs" + picId] = names;
                 names.push("https://" + $Service.getUrl("PIC") + "/" + pic.name);
             }
-        }
-        const state = $PubConst.customer.step1.find(value => {
-            return value.id == data.tacheId
+        }*/
+        (data.pictureVOS || []).forEach(pic => {
+            let picId = ($PubConst.customer.step1.find(value => {
+                //找到当前主环节，或子环节的图片
+                if (pic.tacheId == value.id) {
+                    return true;
+                } else {
+                    return value.subTaches.indexOf(pic.tacheId) >= 0;
+                }
+            }) || {}).id || pic.tacheId;
+            let names = object["imgs" + picId] || [];
+            object["imgs" + picId] = names;
+            names.push("https://" + $Service.getUrl("PIC") + "/" + pic.name);
         })
+        const state = $PubConst.customer.step1.find(value => value.id == data.tacheId) || {};
         object.stateId = data.tacheId;
         object.state = state.state;
         object.code = state.code;
