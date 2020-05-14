@@ -98,12 +98,10 @@ const methods = {
     post: function () {
         const datas = [];
         const func = [];
-        let functionStart = false;
         for (let i = 0; i < arguments.length; i++) {
-            if (typeof (arguments[i]) == "function" || functionStart) {
+            if (typeof (arguments[i]) == "function") {
                 func.push(arguments[i]);
-                functionStart = true;
-            } else if (func.length == 0) {
+            } else {
                 datas.push(arguments[i])
             }
         }
@@ -111,14 +109,20 @@ const methods = {
             A1: datas[0],
             A2: datas[1],
         }
+        const option = datas[3] || {};
+        const header = (option.header || {});
+        header['content-type'] = 'application/json' // 默认值
+        //分页
+        if (option.page) {
+            params.page = option.page.index + "," + option.page.size
+        }
+
         wx.request({
             url: 'https://' + URLS.COMMON + createPathParams(params), //仅为示例，并非真实的接口地址
             data: datas[2],
             method: "POST",
-            header: {
-                'content-type': 'application/json' // 默认值
-            },
-            success: function (value) {
+            header: header,
+            success: (value) => {
                 const data = value.data
                 if (data.error || data.exception) {
                     if (isFunction(func[1])) {
@@ -141,19 +145,28 @@ const methods = {
             complete: func[2]
         })
     }, get: function () {
-        const args = arguments;
+        const datas = [];
+        const func = [];
+        for (let i = 0; i < arguments.length; i++) {
+            if (typeof (arguments[i]) == "function") {
+                func.push(arguments[i]);
+            } else {
+                datas.push(arguments[i])
+            }
+        }
+        const option = datas[1] || {};
+        const header = (option.header || {});
+        header['content-type'] = 'application/json' // 默认值
         wx.request({
             url: 'https://' + URLS.COMMON, //仅为示例，并非真实的接口地址
-            data: args[0],
+            data: datas[0],
             method: "GET",
-            header: {
-                'content-type': 'application/json' // 默认值
-            },
-            success: function (value) {
+            header: header,
+            success: (value) => {
                 const data = value.data
                 if (data.error || data.exception) {
-                    if (isFunction(args[2])) {
-                        args[2](value)
+                    if (isFunction(func[1])) {
+                        func[1](value)
                     } else {
                         wx.showToast({
                             title: '服务异常请重试！',
@@ -162,12 +175,12 @@ const methods = {
                             mask: true,
                         })
                     }
-                } else if (args[1]) {
-                    args[1](value);
+                } else if (func[0]) {
+                    func[0](value);
                 }
             },
-            fail: args[2],
-            complete: args[3]
+            fail: func[1],
+            complete: func[2]
         })
     }
     , login: function (success, error) {

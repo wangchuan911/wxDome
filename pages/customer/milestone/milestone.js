@@ -100,7 +100,11 @@ Page({
                 name: "服务类型",
             },
         ],
-        steps: $PubConst.customer.step1
+        steps: $PubConst.customer.step1,
+        page: {
+            index: 1,
+            size: 5,
+        }
     },
 
     /**
@@ -130,41 +134,10 @@ Page({
         // eventChannel.emit('acceptDataFromOpenedPage', { data: 'test' });
         // eventChannel.emit('someEvent', { data: 'test' });
         // 监听acceptDataFromOpenerPage事件，获取上一页面通过eventChannel传送到当前页面的数据
-        eventChannel.on('acceptDataFromOpenerPage', function (data) {
-            const param = {},
-                role = $Service.getRole();
-            switch (data.mode) {
-                case 0:
-                    switch (role) {
-                        case 0:
-                            param.custId = $Service.getUserId()
-                            break;
-                        case 1:
-                            param.orderAppointPerson = $Service.getUserId()
-                            break;
-                        default:
-                            wx.navigateBack({})
-                            return;
-                    }
-                    break;
-                case 1:
-                    param.custId = $Service.getUserId();
-                    param.orderState = 2;
-                default:
-                    break
-            }
-            if (Object.keys(param) == 0) return;
-            $OrderService.getOrders(param, function (res) {
-                let orders = res.data.result || [];
-                for (let i = 0; i < orders.length; i++) {
-                    orders[i] = $OrderService.modelChange(orders[i])
-                    orders[i].isCustOrder = (role == 0)
-                    orders[i].isWorkOrder = (role == 1)
-                }
-                _this.setData({
-                    ['orders']: orders
-                })
-            })
+        eventChannel.on('acceptDataFromOpenerPage', data => {
+            _this.data.page.index = 1;
+            _this.listOrders(data.mode);
+            _this.data.queryMode = data.mode;
         });
 
         const steps = [];
@@ -175,7 +148,55 @@ Page({
             steps: steps.reverse()
         })
     },
-
+    listOrders(mode) {
+        const param = {},
+            role = $Service.getRole();
+        switch (mode) {
+            case 0:
+                switch (role) {
+                    case 0:
+                        param.custId = $Service.getUserId()
+                        break;
+                    case 1:
+                        param.orderAppointPerson = $Service.getUserId()
+                        break;
+                    default:
+                        wx.navigateBack({})
+                        return;
+                }
+                break;
+            case 1:
+                param.custId = $Service.getUserId();
+                param.orderState = 2;
+            default:
+                break
+        }
+        if (Object.keys(param) == 0) return;
+        param.page = this.data.page;
+        $OrderService.getOrders(param, (res) => {
+            /*let orders = res.data.result || [];
+            for (let i = 0; i < orders.length; i++) {
+                orders[i] = $OrderService.modelChange(orders[i])
+                orders[i].isCustOrder = (role == 0)
+                orders[i].isWorkOrder = (role == 1)
+            }
+            this.setData({
+                ['orders']: orders
+            })*/
+            let orders = this.data.orders, oldLength = orders.length;
+            orders.push(...(res.data.result || []).map(order => {
+                let obj = $OrderService.modelChange(order);
+                obj.isCustOrder = (role == 0);
+                obj.isWorkOrder = (role == 1);
+                return obj;
+            }));
+            this.setData({
+                ['orders']: orders
+            });
+            if (oldLength != orders.length)
+                this.data.page.index++;
+        })
+    },
     /**
      * 生命周期函数--监听页面初次渲染完成
      */
@@ -229,7 +250,8 @@ Page({
      * 页面上拉触底事件的处理函数
      */
     onReachBottom: function () {
-
+        if (!this.data.queryMode) return;
+        this.listOrders(this.data.queryMode)
     },
 
     /**
