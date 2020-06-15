@@ -1,4 +1,6 @@
 // pages/customer/register/register.js
+const $Service = require('../../../utils/service/service'),
+    $UserService = require('../../../utils/service/userService');
 Page({
 
     /**
@@ -10,7 +12,10 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-        console.info(options)
+        console.info(options);
+        $Service.login(success => {
+
+        })
     },
 
     /**
