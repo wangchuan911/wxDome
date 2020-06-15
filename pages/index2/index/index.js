@@ -60,7 +60,7 @@ Page({
             height: 50,
             callout: {
                 color: "red",
-                content: '详细',
+                content: '你的位置',
                 fontSize: 20,
                 borderWidth: 2,
                 padding: 10,
@@ -268,7 +268,8 @@ Page({
                     order.allOrderCount = work.all_nums || 0;
                     order.orderCount = work.nums || 0;
                     _this.setData({
-                        ['progressShow.progress']: order.orderCount == 0 ? 1 : parseInt((order.orderCount / order.allOrderCount) * 100)
+                        ['progressShow.progress']: order.orderCount == 0 ? 1 : parseInt((order.orderCount / order.allOrderCount) * 100),
+                        ['markers']: $Service.freshMarkers(_this.data.markers, work.pos)
                     })
                 }
                 if (roloId > 0 || (((order.allOrderCount || 0) - (order.orderCount || 0)) > 0)) {
@@ -303,6 +304,7 @@ Page({
         })
     }, initMap: function () {
         const _this = this;
+        this.setData({["markers"]: $Service.freshMarkers(this.data.markers)});
         return new Promise((resolve, reject) => {
             wx.getLocation({
                 type: 'gcj02',
@@ -380,6 +382,7 @@ Page({
             $CouponService.getCoupons(success => {
                 this.couponInit(success.data.result)
             })
+            this.initMap()
 
         }
 
@@ -589,6 +592,7 @@ Page({
                     _this.initCircle();
                     _this.setData({
                         ['progressShow.progress']: orderCounts.all_nums > 0 ? parseInt(((orderCounts.nums || 0) / orderCounts.all_nums) * 100) : 1,
+                        ['markers']: $Service.freshMarkers(_this.data.markers, orderCounts.pos)
                     });
                     lock.unlock();
                     _this.couponInit(_this.data.coupons.filter(value => value.id != _this.data.selectedCoupon.id));

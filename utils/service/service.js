@@ -306,6 +306,29 @@ const methods = {
                 res.eventChannel.emit('acceptDataFromOpenerPage', data)
             },
         })
+    },
+    freshMarkers(markers, orderPositions) {
+        markers.splice(1, markers.length - 1);
+        (orderPositions || []).forEach(value => {
+            markers.push({
+                //iconPath: "/resources/others.png",
+                id: 0,
+                latitude: value.pos_x,
+                longitude: value.pos_y,
+                width: 50,
+                height: 50,
+                callout: {
+                    //color: "red",
+                    content: value.order_code,
+                    fontSize: 20,
+                    borderWidth: 2,
+                    padding: 10,
+                    borderRadius: 20,
+                    textAlign: "center"
+                }
+            });
+        })
+        return markers;
     }
 }
 module.exports = methods
