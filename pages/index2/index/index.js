@@ -1019,19 +1019,21 @@ Page({
                 break
         }
     },
-    couponInit(coupons) {
-        let idx;
-        this.data.coupons = coupons || [];
-        const coupon = this.data.coupons.find(coupon => coupon.lv == 1);
-        for (idx in this.data.tags) {
-            if (this.data.tags[idx].id == 'coupon') {
+    couponInit(newCoupons) {
+        let idx = -1;
+        const coupons = (this.data.coupons = newCoupons || []),
+            coupon = coupons.find(coupon => coupon.lv == 1);
+        this.data.tags.find((value, index) => {
+            if (value.id == 'coupon') {
+                idx = index;
                 this.setData({
-                    ["tags[" + idx + "].hidden"]: false,
+                    ["tags[" + idx + "].hidden"]: coupons.length == 0,
                     ["tags[" + idx + "].checked"]: coupon != null
                 });
-                break
+                return true;
             }
-        }
+            return false;
+        })
         this.setData({
             ['selectedCoupon']: (idx >= 0 && coupon != null) ? $CouponService.modalChange(coupon) : null
         })
