@@ -146,14 +146,14 @@ Page({
                     errorMsg.content = '位置获取失败';
                     errorMsg.okFunction = (e) => {
                         _this.data.state.freshView = true;
-                        $Utils.getPositionAuth().then(value => _this.onLoad()).catch(reason1 => {
+                        $Utils.getPositionAuth().then(value => _this.onLoad(options)).catch(reason1 => {
                             errorCallBack(ERROR(ERROR.LOCATION_FAIL_REJECT, reason1))
                         });
                     }
                     break;
                 case ERROR.LOCATION_FAIL:
                     _this.data.state.freshView = true;
-                    $Utils.getPositionAuth().then(value => _this.onLoad()).catch(reason1 => {
+                    $Utils.getPositionAuth().then(value => _this.onLoad(options)).catch(reason1 => {
                         errorCallBack(ERROR(ERROR.LOCATION_FAIL_REJECT, reason1))
                     });
                     break;
@@ -195,13 +195,13 @@ Page({
                                                     url: "/pages/home/garage/garage"
                                                 })
                                             } else {
-                                                _this.onLoad(e)
+                                                _this.onLoad(options)
                                             }
                                         }
                                     })
                                     break
                                 default:
-                                    _this.onLoad(e);
+                                    _this.onLoad(options);
 
                             }
                         }).catch(reason => {
@@ -248,6 +248,8 @@ Page({
             return _this.areaRange();
         }).then(value => {
             _this.setSpin();
+        }).then(valie => {
+            $Service.doOtherThings(options)
         }).catch(errorCallBack)
 
     },
