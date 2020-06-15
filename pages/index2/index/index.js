@@ -248,8 +248,6 @@ Page({
             return _this.areaRange();
         }).then(value => {
             _this.setSpin();
-        }).then(valie => {
-            $Service.doOtherThings(options)
         }).catch(errorCallBack)
 
     },
