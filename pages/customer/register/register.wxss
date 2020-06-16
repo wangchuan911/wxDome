@@ -1,1 +1,29 @@
 /* pages/customer/register/register.wxss */
+.userinfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.userinfo-avatar {
+    width: 128rpx;
+    height: 128rpx;
+    margin: 20rpx;
+    border-radius: 50%;
+}
+
+.userinfo-nickName {
+    /*width: 128rpx;*/
+    height: 128rpx;
+    margin: 20rpx;
+    color: #aaa;
+    display: block;
+    line-height: 64px;
+    font-size: 20px;
+}
+
+.usermotto {
+    margin-top: 200px;
+}
+
+

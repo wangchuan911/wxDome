@@ -1,2 +1,30 @@
 <!--pages/customer/register/register.wxml-->
-<text>pages/customer/register/register.wxml</text>
+<block wx:if="{{roleMode>=0 && userInfo!=null}}">
+    <i-row>
+        <i-col span="6">
+            <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}"
+                   mode="cover"></image>
+        </i-col>
+        <i-col span="6">
+            <p class="userinfo-nickName">{{userInfo.nickName}}</p>
+        </i-col>
+    </i-row>
+    <i-panel title="请填写信息">
+        <i-input value="{{ form.realName }}" title="真实姓名"/>
+        <i-input placeholder="不用填写，点击提交会自动获取" title="手机号" disabled />
+    </i-panel>
+    <i-button loading="{{UI_LOCK_STATE['loading.submitBut']}}"
+              bind:getphonenumber="submitBut"
+              open-type="getPhoneNumber"
+              type="primary" shape="circle" size="small">
+        提交
+    </i-button>
+</block>
+<block wx:else>
+    <i-row>
+        <i-button bindgetuserinfo="login" type="success" shape="circle" size="large" open-type="getUserInfo">
+            <i-icon class="userinfo-avatar" type="emoji_fill" size='40'/>
+            微信授权点击登陆
+        </i-button>
+    </i-row>
+</block>
