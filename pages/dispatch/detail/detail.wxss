@@ -3,3 +3,6 @@
     padding-left: 15px;
     padding-right: 15px;
 }
+.cust-cell{
+    padding: 6px 15px!important;
+}

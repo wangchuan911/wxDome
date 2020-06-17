@@ -1,14 +1,14 @@
 <!--pages/dispatch/detail/detail.wxml-->
 <i-panel title="客户信息">
     <i-cell-group i-class="i-group">
-        <i-cell title="车辆位置">
-            <view slot="footer" bindtap="openMapBut">
-                <span>{{order.addr}}</span>
+        <i-cell title="车辆位置" i-class="cust-cell">
+            <view slot="footer" bindtap="openMapBut" style="display:flex">
+                <div style='word-break:break-all;width:65vw;display: block;line-height: 28px;'>{{order.addr}}</div>
                 <i-icon size="28" type="coordinates_fill"/>
             </view>
         </i-cell>
-        <i-cell title="车辆信息">
-            <view slot="footer">
+        <i-cell title="车辆信息" i-class="cust-cell">
+            <view slot="footer" style="width:74vw">
                 <i-tag class="i-tags" name="card-no" color="green" type='border'>
                     {{order.carNo}}
                 </i-tag>
