@@ -17,7 +17,9 @@
     "pages/customer/operation/feedback/feedback",
     "pages/common/car/typeSelector/index",
     "pages/index2/web/web",
-    "pages/home/coupon/coupon"
+    "pages/home/coupon/coupon",
+    "pages/customer/invite/invite",
+    "pages/customer/register/register"
   ],
   "window": {
     "backgroundTextStyle": "dark",
