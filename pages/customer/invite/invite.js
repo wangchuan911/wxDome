@@ -1,6 +1,6 @@
 // pages/customer/invite/invite.js
 const $InviteCodeService = require('../../../utils/service/inviteCodeService'),
-    $UserService = require('../../../utils/service/userService'),
+    //$UserService = require('../../../utils/service/userService'),
     $Utils = require('../../../utils/util'),
     {$Message} = require('../../../ui/iview/base/index');
 Page({
@@ -10,14 +10,8 @@ Page({
      */
     data: {
         inviteType: {
-            types: [{
-                id: "W",
-                name: '服务人员',
-            }, {
-                id: "V",
-                name: 'VIP客户'
-            }],
-            current: '服务人员',
+            types: $InviteCodeService.TYPES,
+            current: $InviteCodeService.TYPES[0].name,
         },
         inviteModal: {
             visible: false,
@@ -89,10 +83,17 @@ Page({
         $InviteCodeService.addCode({
             type: _this.data.inviteType.types.find(value => value.name == _this.data.inviteType.current).id
         }, success => {
-            _this.setData({
-                ["inviteModal.visible"]: true,
-                ["inviteModal.inviteCode"]: success.data.result.code
-            });
+            let code = ((res) => $InviteCodeService.CODE_PREFIX[res.type] + res.code)(success.data.result);
+            if (code) {
+                _this.setData({
+                    ["inviteModal.visible"]: true,
+                    ["inviteModal.inviteCode"]: code
+                });
+            } else {
+                $Message({
+                    content: "生成失败"
+                });
+            }
             uiLock.unlock();
         }, fail => {
             uiLock.unlock();
