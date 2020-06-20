@@ -23,7 +23,7 @@ const OPRERATOPM = {
 const Methods = {
     addCode: function (data, success, error) {
         $Service.post(SERVIE, null, [OPRERATOPM.ADD, {
-            userId: wx.getStorageSync("openId"),
+            userId: $Service.getUserId(),
             type: data.type
         }], function (res) {
             success(res)

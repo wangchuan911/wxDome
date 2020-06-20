@@ -40,7 +40,7 @@ const Methods = {
     },
     getCars: function (data, success, error) {
         $Service.post(SERVIE, null, [OPRERATOPM.LIST, {
-            userId: wx.getStorageSync("openId"),
+            userId: $Service.getUserId(),
             brand: data.brand,
             lisence: data.lisence,
             color: data.color,
@@ -53,7 +53,7 @@ const Methods = {
     },
     setDefault: function (data, success, error) {
         $Service.post(SERVIE, null, [OPRERATOPM.MODIFY, {
-            userId: wx.getStorageSync("openId"),
+            userId: $Service.getUserId(),
             lisence: data.lisence,
         }], function (res) {
             success(res)
@@ -63,7 +63,7 @@ const Methods = {
     },
     delCar: function (data, success, error) {
         $Service.post(SERVIE, null, [OPRERATOPM.DELETE, {
-            userId: wx.getStorageSync("openId"),
+            userId: $Service.getUserId(),
             lisence: data.lisence,
         }], function (res) {
             success(res)
