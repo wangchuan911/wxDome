@@ -2,7 +2,8 @@
 const $Service = require('../../../utils/service/service'),
     $UserService = require('../../../utils/service/userService'),
     app = getApp(),
-    $Utils = require('../../../utils/util');
+    $Utils = require('../../../utils/util'),
+    {$Message} = require('../../../ui/iview/base/index');
 Page({
 
     /**
@@ -43,14 +44,23 @@ Page({
                 }
             })
         }
-        console.info(options);
         $Service.login(success => {
             console.info($Service.getRole());
             this.setData({
                 ["roleMode"]: $Service.getRole(),
                 ["maxRole"]: $Service.getMaxRole()
             });
-        })
+            console.info(options);
+        });
+
+        this.configDeal(options).then(value => {
+
+        }).catch(reason => {
+            console.error(reason)
+            $Message({
+                content: reason, type: 'error'
+            });
+        });
     },
 
     /**
@@ -113,6 +123,14 @@ Page({
             uiLock.unlock()
             return;
         }
+        if (!(this.data.form.wxPubAccUserId && this.data.form.inviteCode)) {
+            $Message({
+                content: "参数异常，请重新进入页面", type: 'error'
+            });
+            uiLock.unlock()
+            return;
+        }
+
     },
     login: function (e) {
         console.log(e)
@@ -130,13 +148,22 @@ Page({
                 ["roleMode"]: $Service.getRole(),
                 ["maxRole"]: $Service.getMaxRole()
             });
-        }).catch(reason => {
-            console.error(reason)
-            wx.showToast({
-                title: '登陆失败',
-                image: '/',
-                duration: 2000
-            })
         })
+    },
+    configDeal(config) {
+        const _this = this;
+        return new Promise((resolve, reject) => {
+            const wxPubAccUserId = config.my, inviteCode = config.invite;
+            if (wxPubAccUserId && inviteCode) {
+                _this.setData({
+                    ["form.wxPubAccUserId"]: wxPubAccUserId,
+                    ["form.inviteCode"]: inviteCode
+                });
+                resolve();
+            } else {
+                reject("参数异常，请重新进入页面");
+            }
+        })
+
     }
 })

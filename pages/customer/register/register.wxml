@@ -1,4 +1,5 @@
 <!--pages/customer/register/register.wxml-->
+<i-message id="message"/>
 <block wx:if="{{roleMode>=0 && userInfo!=null}}">
     <i-row>
         <i-col span="6">

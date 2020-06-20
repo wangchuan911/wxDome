@@ -6,6 +6,7 @@
     "i-cell": "/ui/iview/cell/index",
     "i-button": "/ui/iview/button/index",
     "i-panel": "/ui/iview/panel/index",
-    "i-input": "/ui/iview/input/index"
+    "i-input": "/ui/iview/input/index",
+    "i-message": "/ui/iview/message/index"
   }
 }
