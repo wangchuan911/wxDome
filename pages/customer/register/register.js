@@ -3,7 +3,8 @@ const $Service = require('../../../utils/service/service'),
     $UserService = require('../../../utils/service/userService'),
     app = getApp(),
     $Utils = require('../../../utils/util'),
-    {$Message} = require('../../../ui/iview/base/index');
+    {$Message} = require('../../../ui/iview/base/index'),
+    $InviteCodeService = require('../../../utils/service/inviteCodeService');
 Page({
 
     /**
@@ -123,13 +124,20 @@ Page({
             uiLock.unlock()
             return;
         }
-        if (!(this.data.form.wxPubAccUserId && this.data.form.inviteCode)) {
+        if (!(this.data.form.pubAccUserId && this.data.form.inviteCode)) {
             $Message({
                 content: "参数异常，请重新进入页面", type: 'error'
             });
             uiLock.unlock()
             return;
         }
+        $InviteCodeService.useCode({
+            phoneEncryptedIv,
+            phoneEncryptedData,
+            code: _this.data.form.inviteCode,
+            userName: _this.data.form.realName,
+            pubAccUserId: _this.data.form.pubAccUserId,
+        })
 
     },
     login: function (e) {
@@ -137,7 +145,7 @@ Page({
         app.globalData.userInfo = e.detail.userInfo
         this.setData({
             userInfo: e.detail.userInfo,
-            hasUserInfo: true
+            hasUserInfo: true,
         });
         $UserService.checkAndCreateUser({
             name: e.detail.userInfo.nickName,
@@ -156,7 +164,7 @@ Page({
             const wxPubAccUserId = config.my, inviteCode = config.invite;
             if (wxPubAccUserId && inviteCode) {
                 _this.setData({
-                    ["form.wxPubAccUserId"]: wxPubAccUserId,
+                    ["form.pubAccUserId"]: wxPubAccUserId,
                     ["form.inviteCode"]: inviteCode
                 });
                 resolve();

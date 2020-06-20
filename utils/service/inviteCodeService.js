@@ -6,6 +6,7 @@ const OPRERATOPM = {
         DELETE: 1,
         GET: 3,
         LIST: 4,
+        USE_CODE: 100,
     },
     SERVIE = "inviteCode",
     CODE_PREFIX = {W: "JOINUS@", V: "VIP@"},
@@ -21,7 +22,7 @@ const OPRERATOPM = {
  * */
 
 const Methods = {
-    addCode: function (data, success, error) {
+    addCode(data, success, error) {
         $Service.post(SERVIE, null, [OPRERATOPM.ADD, {
             userId: $Service.getUserId(),
             type: data.type
@@ -32,7 +33,22 @@ const Methods = {
         })
     },
     TYPES,
-    CODE_PREFIX
+    CODE_PREFIX,
+    useCode(data, success, error) {
+        $Service.post(SERVIE, null, [OPRERATOPM.USE_CODE, {
+            userId: $Service.getUserId(),
+            code: data.code,
+            phoneEncryptedData: data.phoneEncryptedData,
+            phoneEncryptedIv: data.phoneEncryptedIv,
+            userEncryptedData: data.userEncryptedData,
+            userEncryptedIv: data.userEncryptedIv,
+            pubAccUserId: data.pubAccUserId
+        }], function (res) {
+            success(res)
+        }, function (res) {
+            error(res)
+        })
+    }
 }
 
 
