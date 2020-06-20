@@ -329,22 +329,6 @@ const methods = {
             });
         })
         return markers;
-    },
-    doOtherThings(options) {
-        if (!options) return false;
-        const getParams = (params) => {
-            return Object.keys(params).filter(value => value != 'code').map(value => value + '=' + params[value]).join("&");
-        }
-        switch (options.code) {
-            case "joinUs": {
-                wx.redirectTo({
-                    url: '/pages/customer/register/register?' + getParams(options)
-                });
-                return true;
-            }
-            default:
-                return false;
-        }
     }
 }
 module.exports = methods

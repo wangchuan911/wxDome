@@ -1,2 +1,26 @@
 <!--pages/customer/invite/invite.wxml-->
-<text>pages/customer/invite/invite.wxml</text>
+<i-message id="message"/>
+<i-panel title="创建邀请码">
+    <i-radio-group current="{{inviteType.current}}" bindchange="inviteTypeChange">
+        <i-radio wx:for="{{inviteType.types}}" wx:key="{{item.id}}" value="{{item.name}}">
+        </i-radio>
+    </i-radio-group>
+    <i-button loading="{{UI_LOCK_STATE['loading.submitBut']}}"
+              bind:tap="submitBut"
+              type="primary" shape="circle" size="small">
+        创建
+    </i-button>
+</i-panel>
+<i-modal title="邀请码" visible="{{ inviteModal.visible }}" bind:ok="inviteCodeOkBut" show-cancel="{{false}}">
+    <i-row>
+        <i-col span="18">
+            <i-input value="{{inviteModal.inviteCode}}"></i-input>
+        </i-col>
+        <i-col span="6">
+            <i-button bind:tap="copyBut"
+                      type="primary" shape="circle" size="small">
+                复制
+            </i-button>
+        </i-col>
+    </i-row>
+</i-modal>

@@ -1,66 +1,116 @@
 // pages/customer/invite/invite.js
+const $Service = require('../../../utils/service/service'),
+    $UserService = require('../../../utils/service/userService'),
+    app = getApp(),
+    $Utils = require('../../../utils/util'),
+    {$Message} = require('../../../ui/iview/base/index');
 Page({
 
-  /**
-   * 页面的初始数据
-   */
-  data: {
+    /**
+     * 页面的初始数据
+     */
+    data: {
+        inviteType: {
+            types: [{
+                id: "W",
+                name: '服务人员',
+            }, {
+                id: "V",
+                name: 'VIP客户'
+            }],
+            current: '服务人员',
+        },
+        inviteModal: {
+            visible: false,
+            inviteCode: null,
+        }
+    },
 
-  },
+    /**
+     * 生命周期函数--监听页面加载
+     */
+    onLoad(options) {
+    },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
+    /**
+     * 生命周期函数--监听页面初次渲染完成
+     */
+    onReady() {
 
-  },
+    },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
+    /**
+     * 生命周期函数--监听页面显示
+     */
+    onShow() {
 
-  },
+    },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
+    /**
+     * 生命周期函数--监听页面隐藏
+     */
+    onHide() {
 
-  },
+    },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
+    /**
+     * 生命周期函数--监听页面卸载
+     */
+    onUnload() {
 
-  },
+    },
 
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
+    /**
+     * 页面相关事件处理函数--监听用户下拉动作
+     */
+    onPullDownRefresh() {
 
-  },
+    },
 
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
+    /**
+     * 页面上拉触底事件的处理函数
+     */
+    onReachBottom() {
 
-  },
+    },
 
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
+    /**
+     * 用户点击右上角分享
+     */
+    onShareAppMessage() {
 
-  },
+    },
+    inviteTypeChange({detail = {}}) {
+        this.setData({
+            ["inviteType.current"]: detail.value
+        });
+    },
+    submitBut() {
+        const _this = this, uiLock = $Utils.lockUI(this, 'loading.submitBut');
+        _this.setData({
+            ["inviteModal.visible"]: true,
+            ["inviteModal.inviteCode"]: "xxxxxxxxx"
+        })
+        uiLock.unlock();
+    },
+    inviteCodeOkBut() {
+        const _this = this;
+        _this.setData({
+            ["inviteModal.visible"]: false,
+        })
+    },
+    copyBut() {
+        const _this = this;
+        wx.setClipboardData({
+            data: _this.data.inviteModal.inviteCode,
+            success(res) {
 
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  }
+            }, fail(res) {
+                $Message({
+                    content: "复制失败"
+                });
+                console.info(res)
+            }
+        })
+    }
 })
