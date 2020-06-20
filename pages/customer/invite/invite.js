@@ -1,7 +1,6 @@
 // pages/customer/invite/invite.js
-const $Service = require('../../../utils/service/service'),
+const $InviteCodeService = require('../../../utils/service/inviteCodeService'),
     $UserService = require('../../../utils/service/userService'),
-    app = getApp(),
     $Utils = require('../../../utils/util'),
     {$Message} = require('../../../ui/iview/base/index');
 Page({
@@ -87,11 +86,17 @@ Page({
     },
     submitBut() {
         const _this = this, uiLock = $Utils.lockUI(this, 'loading.submitBut');
-        _this.setData({
-            ["inviteModal.visible"]: true,
-            ["inviteModal.inviteCode"]: "xxxxxxxxx"
+        $InviteCodeService.addCode({
+            type: _this.data.inviteType.types.find(value => value.name == _this.data.inviteType.current).id
+        }, success => {
+            _this.setData({
+                ["inviteModal.visible"]: true,
+                ["inviteModal.inviteCode"]: success.data.result.code
+            });
+            uiLock.unlock();
+        }, fail => {
+            uiLock.unlock();
         })
-        uiLock.unlock();
     },
     inviteCodeOkBut() {
         const _this = this;
