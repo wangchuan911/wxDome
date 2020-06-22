@@ -26,17 +26,17 @@
                 bind:click="goPage">
             <i-icon slot="icon" size='24' type="success"/>
         </i-cell>
-        <i-cell title="我的优惠卷" data-page="/pages/home/coupon/coupon" data-role="0" bind:click="goPage" >
+        <i-cell title="我的优惠卷" data-page="/pages/home/coupon/coupon" data-role="0" bind:click="goPage" wx:if="{{roleMode==2}}">
             <i-icon slot="icon" size='24' type="redpacket"/>
         </i-cell>
-        <i-cell title="邀请码" data-page="/pages/customer/invite/invite" data-role="2" wx:if="roleMode==2"
+        <i-cell title="邀请码" data-page="/pages/customer/invite/invite" data-role="2" wx:if="{{roleMode==2}}"
                 bind:click="goPage">
             <i-icon slot="icon" size='24' type="flag"/>
         </i-cell>
-        <i-cell title="邀请码2" data-page="/pages/customer/register/register?code=joinUs&my=oGjJtwkRp7irPcPh5hHGNdWqYof8&invite=1" data-role="2" wx:if="roleMode==2"
+        <!--<i-cell title="邀请码2" data-page="/pages/customer/register/register?code=joinUs&my=oGjJtwkRp7irPcPh5hHGNdWqYof8&invite=1" data-role="2" wx:if="{{roleMode==2}}"
                 bind:click="goPage">
             <i-icon slot="icon" size='24' type="flag"/>
-        </i-cell>
+        </i-cell>-->
         <!-- <i-cell title="{{switchButChecked?'服务人员':'顾客'}}">
              <switch slot="footer" checked="{{switchButChecked}}" bindchange="switchBut"/>
          </i-cell>

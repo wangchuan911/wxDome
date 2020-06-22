@@ -261,6 +261,7 @@ Page({
                         }((e.currentTarget.dataset.dattype || ''), e.currentTarget.dataset.data))
                     },
                     fail: res => {
+                        console.info(res);
                         wx.showToast({
                             title: "功能即将上线！",
                             icon: 'none',

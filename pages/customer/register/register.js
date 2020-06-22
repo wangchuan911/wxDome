@@ -137,6 +137,16 @@ Page({
             code: _this.data.form.inviteCode,
             userName: _this.data.form.realName,
             pubAccUserId: _this.data.form.pubAccUserId,
+        }, success => {
+            $Message({content: "操作成功"});
+            setTimeout(success => {
+                wx.reLaunch({
+                    url: '/pages/index2/index/index'
+                })
+            }, 2000);
+        }, error => {
+            console.info(error)
+            $Message({content: error.data.exception, type: 'error'});
         })
 
     },
