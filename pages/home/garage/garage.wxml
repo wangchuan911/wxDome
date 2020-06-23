@@ -43,7 +43,7 @@
     </i-button>
 </i-panel>
 
-<i-modal title="标题" visible="{{ visible1 }}" bindclose="closeBut">
+<i-modal title="" visible="{{ visible1 }}" bindclose="closeBut">
     <i-input value="{{page.recordInfo.carNo}}" placeholder="请输入车牌号"/>
     <v-panel is-show="{{true}}" bindok="inputOk" binddelete="inputdelete" bindinputchange="inputChange"
              key-board-type="{{page.recordInfo.keyBoardType}}" backgroundColor="white"/>

@@ -48,7 +48,7 @@
                 </view>
             </i-sticky-item>
         </i-sticky>
-        <i-collapse  wx:else accordion>
+        <i-collapse wx:else accordion name="name0">
             <i-collapse-item title="{{item1.text}}"
                              wx:for="{{ carTypes}}"
                              wx:for-index="index1"
