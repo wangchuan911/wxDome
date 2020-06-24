@@ -1,5 +1,5 @@
 // pages/customer/invite/invite.js
-const $InviteCodeService = require('../../../utils/service/inviteCodeService'),
+const $InviteCodeService = require('../../../utils/service/increment/inviteCodeService'),
     //$UserService = require('../../../utils/service/userService'),
     $Utils = require('../../../utils/util'),
     {$Message} = require('../../../ui/iview/base/index');

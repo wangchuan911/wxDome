@@ -9,7 +9,7 @@ const app = getApp(),
     $Service = require('../../../utils/service/core/service'),
     $PubConst = require('../../../utils/pubConst'),
     $Utils = require('../../../utils/util'),
-    $CouponService = require('../../../utils/service/couponService'),
+    $CouponService = require('../../../utils/service/increment/couponService'),
     {$Message} = require('../../../ui/iview/base/index');
 ;
 

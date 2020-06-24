@@ -4,7 +4,7 @@ const $Service = require('../../../utils/service/core/service'),
     app = getApp(),
     $Utils = require('../../../utils/util'),
     {$Message} = require('../../../ui/iview/base/index'),
-    $InviteCodeService = require('../../../utils/service/inviteCodeService');
+    $InviteCodeService = require('../../../utils/service/increment/inviteCodeService');
 Page({
 
     /**
