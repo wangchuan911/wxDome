@@ -1,8 +1,8 @@
 // pages/home/garage/garage.js
 
 const {$Message} = require('../../../ui/iview/base/index');
-const $CarService = require('../../../utils/service/carService')
-const $UserService = require('../../../utils/service/userService')
+const $CarService = require('../../../utils/service/core/carService')
+const $UserService = require('../../../utils/service/core/userService')
 const $Util = require('../../../utils/util');
 const $PubConst = require('../../../utils/pubConst');
 Page({

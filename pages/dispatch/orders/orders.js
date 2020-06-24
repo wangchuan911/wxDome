@@ -1,7 +1,7 @@
 // pages/dispatch/orders/orders.js
-const $OrderService = require('../../../utils/service/orderService');
-const $UserService = require('../../../utils/service/userService');
-const $Service = require('../../../utils/service/service');
+const $OrderService = require('../../../utils/service/core/orderService');
+const $UserService = require('../../../utils/service/core/userService');
+const $Service = require('../../../utils/service/core/service');
 Page({
 
     /**

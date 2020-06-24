@@ -1,4 +1,4 @@
-const $Service = require('../../../utils/service/service');
+const $Service = require('../../../utils/service/core/service');
 
 const MAX_STAR_VAL = 5;
 const OPRERATOPM = {

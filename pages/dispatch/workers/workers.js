@@ -1,5 +1,5 @@
 // pages/dispatch/workers/workers.js
-const $UserService = require('../../../utils/service/userService'),
+const $UserService = require('../../../utils/service/core/userService'),
     qqmapsdk = require('../../../utils/thrid/qqmap-wx-jssdk.js');
 Page({
 

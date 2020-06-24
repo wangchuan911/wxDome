@@ -1,6 +1,7 @@
 const URLS = {
     COMMON: "hubidaauto.cn/wxApp",
-    PIC: "hubidaauto.cn/pic"
+    PIC: "hubidaauto.cn/pic",
+    MALL_PAY: "hubidaauto.cn/wxMallPay",
 }
 const OPRERATOPM = {
     ADD: 0,
@@ -158,7 +159,7 @@ const methods = {
         const header = (option.header || {});
         header['content-type'] = 'application/json' // 默认值
         wx.request({
-            url: 'https://' + URLS.COMMON, //仅为示例，并非真实的接口地址
+            url: 'https://' + option.URL_CODE ? URLS[option.URL_CODE] : URLS.COMMON, //仅为示例，并非真实的接口地址
             data: datas[0],
             method: "GET",
             header: header,

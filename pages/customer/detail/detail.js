@@ -1,9 +1,9 @@
 // pages/customer/detail/detail.js
 const $PubConst = require('../../../utils/pubConst.js')
-const $OperService = require('../../../utils/service/operationService');
-const $TacheService = require('../../../utils/service/tacheService');
-const $OrderService = require('../../../utils/service/orderService');
-const $Service = require('../../../utils/service/service');
+const $OperService = require('../../../utils/service/core/operationService');
+const $TacheService = require('../../../utils/service/core/tacheService');
+const $OrderService = require('../../../utils/service/core/orderService');
+const $Service = require('../../../utils/service/core/service');
 Page({
 
     /**

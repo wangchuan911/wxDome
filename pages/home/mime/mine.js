@@ -1,7 +1,7 @@
 // pages/mime/mine.js
 const app = getApp()
-const $Service = require('../../../utils/service/service');
-const $UserService = require('../../../utils/service/userService');
+const $Service = require('../../../utils/service/core/service');
+const $UserService = require('../../../utils/service/core/userService');
 Page({
 
     /**

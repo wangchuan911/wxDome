@@ -1,9 +1,9 @@
 // pages/milestone/customer/milestone.js
 const $PubConst = require('../../../utils/pubConst.js')
-const $OrderService = require('../../../utils/service/orderService');
-const $Service = require('../../../utils/service/service');
-const $OperService = require('../../../utils/service/operationService');
-const $PayService = require('../../../utils/service/payService');
+const $OrderService = require('../../../utils/service/core/orderService');
+const $Service = require('../../../utils/service/core/service');
+const $OperService = require('../../../utils/service/core/operationService');
+const $PayService = require('../../../utils/service/core/payService');
 Page({
 
     /**

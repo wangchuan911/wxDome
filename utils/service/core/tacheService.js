@@ -1,5 +1,5 @@
 const $Service = require('./service');
-const $PubConst = require('../pubConst');
+const $PubConst = require('../../pubConst');
 
 const WASH_MAIN_TAMPLATE = 1;
 const OPRERATOPM = {

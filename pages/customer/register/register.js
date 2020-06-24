@@ -1,6 +1,6 @@
 // pages/customer/register/register.js
-const $Service = require('../../../utils/service/service'),
-    $UserService = require('../../../utils/service/userService'),
+const $Service = require('../../../utils/service/core/service'),
+    $UserService = require('../../../utils/service/core/userService'),
     app = getApp(),
     $Utils = require('../../../utils/util'),
     {$Message} = require('../../../ui/iview/base/index'),

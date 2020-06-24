@@ -1,4 +1,4 @@
-const $Service = require('./service');
+const $Service = require('./core/service');
 
 
 const OPRERATOPM = {

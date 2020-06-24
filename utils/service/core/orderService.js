@@ -1,6 +1,6 @@
 const $Service = require('./service');
-const $Utils = require('../util');
-const $PubConst = require('../pubConst');
+const $Utils = require('../../util');
+const $PubConst = require('../../pubConst');
 
 
 const OPRERATOPM = {

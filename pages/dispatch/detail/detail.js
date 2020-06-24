@@ -1,6 +1,6 @@
 // pages/dispatch/detail/detail.js
-const $OrderService = require('../../../utils/service/orderService');
-const $OperService = require('../../../utils/service/operationService');
+const $OrderService = require('../../../utils/service/core/orderService');
+const $OperService = require('../../../utils/service/core/operationService');
 const $PubConst = require('../../../utils/pubConst');
 Page({
 
