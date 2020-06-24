@@ -12,7 +12,7 @@ Component({
         },
         height: {
             type: String,
-            value: ''
+            value: '100px'
         },
         showOk: {
             type: Boolean,
@@ -43,15 +43,15 @@ Component({
     },
 
     methods: {
-        handleClickItem ({ currentTarget = {} }) {
+        handleClickItem({currentTarget = {}}) {
             const dataset = currentTarget.dataset || {};
-            const { index } = dataset;
-            this.triggerEvent('click', { index });
+            const {index} = dataset;
+            this.triggerEvent('click', {index});
         },
-        handleClickOk () {
+        handleClickOk() {
             this.triggerEvent('ok');
         },
-        handleClickCancel () {
+        handleClickCancel() {
             this.triggerEvent('cancel');
         }
     }

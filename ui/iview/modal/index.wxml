@@ -3,7 +3,7 @@
     <view class="i-modal-main">
         <view class="i-modal-content">
             <view class="i-modal-title" wx:if="{{ title }}">{{ title }}</view>
-            <view class="i-modal-body" style="{{height!=null?('max-height:'+height):''}}"><slot></slot></view>
+            <view class="i-modal-body" style="max-height:{{height}}"><slot></slot></view>
             <view class="i-modal-actions" wx:if="{{ actions.length }}">
                 <block wx:if="{{ actionMode === 'horizontal' }}">
                     <i-grid i-class="i-modal-grid">
