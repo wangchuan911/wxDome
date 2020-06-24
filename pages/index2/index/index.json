@@ -9,6 +9,7 @@
     "circle": "/component/circle/circle",
     "i-spin": "/ui/iview/spin/index",
     "i-toast": "/ui/iview/toast/index",
-    "i-alert": "/ui/iview/alert/index"
+    "i-alert": "/ui/iview/alert/index",
+    "i-message": "/ui/iview/message/index"
   }
 }

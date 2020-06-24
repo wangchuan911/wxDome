@@ -285,6 +285,15 @@ Page({
             this.setData({
                 current: detail.value
             });
+            wx.showModal({
+                title: '是否回到首页',
+                content: '将根据你的角色刷新首页',
+                success: function (res) {
+                    wx.reLaunch({
+                        url:"/pages/index2/index/index"
+                    })
+                }
+            });
         })
     }
 })

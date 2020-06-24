@@ -9,7 +9,8 @@ const app = getApp(),
     $Service = require('../../../utils/service/service'),
     $PubConst = require('../../../utils/pubConst'),
     $Utils = require('../../../utils/util'),
-    $CouponService = require('../../../utils/service/couponService')
+    $CouponService = require('../../../utils/service/couponService'),
+    {$Message} = require('../../../ui/iview/base/index');
 ;
 
 const ERROR = function (code, msg) {
@@ -366,6 +367,7 @@ Page({
      */
     onShow: function () {
         const _this = this;
+        this.initCost();
         if (this.data.state.freshView) {
             this.onLoad()
         } else {
@@ -375,7 +377,6 @@ Page({
             }
             this.getRole();
             _this.userCheck(null, true)
-            this.initCost();
         }
         if ($Service.pullPageState("index.freshOrder",)) {
             this.getWorkBum();
@@ -516,10 +517,7 @@ Page({
     bookBut: function (e) {
         const _this = this;
         if (!this.data.state.accept) {
-            wx.showToast({
-                title: '请阅读并同意许可',
-                duration: 2000
-            });
+            $Message({content: "请阅读并同意许可", type: "warning"});
             return;
         }
         console.info(e)
@@ -597,6 +595,7 @@ Page({
                     lock.unlock();
                     _this.couponInit(_this.data.coupons.filter(value => value.id != _this.data.selectedCoupon.id));
                 } else {
+                    $Message({content: "下单失败，请稍后重试或请联系客服", type: "error"});
                     _this.setData({
                         isBook: false,
                     });
@@ -604,6 +603,7 @@ Page({
 
                 }
             }, function (res) {
+                $Message({content: "下单失败，请稍后重试或请联系客服:"+res.data.exception, type: "error"});
                 _this.setData({
                     isBook: false,
                 });
