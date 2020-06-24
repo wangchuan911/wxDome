@@ -153,6 +153,20 @@ function setOneData(_this, name, value) {
     })
 }
 
+const extend = (tar, des) => {
+    Object.keys(tar).forEach(value => {
+        switch (typeof tar[value]) {
+            case "object":
+                extend(tar[value], des[value] = des[value] || {})
+            case "function":
+                break;
+            default:
+                if (des[value]) return;
+                des[value] = tar[value];
+        }
+    })
+}
+
 const text2Canvas = (title, text, option) => {
     const wxml = `<view class="container" >
         <text class="title">{{title}}</text>
@@ -194,5 +208,6 @@ module.exports = {
     setOneData,
     getDatePickerHour,
     text2Canvas,
-    costCompute
+    costCompute,
+    extend
 }

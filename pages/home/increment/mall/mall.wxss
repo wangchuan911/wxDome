@@ -1,0 +1,11 @@
+/* pages/home/increment/mall/mall.wxss */
+.row-padding {
+    padding-bottom: 20px;
+}
+
+.card-desc {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

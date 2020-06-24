@@ -19,7 +19,8 @@
     "pages/index2/web/web",
     "pages/home/coupon/coupon",
     "pages/customer/invite/invite",
-    "pages/customer/register/register"
+    "pages/customer/register/register",
+    "pages/home/increment/mall/mall"
   ],
   "window": {
     "backgroundTextStyle": "dark",

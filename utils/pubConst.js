@@ -1,4 +1,11 @@
 module.exports = {
+    OPRERATOPM: {
+        ADD: 0,
+        DELETE: 1,
+        MODIFY: 2,
+        GET: 3,
+        LIST: 4
+    },
     customer: {
         step1: [
             {

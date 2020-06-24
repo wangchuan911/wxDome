@@ -1,0 +1,37 @@
+<!--pages/home/increment/mall/mall.wxml-->
+<i-panel title="会员服务">
+    <i-card title="{{item.name}}"
+            wx:for="{{goods}}" wx:for-index="index" wx:for-item="item" bindtap="selectGoodsBut"
+            data-idx="{{index}}"
+            wx:key="index">
+        <view slot="content">
+            <i-row>
+                <i-col span="18" i-class="row-padding">
+                    <view style="text-align: center;white-space:normal;word-break:break-all">
+                        {{item.desc}}
+                    </view>
+                </i-col>
+                <i-col span="6" i-class="row-padding">
+                    <p style="font-size: 30px">￥{{item.price/100}}</p>
+                </i-col>
+            </i-row>
+        </view>
+    </i-card>
+</i-panel>
+
+<i-modal title="{{modal.title}}" visible="{{ modal.visible }}" bind:ok="modalOkBut" bind:cancel="modalCloseBut"
+         height="80vh"
+         ok-text="购买" cancel-text="考虑一下">
+    <i-cell-group>
+        <i-cell title="名称" value="{{select.name}}">
+        </i-cell>
+        <i-cell title="单价" value="￥{{select.price/100}}">
+        </i-cell>
+        <i-cell title="数量">
+            <view slot="footer">
+                <i-input-number value="{{select.num}}" min="0" max="100" bindchange="numBut"/>
+            </view>
+        </i-cell>
+        <i-cell title="金额" value="￥{{(select.num*select.price)/100}}"></i-cell>
+    </i-cell-group>
+</i-modal>
