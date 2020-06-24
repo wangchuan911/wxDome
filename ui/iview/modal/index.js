@@ -10,6 +10,10 @@ Component({
             type: String,
             value: ''
         },
+        height: {
+            type: String,
+            value: ''
+        },
         showOk: {
             type: Boolean,
             value: true
