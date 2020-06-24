@@ -159,7 +159,7 @@ const methods = {
         const header = (option.header || {});
         header['content-type'] = 'application/json' // 默认值
         wx.request({
-            url: 'https://' + option.URL_CODE ? URLS[option.URL_CODE] : URLS.COMMON, //仅为示例，并非真实的接口地址
+            url: 'https://' + URLS[option.URL_CODE || 'COMMON'], //仅为示例，并非真实的接口地址
             data: datas[0],
             method: "GET",
             header: header,
