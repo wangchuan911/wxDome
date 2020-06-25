@@ -29,17 +29,17 @@ function timeStamp(isSeccond) {
     return isSeccond ? Math.floor(date / 1000) : date;
 }
 
-const _pay = (data, option, success, fail) => {
-    const dataObj = {
+const _pay = (dataObj, option, success, fail) => {
+    /*const dataObj = {
         nonceStr: nonceStr(32),
         timeStamp: timeStamp(true) + "",
-    }
+    }*/
     const param = {
         B1: option.code,
-        B2: dataObj.nonceStr + data.orderId + '.' + dataObj.timeStamp + '.' + data.custId,
+        B2: dataObj.datStr,
     }
     $Service.get(param, {URL_CODE: option.urlCode},
-        function (data) {
+        (data) => {
             wx.requestPayment({
                 timeStamp: dataObj.timeStamp,
                 nonceStr: dataObj.nonceStr,
@@ -51,9 +51,22 @@ const _pay = (data, option, success, fail) => {
             })
         },
         fail)
+}, payReqBaseBody = () => {
+    return {
+        nonceStr: nonceStr(32),
+        timeStamp: timeStamp(true) + "",
+    }
 }
 const methods = {
-    pay: (data, success, fail) => _pay(data, {code: -2}, success, fail),
-    mallPay: (data, success, fail) => _pay(data, {code: -3, urlCode: "MALL_PAY"}, success, fail),
+    pay: (data, success, fail) => {
+        const dataObj = payReqBaseBody();
+        dataObj.datStr = dataObj.nonceStr + data.orderId + '.' + dataObj.timeStamp + '.' + data.custId;
+        return _pay(dataObj, {code: -2}, success, fail);
+    },
+    mallPay: (data, success, fail) => {
+        const dataObj = payReqBaseBody();
+        dataObj.datStr = dataObj.nonceStr + data.id + '.' + data.num + '.' + dataObj.timeStamp + '.' + data.custId;
+        return _pay(dataObj, {code: -3, urlCode: "MALL_PAY"}, success, fail);
+    },
 }
 module.exports = methods

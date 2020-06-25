@@ -1,5 +1,6 @@
 // pages/home/increment/mall/mall.js
 const $MallService = require("../../../../utils/service/increment/MallService"),
+    {$Message} = require('../../../../ui/iview/base/index'),
     {extend} = require("../../../../utils/util");
 Page({
 
@@ -85,7 +86,20 @@ Page({
         })
     },
     modalOkBut() {
-        this.modalCloseBut()
+        if (!this.data.select) {
+            return;
+        }
+        $MallService.mallPay(this.data.select, success => {
+            $Message({content: '支付成功'});
+            console.info(success);
+            this.modalCloseBut();
+        }, error => {
+            if (((error || {}).data || {}).error)
+                $Message({content: error.data.error});
+            else
+                $Message({content: "支付失败"});
+            console.info(error);
+        })
     },
     modalCloseBut() {
         this.setData({

@@ -43,6 +43,11 @@
          <i-cell title="{{switchButChecked2?'admin':'一般'}}">
              <switch slot="footer" checked="{{switchButChecked2}}" bindchange="switchBut2"/>
          </i-cell>-->
+        <i-cell title="会员服务" data-page="/pages/home/increment/mall/mall" data-role="0" wx:if="{{roleMode==0}}"
+                bind:click="goPage">
+            <i-icon slot="icon" size='24' type="flag"/>
+        </i-cell>
+
     </i-cell-group>
     <i-radio-group current="{{current}}" bindchange="roleChangeBut" wx:if="{{maxRoleMode>0}}">
         <i-radio wx:for="{{role}}" wx:key="{{item.id}}" value="{{item.name}}" wx:if="{{!item.hidden}}">
