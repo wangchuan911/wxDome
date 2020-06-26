@@ -33,7 +33,8 @@
                     </view>
                     <view wx:else>
                         <i-row i-class="show-left">
-                            <i-tag wx:for="{{tags}}" wx:if="{{!item.hidden}}" wx:key="index" i-class="i-tags i-tags-circle" name="{{index}}"
+                            <i-tag wx:for="{{tags}}" wx:if="{{!item.hidden}}" wx:key="index"
+                                   i-class="i-tags i-tags-circle" name="{{index}}"
                                    color="blue" checkable="{{true}}" type="border" checked="{{item.checked}}"
                                    bindchange="tagChangeBut" style="margin-right:{{(index==(tags.length-1))?20:5}}px">
                                 {{item.text}}
@@ -106,7 +107,8 @@
                                                    bindtap="extraBut">
                                                 文字
                                             </i-tag>
-                                            <!--                <i-tag  i-class="i-tags"  color="blue" checkable="{{true}}" type="border" checked="{{true}}" style="margin-right:5px" >-->
+                                            <!--                <i-tag  i-class="i-tags"  color="blue" checkable="{{true}}" type="border" checked="{{true
+                                            }}" style="margin-right:5px" >-->
                                             <!--                    视频-->
                                             <!--                </i-tag>-->
                                         </i-col>
@@ -116,7 +118,15 @@
                                             <i-input value="" title="优惠" autofocus disabled="disabled" placeholder=""/>
                                         </i-col>
                                         <i-col span="17" i-class="col-class i-extra">
-                                            {{selectedCoupon.content}}-{{selectedCoupon.off}}{{selectedCoupon.subfix}}
+                                            <block wx:if="{{selectedCoupon!=null}}">
+                                                {{selectedCoupon.content}}-{{selectedCoupon.off}}{{selectedCoupon.subfix}}
+                                            </block>
+                                            <i-tag class="i-tags " name="标签一" color="blue" checkable="{{true}}"
+                                                   type="border"
+                                                   checked="{{true}}" i-class="i-tags i-tags-circle"
+                                                   bindtap="selectCouponBut">
+                                                选择
+                                            </i-tag>
                                         </i-col>
                                     </block>
                                 </i-row>
@@ -179,8 +189,8 @@
     <i-icon wx:if="{{!userInfo.avatarUrl}}" class="i-awatar" type="mine_fill" size='50'/>
     <image wx:else src="{{userInfo.avatarUrl}}" class="i-awatar" openType="getUserInfo"></image>
 </button>
-        <!--<view class="absolute"
-              style="width:100%;display:block;left:50%;top:41%;width: 1px;height: 1px;background-color: white;border-radius: 100px;z-index: 2;">
-            <image class="position"  src="../../../ui/img/locate1.png"></image>
-        </view>-->
+<!--<view class="absolute"
+      style="width:100%;display:block;left:50%;top:41%;width: 1px;height: 1px;background-color: white;border-radius: 100px;z-index: 2;">
+    <image class="position"  src="../../../ui/img/locate1.png"></image>
+</view>-->
 <i-toast id="toast"/>

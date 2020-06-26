@@ -603,7 +603,7 @@ Page({
 
                 }
             }, function (res) {
-                $Message({content: "下单失败，请稍后重试或请联系客服:"+res.data.exception, type: "error"});
+                $Message({content: "下单失败，请稍后重试或请联系客服:" + res.data.exception, type: "error"});
                 _this.setData({
                     isBook: false,
                 });
@@ -1039,5 +1039,22 @@ Page({
         })
         console.info(this.data.selectedCoupon)
         this.initCost();
+    },
+    selectCouponBut() {
+        const _this = this, coupons = this.data.coupons;
+        wx.navigateTo({
+            url: '/pages/home/coupon/coupon',
+            events: {
+                // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
+                ['acceptDataFromOpenedPage']: function (res) {
+                    _this.setData({
+                        ['selectedCoupon']: $CouponService.modalChange(res.data)
+                    })
+                },
+            },
+            success: function (res) {
+                res.eventChannel.emit('acceptDataFromOpenerPage', {coupons})
+            }
+        })
     }
 })

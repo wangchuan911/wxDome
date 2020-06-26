@@ -1,19 +1,22 @@
 <!--pages/home/coupon/coupon.wxml-->
 <i-panel title="服务进度">
-    <i-row>
+    <i-row wx:for="{{coupons}}" wx:for-index="idx" wx:key="idx"
+           wx:for-item="item" bindtap="selectBut" data-idx="{{idx}}">
         <i-col span="20" offset="2" i-class="coupons-contont">
             <i-row i-class="base-coupons">
                 <i-col span="8" i-class="">
                     <view class="coupons-text-left">
-                        100￥
+                        {{item.off/(item.type==1?1:10)}}{{item.type==1?'￥':'折'}}
                     </view>
                 </i-col>
                 <i-col span="16">
                     <view class="coupons-text-right elm-center">
                         <view style="display:block;width:95%;height:90%">
-                            <p class='elm-center' style="height:70%;font: 20px arial, sans-serif;">新用户首单减免</p>
-                            <p class='elm-center' style="font-size:12px;float:right;">2018.11.23至</p>
-                            <p class='elm-center' style="font-size:12px;float:right;">2018.11.23前有效</p>
+                            <p class='elm-center' style="height:70%;font: 20px arial, sans-serif;">{{item.content}}</p>
+                            <p class='elm-center' wx:if="{{item.startDate!=null}}" style="font-size:12px;float:right;">
+                                {{item.startDate}}至</p>
+                            <p class='elm-center' wx:if="{{item.endDate!=null}}" style="font-size:12px;float:right;">
+                                {{item.endDate}}前有效</p>
                         </view>
                     </view>
                 </i-col>
