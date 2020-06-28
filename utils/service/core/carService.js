@@ -14,15 +14,18 @@ const SERVIE = "car";
  * 建单
  * */
 const carLisenceKey = $Service.getKey("CAR_LISENCE");
-const getDefaultCarNo = function () {
+const getDefaultCarNo = () => {
     return (wx.getStorageSync(carLisenceKey) || {}).carNo
+};
+const getDefaultCarType = () => {
+    return (wx.getStorageSync(carLisenceKey) || {}).carType
 }
 const setDefaultCarData = function (carData) {
     console.info("carData:" + JSON.stringify(carData))
     wx.setStorageSync(carLisenceKey, carData)
 }
 const Methods = {
-    addCar: function (data, success, error) {
+    addCar(data, success, error) {
         $Service.post(SERVIE, null, [OPRERATOPM.ADD, {
             userId: wx.getStorageSync("openId"),
             brand: data.brand,
@@ -38,7 +41,7 @@ const Methods = {
             error(res)
         })
     },
-    getCars: function (data, success, error) {
+    getCars(data, success, error) {
         $Service.post(SERVIE, null, [OPRERATOPM.LIST, {
             userId: $Service.getUserId(),
             brand: data.brand,
@@ -51,7 +54,7 @@ const Methods = {
             error(res)
         })
     },
-    setDefault: function (data, success, error) {
+    setDefault(data, success, error) {
         $Service.post(SERVIE, null, [OPRERATOPM.MODIFY, {
             userId: $Service.getUserId(),
             lisence: data.lisence,
@@ -61,7 +64,7 @@ const Methods = {
             error(res)
         })
     },
-    delCar: function (data, success, error) {
+    delCar(data, success, error) {
         $Service.post(SERVIE, null, [OPRERATOPM.DELETE, {
             userId: $Service.getUserId(),
             lisence: data.lisence,
@@ -71,9 +74,10 @@ const Methods = {
             error(res)
         })
     },
-    getDefaultCarNo: getDefaultCarNo,
-    setDefaultCarData: setDefaultCarData,
-    getModel: function (data, success, error) {
+    getDefaultCarNo,
+    setDefaultCarData,
+    getDefaultCarType,
+    getModel(data, success, error) {
         $Service.post(SERVIE, null, [OPRERATOPM.GET_MODAL, {
             level: data.level,
             carBrand: data.carBrand,
