@@ -283,15 +283,15 @@ Page({
                 }
                 //施工人员位置获取
                 $UserService.workerPositionUpdate()
-                const car = {};
+                let car = {};
                 if ((success.cars || []).length > 0) {
                     const carConfig = success.cars[0];
-                    car.no = carConfig.lisence;
+                    car = carConfig;
                     $PubConst.setCost("priceInside", carConfig.carInfo["priceInside"]);
                     $PubConst.setCost("priceOutside", carConfig.carInfo["priceOutside"]);
                     _this.couponInit(success.user.coupons);
                 }
-                $CarService.setDefaultCarNo(car.no);
+                $CarService.setDefaultCarData($CarService.modalChange(car));
                 resolve()
             }, error => {
                 reject(ERROR(ERROR.NETWORK_ERROR, error))

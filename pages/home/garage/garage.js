@@ -75,7 +75,7 @@ Page({
                 }
                 if (data[i].defaultSelected) {
                     cars.unshift(obj);
-                    $CarService.setDefaultCarNo(obj.carNo)
+                    $CarService.setDefaultCarData(obj)
                 } else {
                     cars.push(obj)
                 }
@@ -236,7 +236,7 @@ Page({
             }, function (res) {
                 data.carInfo = res.data.result.carInfo;
                 if (data.defaultCar) {
-                    $CarService.setDefaultCarNo(data.carNo)
+                    $CarService.setDefaultCarData(data)
                     $PubConst.setCost("priceInside", data.carInfo["priceInside"]);
                     $PubConst.setCost("priceOutside", data.carInfo["priceOutside"]);
                 }
@@ -325,7 +325,7 @@ Page({
                             cars[i].defaultCar = true;
                             newCars.unshift(cars[i]);
                             if (cars[i].defaultCar) {
-                                $CarService.setDefaultCarNo(cars[i].carNo)
+                                $CarService.setDefaultCarData(cars[i])
                                 $PubConst.setCost("priceInside", cars[i].carInfo["priceInside"]);
                                 $PubConst.setCost("priceOutside", cars[i].carInfo["priceOutside"]);
                             }

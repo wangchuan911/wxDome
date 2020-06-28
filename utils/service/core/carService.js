@@ -15,11 +15,11 @@ const SERVIE = "car";
  * */
 const carLisenceKey = $Service.getKey("CAR_LISENCE");
 const getDefaultCarNo = function () {
-    return wx.getStorageSync(carLisenceKey)
+    return (wx.getStorageSync(carLisenceKey) || {}).carNo
 }
-const setDefaultCarNo = function (carNo) {
-    console.info("carNo"+carNo)
-    wx.setStorageSync(carLisenceKey, carNo)
+const setDefaultCarData = function (carData) {
+    console.info("carData:" + JSON.stringify(carData))
+    wx.setStorageSync(carLisenceKey, carData)
 }
 const Methods = {
     addCar: function (data, success, error) {
@@ -31,7 +31,7 @@ const Methods = {
             modal: data.modal,
             defaultSelected: data.defaultSelected,
             phone: data.phone,
-            carModelId:data.carModelId
+            carModelId: data.carModelId
         }], function (res) {
             success(res)
         }, function (res) {
@@ -72,7 +72,7 @@ const Methods = {
         })
     },
     getDefaultCarNo: getDefaultCarNo,
-    setDefaultCarNo: setDefaultCarNo,
+    setDefaultCarData: setDefaultCarData,
     getModel: function (data, success, error) {
         $Service.post(SERVIE, null, [OPRERATOPM.GET_MODAL, {
             level: data.level,
@@ -83,6 +83,15 @@ const Methods = {
             error(res)
         })
     },
+    modalChange(data) {
+        return {
+            carBrand: data.brand,
+            carNo: data.lisence,
+            carColor: data.color,
+            carType: data.modal,
+            carModelId: data.carModelId,
+        }
+    }
 }
 
 
