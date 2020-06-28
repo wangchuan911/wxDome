@@ -66,7 +66,7 @@ const Methods = {
             "orderCode": submitData.value8,
             "regionCode": submitData.value9,
             "pictureIds": submitData.value2.pictureIds,
-            "cost": submitData.value10,
+            "cost": submitData.value10 * 100,
             "phoneEncryptedData": extra.phoneEncryptedData,
             "phoneEncryptedIv": extra.phoneEncryptedIv,
             "couponId": extra.couponId,
