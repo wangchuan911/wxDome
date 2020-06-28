@@ -1,4 +1,5 @@
 <!--pages/home/coupon/coupon.wxml-->
+<i-message id="message"/>
 <i-panel title="服务进度">
     <i-row wx:for="{{coupons}}" wx:for-index="idx" wx:key="idx"
            wx:for-item="item" bindtap="selectBut" data-idx="{{idx}}">

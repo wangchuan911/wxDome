@@ -2,6 +2,7 @@
   "usingComponents": {
     "i-panel": "/ui/iview/panel/index",
     "i-row": "/ui/iview/row/index",
-    "i-col": "/ui/iview/col/index"
+    "i-col": "/ui/iview/col/index",
+    "i-message": "/ui/iview/message/index"
   }
 }

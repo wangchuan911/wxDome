@@ -1,5 +1,7 @@
 // pages/home/coupon/coupon.js
-const $CouponService = require("../../../utils/service/increment/couponService.js")
+const $CouponService = require("../../../utils/service/increment/couponService.js"),
+    $CarService = require("../../../utils/service/core/carService.js"),
+    {$Message} = require('../../../ui/iview/base/index');
 Page({
 
     /**
@@ -83,9 +85,15 @@ Page({
         const dataset = currentTarget.dataset || {};
         const {idx} = dataset;
         if (this.data.selectMode) {
+            const carType = $CarService.getDefaultCarType();
+            const coupon = this.data.coupons[idx];
+            if ((coupon || {}).defineType && carType != null && carType != coupon.defineType) {
+                $Message({content: "默认车辆类型为:" + carType + "!不能使用此券"});
+                return;
+            }
             const eventChannel = this.getOpenerEventChannel();
             eventChannel.emit('acceptDataFromOpenedPage', {
-                data: this.data.coupons[idx]
+                data: coupon
             });
             wx.navigateBack({})
         }
