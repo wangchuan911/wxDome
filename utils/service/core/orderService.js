@@ -18,7 +18,7 @@ const SERVIE = "order";
 const Methods = {
     newOrder: function (submitData, extra, success, error) {
         $Service.post(SERVIE, null, [OPRERATOPM.ADD, {
-            "carLicenseNumber": wx.getStorageSync("carLicence"),
+            "carLicenseNumber": wx.getStorageSync("carLicence").carNo,
             "carAddress": submitData.value1,
             "createDate": new Date().valueOf(),
             "orderControlPerson": null,
