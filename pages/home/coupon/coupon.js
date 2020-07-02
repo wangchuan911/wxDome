@@ -9,7 +9,8 @@ Page({
      */
     data: {
         coupons: [],
-        selectMode: false
+        selectMode: false,
+        currentSerivce: null,
     },
 
     /**
@@ -21,12 +22,14 @@ Page({
             if ((data || {}).coupons) {
                 _this.data.selectMode = true;
                 _this.setData({
-                    ["coupons"]: data.coupons
+                    ["coupons"]: data.coupons,
+                    ["currentSerivce"]: (data || {}).service
                 })
             } else {
                 $CouponService.getCoupons(success => {
                     _this.setData({
-                        ["coupons"]: success.data.result
+                        ["coupons"]: success.data.result,
+                        ["currentSerivce"]: (data || {}).service
                     })
                 })
             }
@@ -86,9 +89,14 @@ Page({
         const {idx} = dataset;
         if (this.data.selectMode) {
             const carType = $CarService.getDefaultCarType();
-            const coupon = this.data.coupons[idx];
-            if ((coupon || {}).defineType && carType != null && carType != coupon.defineType) {
+            const coupon = this.data.coupons[idx],
+                defineType = ((coupon || {}).defineType || "").split("|");
+            if (carType != null && defineType[0] && defineType[0] != carType) {
                 $Message({content: "默认车辆类型为:" + carType + "!不能使用此券"});
+                return;
+            }
+            if (this.data.currentSerivce && defineType[1] && defineType[1] != this.data.currentSerivce) {
+                $Message({content: "当前服务类型不能使用此券"});
                 return;
             }
             const eventChannel = this.getOpenerEventChannel();

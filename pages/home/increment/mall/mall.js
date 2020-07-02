@@ -1,7 +1,8 @@
 // pages/home/increment/mall/mall.js
 const $MallService = require("../../../../utils/service/increment/MallService"),
     {$Message} = require('../../../../ui/iview/base/index'),
-    {extend} = require("../../../../utils/util");
+    {extend} = require("../../../../utils/util"),
+    $Service = require("../../../../utils/service/core/service");
 Page({
 
     /**
@@ -89,6 +90,7 @@ Page({
         if (!this.data.select) {
             return;
         }
+        $Service.setPageState("index.freshOrder", true);
         $MallService.mallPay(this.data.select, success => {
             $Message({content: '支付成功'});
             console.info(success);

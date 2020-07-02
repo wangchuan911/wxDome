@@ -1041,7 +1041,8 @@ Page({
         this.initCost();
     },
     selectCouponBut() {
-        const _this = this, coupons = this.data.coupons;
+        const _this = this, coupons = this.data.coupons,
+            service = this.data.serviceType.find(value => value.checked).id;
         wx.navigateTo({
             url: '/pages/home/coupon/coupon',
             events: {
@@ -1053,7 +1054,7 @@ Page({
                 },
             },
             success: function (res) {
-                res.eventChannel.emit('acceptDataFromOpenerPage', {coupons})
+                res.eventChannel.emit('acceptDataFromOpenerPage', {coupons, service})
             }
         })
     }
