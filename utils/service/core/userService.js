@@ -1,5 +1,5 @@
-const $Service = require('./service');
-
+const $Service = require('./service'),
+    {$Message} = require("../../../ui/iview/base/index");
 
 const OPRERATOPM = {
     ADD: 0,
@@ -132,6 +132,12 @@ const Methods = {
             },
             fail: (res) => {
                 console.info(res)
+                try {
+                    $Message({content: "{{errMsg}}".replace(/{{errMsg}}/g, res.errMsg || ""), type: "warning"});
+                } catch (e) {
+                    console.error(e)
+                }
+
             },
         });
     }
