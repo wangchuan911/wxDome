@@ -1,10 +1,11 @@
 // pages/home/garage/garage.js
 
-const {$Message} = require('../../../ui/iview/base/index');
-const $CarService = require('../../../utils/service/core/carService')
-const $UserService = require('../../../utils/service/core/userService')
-const $Util = require('../../../utils/util');
-const $PubConst = require('../../../utils/pubConst');
+const {$Message} = require('../../../ui/iview/base/index'),
+    $CarService = require('../../../utils/service/core/carService'),
+    $UserService = require('../../../utils/service/core/userService'),
+    $Util = require('../../../utils/util'),
+    $PubConst = require('../../../utils/pubConst'),
+    $Service = require('../../../utils/service/core/service');
 Page({
 
     /**
@@ -23,13 +24,13 @@ Page({
                 color: {
                     index: 0,
                     array: [
-                        "纯黑", '纯白', '红色', '酒红', '蓝色', '深蓝', '香槟','银灰','咖啡','黄色', '金色', '绿色', '青色', '粉色'
+                        "纯黑", '纯白', '红色', '酒红', '蓝色', '深蓝', '香槟', '银灰', '咖啡', '黄色', '金色', '绿色', '青色', '粉色'
                     ]
                 },
                 type: {
                     index: 0,
                     array: [
-                      "轿车", "SUV", "全尺SUV",'商务'
+                        "轿车", "SUV", "全尺SUV", '商务'
                     ]
                 }
             },
@@ -347,6 +348,10 @@ Page({
                     lisence: this.data.page.carList.cars[this.data.page.carActon.carIdx].carNo
                 }, function (res) {
                     const cars = _this.data.page.carList.cars;
+                    if (cars[_this.data.page.carActon.carIdx].defaultCar) {
+                        $CarService.setDefaultCarData({})
+                        $Service.setPageState("index.freshOrder", true);
+                    }
                     cars.splice(_this.data.page.carActon.carIdx, 1);
                     _this.setData({
                         ['page.carList.cars']: cars

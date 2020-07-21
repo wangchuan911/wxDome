@@ -379,6 +379,7 @@ Page({
             _this.userCheck(null, true)
         }
         if ($Service.pullPageState("index.freshOrder",)) {
+            this.userCheck();
             this.getWorkBum();
             $CouponService.getCoupons(success => {
                 this.couponInit(success.data.result)
