@@ -250,7 +250,7 @@ Page({
      * 页面上拉触底事件的处理函数
      */
     onReachBottom: function () {
-        if (!this.data.queryMode) return;
+        if (isNaN(this.data.queryMode)) return;
         this.listOrders(this.data.queryMode)
     },
 
