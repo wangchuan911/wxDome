@@ -118,8 +118,7 @@ const Methods = {
         })
     }, getOrder: function (data, success, error, complete) {
         $Service.post(SERVIE, null, [OPRERATOPM.GET, {
-            "orderId": data.orderId,
-            "custId": $Service.getUserId()
+            "orderId": data.orderId
         }], success, error, complete)
     }, modelChange: function (data) {//模型转换
         const object = {
