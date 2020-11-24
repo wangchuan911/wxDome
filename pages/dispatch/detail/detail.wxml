@@ -27,12 +27,12 @@
         </i-cell>
         <i-cell title="服务内容">
             <view slot="footer">
-               {{order.serverType}}
+                {{order.serverType}}
             </view>
         </i-cell>
         <i-cell title="客户电话">
             <view slot="footer">
-               {{order.custPhone}}
+                {{order.custPhone}}
             </view>
         </i-cell>
         <i-cell title="提车时间">
@@ -42,7 +42,12 @@
         </i-cell>
         <i-cell title="工单负责人" bindclick="selectDealManBut" is-link>
             <view slot="footer">
-                {{order.worker||""}}
+                {{order.worker || ""}}
+            </view>
+        </i-cell>
+        <i-cell title="服务费" bindclick="openModal" is-link data-name="cost">
+            <view slot="footer">
+                {{cost}}￥
             </view>
         </i-cell>
     </i-cell-group>
@@ -56,3 +61,7 @@
     </i-row>
 </i-panel>
 <i-button wx:if="{{operation.code!=null}}" bindclick="dispathBut">{{operation.codeName}}</i-button>
+<i-modal visible="{{modal.cost.visible}}" bind:ok="setCostBut" bind:cancel="clearCostBut" data-name="cost">
+    <i-input value="{{cost}}" type="digit" right mode="wrapped" placeholder="{{cost}}￥" bind:change="costChangeEvent"/>
+</i-modal>
+<i-toast id="toast"/>

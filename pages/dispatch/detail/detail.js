@@ -2,6 +2,7 @@
 const $OrderService = require('../../../utils/service/core/orderService');
 const $OperService = require('../../../utils/service/core/operationService');
 const $PubConst = require('../../../utils/pubConst');
+const {$Toast} = require('../../../ui/iview/base/index');
 Page({
 
     /**
@@ -13,7 +14,13 @@ Page({
             codeName: null,
             tacheId: null
         },
-        worker: null
+        worker: null,
+        cost: 0,
+        modal: {
+            cost: {
+                visible: false
+            }
+        }
     },
 
     /**
@@ -29,7 +36,8 @@ Page({
             console.info(data)
             const order = data.data;
             _this.setData({
-                order: order
+                order,
+                cost: order.cost / 100
             })
 
             $OperService.getOrderOperation({
@@ -157,6 +165,9 @@ Page({
                 data.info = {
                     setWorker: _this.data.worker.id
                 }
+                if (this.data.cost * 100 != this.data.order.cost) {
+                    data.info.changeCost = this.data.cost * 100;
+                }
                 const eventChannel = this.getOpenerEventChannel()
                 $OperService.toBeContinue(data, res => {
                     eventChannel.emit('acceptDataFromOpenedPage', {
@@ -190,6 +201,34 @@ Page({
         wx.previewImage({
             current: imgUrls[e.currentTarget.dataset.idx], // 当前显示图片的http链接
             urls: imgUrls // 需要预览的图片http链接列表
+        })
+    },
+    clearCostBut: function (e) {
+        this.data.cost = null;
+        this.openModal(e)
+    },
+    costChangeEvent: function (e) {
+        if (!isNaN(e.detail.detail.value)) {
+            this.data.cost = e.detail.detail.value
+        }
+    },
+    setCostBut: function (e) {
+        if (this.data.cost < 0.01) {
+            $Toast({
+                content: '不能低于0.01元',
+                type: 'error'
+            });
+            return
+        }
+        this.setData({
+            cost: parseFloat(this.data.cost).toFixed(2)
+        })
+        this.openModal(e)
+    },
+    openModal(e) {
+        const name = e.currentTarget.dataset.name;
+        this.setData({
+            [`modal.${name}.visible`]: !this.data.modal[name].visible
         })
     }
 })
